@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - Boilerplate markdown files.
+- Docker configuration.
 
 ## 0.0.1 - 2017-11-13
 ### Added
