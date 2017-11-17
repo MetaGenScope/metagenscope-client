@@ -1,75 +1,88 @@
 import * as React from 'react';
+import { Row, Col } from 'react-bootstrap';
 
 interface TeammateTypeProp {
-    teammate: TeammateType;
+  teammate: TeammateType;
 }
 
 interface TeammateType {
-    name: string;
-    position: string;
-    role: string;
-    email: string;
+  imageName: string;
+  name: string;
+  position: string;
+  role: string;
+  email: string;
  }
 
 const team: Array<TeammateType> = [
-    {
-        name: 'Christopher E. Mason, Ph.D.',
-        position: 'Principal Investigator',
-        role: 'Associate Professor',
-        email: 'chm2042@med.cornell.edu'
-    },
-    {
-        name: 'David C. Danko',
-        position: 'Lead Developer',
-        role: 'Ph.D. Student',
-        email: 'dcd3001@med.cornell.edu'
-    },
-    {
-        name: 'Cem Meydan, Ph.D.',
-        position: 'Developer',
-        role: 'Post-Doctoral Researcher',
-        email: ''
-    },
+  {
+    imageName: 'mason.png',
+    name: 'Christopher E. Mason, Ph.D.',
+    position: 'Principal Investigator',
+    role: 'Associate Professor',
+    email: 'chm2042@med.cornell.edu'
+  },
+  {
+    imageName: 'danko.jpg',
+    name: 'David C. Danko',
+    position: 'Lead Developer',
+    role: 'Ph.D. Student',
+    email: 'dcd3001@med.cornell.edu'
+  },
+  {
+    imageName: 'cem.jpg',
+    name: 'Cem Meydan, Ph.D.',
+    position: 'Developer',
+    role: 'Post-Doctoral Researcher',
+    email: ''
+  },
 ];
 
 class Team extends React.Component {
-    render() {
-      return (
-            <div>
-                <h1>The Team</h1>
-                <ul>
-                {
-                    team.map((teammate, index) => {
-                        return (
-                            <Teammate key={index} teammate={teammate} />
-                        );
-                    })
+  render() {
+    return (
+      <div>
+        <h1>The Team</h1>
+        {
+          team.map((teammate, index) => {
+            return (
+              <div key={index}>
+                {(index !== 0) &&
+                  <hr />
                 }
-                </ul>
-            </div>
-        );
-    }
+                <Teammate teammate={teammate} />
+              </div>
+            );
+          })
+        }
+      </div>
+    );
+  }
 }
 
 export default Team;
 
 class Teammate extends React.Component<TeammateTypeProp, {}> {
-    private teammate: TeammateType;
+  private teammate: TeammateType;
 
-    constructor(props: TeammateTypeProp) {
-        super(props);
+  constructor(props: TeammateTypeProp) {
+    super(props);
 
-        this.teammate = this.props.teammate;
-    }
+    this.teammate = this.props.teammate;
+  }
 
-    render() {
-        return (
-            <li>
-                {this.teammate.name}<br />
-                {this.teammate.position}<br />
-                {this.teammate.role}<br />
-                {this.teammate.email}
-            </li>
-        );
-    }
+  render() {
+    return (
+      <Row>
+        <Col lg={4}>
+          <img src={require(`./resources/${this.teammate.imageName}`)} style={{height: '200px', borderRadius: '50%'}} />
+        </Col>
+        <Col lg={6} lgOffset={2}>
+          <h4>{this.teammate.name}</h4>
+          <h5>{this.teammate.position}</h5>
+          <h5>{this.teammate.role}</h5>
+          <h5>{this.teammate.email}</h5>
+        </Col>
+      </Row>
+      );
+  }
 }

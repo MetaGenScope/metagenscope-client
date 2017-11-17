@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { Grid, Row } from 'react-bootstrap';
+import { Grid } from 'react-bootstrap';
 
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
@@ -11,9 +11,7 @@ ReactDOM.render(
   (
   <Router>
     <Grid>
-      <Row>
-        <App />
-      </Row>
+      <App />
     </Grid>
   </Router>
   ),
