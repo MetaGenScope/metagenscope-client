@@ -8,7 +8,13 @@
 
 ### Running
 
-To run the app in the development mode:
+To run the app in the development mode, first set the backend URL:
+
+```sh
+$ export REACT_APP_METAGENSCOPE_SERVICE_URL=http://127.0.0.1:5000
+```
+
+Then run the app:
 
 ```sh
 $ npm start
