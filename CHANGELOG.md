@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Docker configuration.
 - User authentication.
 - Content for Home and styled About.
+- Docs page.
 
 ## 0.0.1 - 2017-11-13
 ### Added

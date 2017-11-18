@@ -8,6 +8,7 @@ import UserStatus from './components/UserStatus';
 import Logout from './components/Logout';
 import Home from './components/Home';
 import About from './components/About';
+import Docs from './components/Docs';
 
 import './App.css';
 
@@ -132,6 +133,7 @@ class App extends React.Component<{}, AppState> {
             )}
           />
           <Route exact={true} path="/about" component={About} />
+          <Route exact={true} path="/docs" component={Docs} />
         </Switch>
       </div>
     );
