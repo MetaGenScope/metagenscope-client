@@ -3,11 +3,11 @@ import { Redirect } from 'react-router-dom';
 import { Row, Col } from 'react-bootstrap';
 
 interface FormProp {
-    formType: string;
-    formData: any;
-    isAuthenticated: boolean;
-    handleUserFormSubmit(event: React.FormEvent<HTMLFormElement>): void;
-    handleFormChange(event: React.FormEvent<HTMLInputElement>): void;
+  formType: string;
+  formData: any;
+  isAuthenticated: boolean;
+  handleUserFormSubmit(event: React.FormEvent<HTMLFormElement>): void;
+  handleFormChange(event: React.FormEvent<HTMLInputElement>): void;
 }
 
 const Form = (props: FormProp) => {
