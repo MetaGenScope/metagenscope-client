@@ -16,7 +16,6 @@ interface AppState {
   username: string;
   email: string;
   title: string;
-  formData: any;
   isAuthenticated: boolean;
 }
 
@@ -29,11 +28,6 @@ class App extends React.Component<{}, AppState> {
       username: '',
       email: '',
       title: 'MetaGenScope',
-      formData: {
-        username: '',
-        email: '',
-        password: ''
-      },
       isAuthenticated: false
     };
   }
@@ -59,7 +53,7 @@ class App extends React.Component<{}, AppState> {
             path="/register"
             render={() => (
               <AuthForm
-                formType={'Register'}
+                formType={'register'}
                 isAuthenticated={this.state.isAuthenticated}
                 loginUser={this.loginUser.bind(this)}
               />
@@ -70,7 +64,7 @@ class App extends React.Component<{}, AppState> {
             path="/login"
             render={() => (
               <AuthForm
-                formType={'Login'}
+                formType={'login'}
                 isAuthenticated={this.state.isAuthenticated}
                 loginUser={this.loginUser.bind(this)}
               />

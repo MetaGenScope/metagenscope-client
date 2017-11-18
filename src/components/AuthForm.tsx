@@ -85,11 +85,11 @@ class AuthForm extends React.Component<FormProp, AuthFormState> {
     }
     return (
       <Row>
-        <h1>{this.props.formType}</h1>
+        <h1 style={{textTransform: 'capitalize'}}>{this.props.formType}</h1>
         <hr/><br/>
         <Col lg={6} lgOffset={3}>
           <form onSubmit={(event) => this.handleUserFormSubmit(event)}>
-            {this.props.formType === 'Register' &&
+            {this.props.formType === 'register' &&
               <div className="form-group">
                 <input
                   name="username"
@@ -131,10 +131,10 @@ class AuthForm extends React.Component<FormProp, AuthFormState> {
             />
           </form>
           <br />
-          {this.props.formType === 'Register' &&
+          {this.props.formType === 'register' &&
             <p>Already have an account? <Link to="/login">Log in.</Link></p>
           }
-          {this.props.formType !== 'Register' &&
+          {this.props.formType === 'login' &&
             <p>Don't have an account? <Link to="/register">Create one.</Link></p>
           }
         </Col>

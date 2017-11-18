@@ -39,7 +39,7 @@ class Footer extends React.Component<{}, FooterModelState> {
           </Modal.Header>
           <Modal.Body>
             <p>StuckOnU is a <a href="http://www.masonlab.net/" target="_blank">Mason lab project</a></p>
-            <p>For more info: <a href="http://metasub.org/stuckonu/" target="_blank">http://metasub.org/stuckonu/</a></p>
+            <p>For more info: <a href="http://metasub.org/stuckonu/" target="_blank">StuckOnU</a></p>
             <p>Website &amp; visualizations by Cem Meydan and David Danko</p>
             <p>Sunburst plot by Kerry Rodden licensed under Apache License 2.0, modified for use</p>
             <p>Using plots from HighcartsJS under CC Attribution Non-Commercial License</p>
