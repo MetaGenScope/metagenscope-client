@@ -11,14 +11,17 @@ class Footer extends React.Component<{}, FooterModelState> {
     super(props);
 
     this.state = { showModal: false };
+
+    this.open = this.open.bind(this);
+    this.close = this.close.bind(this);
+  }
+  
+  open() {
+    this.setState({ showModal: true });
   }
 
   close() {
     this.setState({ showModal: false });
-  }
-
-  open() {
-    this.setState({ showModal: true });
   }
     
   render() {
@@ -27,11 +30,11 @@ class Footer extends React.Component<{}, FooterModelState> {
         <Row>
           <Col lg={12}>
             <hr />
-            <Button bsStyle="link" onClick={this.open.bind(this)}>About/Attributions/License</Button>
+            <Button bsStyle="link" onClick={this.open}>About/Attributions/License</Button>
           </Col>
         </Row>
 
-        <Modal show={this.state.showModal} onHide={this.close.bind(this)} bsSize="lg">
+        <Modal show={this.state.showModal} onHide={this.close} bsSize="lg">
           <Modal.Header closeButton={true}>
             <Modal.Title>About/Attributions/License</Modal.Title>
           </Modal.Header>
