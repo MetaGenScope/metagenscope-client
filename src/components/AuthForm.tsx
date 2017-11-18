@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Redirect } from 'react-router-dom';
+import { Row, Col } from 'react-bootstrap';
 
 interface FormProp {
     formType: string;
@@ -14,52 +15,54 @@ const Form = (props: FormProp) => {
     return <Redirect to="/" />;
   }
   return (
-    <div>
+    <Row>
       <h1>{props.formType}</h1>
       <hr/><br/>
-      <form onSubmit={(event) => props.handleUserFormSubmit(event)}>
-        {props.formType === 'Register' &&
+      <Col lg={6} lgOffset={3}>
+        <form onSubmit={(event) => props.handleUserFormSubmit(event)}>
+          {props.formType === 'Register' &&
+            <div className="form-group">
+              <input
+                name="username"
+                className="form-control input-lg"
+                type="text"
+                placeholder="Enter a username"
+                required={true}
+                value={props.formData.username}
+                onChange={props.handleFormChange}
+              />
+            </div>
+          }
           <div className="form-group">
             <input
-              name="username"
+              name="email"
               className="form-control input-lg"
-              type="text"
-              placeholder="Enter a username"
+              type="email"
+              placeholder="Enter an email address"
               required={true}
-              value={props.formData.username}
+              value={props.formData.email}
               onChange={props.handleFormChange}
             />
           </div>
-        }
-        <div className="form-group">
+          <div className="form-group">
+            <input
+              name="password"
+              className="form-control input-lg"
+              type="password"
+              placeholder="Enter a password"
+              required={true}
+              value={props.formData.password}
+              onChange={props.handleFormChange}
+            />
+          </div>
           <input
-            name="email"
-            className="form-control input-lg"
-            type="email"
-            placeholder="Enter an email address"
-            required={true}
-            value={props.formData.email}
-            onChange={props.handleFormChange}
+            type="submit"
+            className="btn btn-primary btn-lg btn-block"
+            value="Submit"
           />
-        </div>
-        <div className="form-group">
-          <input
-            name="password"
-            className="form-control input-lg"
-            type="password"
-            placeholder="Enter a password"
-            required={true}
-            value={props.formData.password}
-            onChange={props.handleFormChange}
-          />
-        </div>
-        <input
-          type="submit"
-          className="btn btn-primary btn-lg btn-block"
-          value="Submit"
-        />
-      </form>
-    </div>
+        </form>
+      </Col>
+    </Row>
   );
 };
 
