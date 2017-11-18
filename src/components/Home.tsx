@@ -87,7 +87,7 @@ class Home extends React.Component {
           <Col lg={3} md={6}>
             <h4>MetaSUB</h4>
             <p>MetaGenScope is a MetaSUB project!</p>
-            <p><Link to="http://metasub.org/" className="btn btn-primary">MetaSUB</Link></p>
+            <p><a href="http://metasub.org/" className="btn btn-primary">MetaSUB</a></p>
           </Col>
         </Row>
       </div>

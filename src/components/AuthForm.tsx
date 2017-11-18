@@ -1,76 +1,146 @@
 import * as React from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import { Row, Col } from 'react-bootstrap';
+import axios from 'axios';
+
+interface FormDataType {
+  username: string;
+  email: string;
+  password: string;
+}
+
+interface AuthFormState {
+  formData: FormDataType;
+}
 
 interface FormProp {
   formType: string;
-  formData: any;
   isAuthenticated: boolean;
-  handleUserFormSubmit(event: React.FormEvent<HTMLFormElement>): void;
-  handleFormChange(event: React.FormEvent<HTMLInputElement>): void;
+  loginUser(token: string): void;
 }
 
-const Form = (props: FormProp) => {
-  if (props.isAuthenticated) {
-    return <Redirect to="/" />;
+class AuthForm extends React.Component<FormProp, AuthFormState> {
+  constructor(props: FormProp) {
+    super(props);
+
+    this.state = {
+      formData: {
+        username: '',
+        email: '',
+        password: ''
+      }
+    };
+
+    this.handleUserFormSubmit = this.handleUserFormSubmit.bind(this);
+    this.handleFormChange = this.handleFormChange.bind(this);
   }
-  return (
-    <Row>
-      <h1>{props.formType}</h1>
-      <hr/><br/>
-      <Col lg={6} lgOffset={3}>
-        <form onSubmit={(event) => props.handleUserFormSubmit(event)}>
-          {props.formType === 'Register' &&
+
+  componentWillReceiveProps(nextProps: FormProp) {
+    if (this.props.formType !== nextProps.formType) {
+      this.clearForm();
+    }
+  }
+
+  clearForm() {
+    this.setState({
+      formData: {username: '', email: '', password: ''}
+    });
+  }
+
+  handleFormChange(event: React.FormEvent<HTMLInputElement>) {
+    const obj = this.state.formData;
+    obj[event.currentTarget.name] = event.currentTarget.value;
+    this.setState({formData: obj});
+  }
+
+  handleUserFormSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const formType = this.props.formType;
+    let data;
+    if (formType === 'login') {
+      data = {
+        email: this.state.formData.email,
+        password: this.state.formData.password
+      };
+    }
+    if (formType === 'register') {
+      data = {
+        username: this.state.formData.username,
+        email: this.state.formData.email,
+        password: this.state.formData.password
+      };
+    }
+    const url = `${process.env.REACT_APP_METAGENSCOPE_SERVICE_URL}/auth/${formType}`;
+    axios.post(url, data)
+      .then((res) => {
+        this.clearForm();
+        this.props.loginUser(res.data.auth_token);
+      })
+      .catch((err) => { console.log(err); });
+  }
+
+  render() {
+    if (this.props.isAuthenticated) {
+      return <Redirect to="/" />;
+    }
+    return (
+      <Row>
+        <h1>{this.props.formType}</h1>
+        <hr/><br/>
+        <Col lg={6} lgOffset={3}>
+          <form onSubmit={(event) => this.handleUserFormSubmit(event)}>
+            {this.props.formType === 'Register' &&
+              <div className="form-group">
+                <input
+                  name="username"
+                  className="form-control input-lg"
+                  type="text"
+                  placeholder="Enter a username"
+                  required={true}
+                  value={this.state.formData.username}
+                  onChange={this.handleFormChange}
+                />
+              </div>
+            }
             <div className="form-group">
               <input
-                name="username"
+                name="email"
                 className="form-control input-lg"
-                type="text"
-                placeholder="Enter a username"
+                type="email"
+                placeholder="Enter an email address"
                 required={true}
-                value={props.formData.username}
-                onChange={props.handleFormChange}
+                value={this.state.formData.email}
+                onChange={this.handleFormChange}
               />
             </div>
+            <div className="form-group">
+              <input
+                name="password"
+                className="form-control input-lg"
+                type="password"
+                placeholder="Enter a password"
+                required={true}
+                value={this.state.formData.password}
+                onChange={this.handleFormChange}
+              />
+            </div>
+            <input
+              type="submit"
+              className="btn btn-primary btn-lg btn-block"
+              value="Submit"
+            />
+          </form>
+          <br />
+          {this.props.formType === 'Register' &&
+            <p>Already have an account? <Link to="/login">Log in.</Link></p>
           }
-          <div className="form-group">
-            <input
-              name="email"
-              className="form-control input-lg"
-              type="email"
-              placeholder="Enter an email address"
-              required={true}
-              value={props.formData.email}
-              onChange={props.handleFormChange}
-            />
-          </div>
-          <div className="form-group">
-            <input
-              name="password"
-              className="form-control input-lg"
-              type="password"
-              placeholder="Enter a password"
-              required={true}
-              value={props.formData.password}
-              onChange={props.handleFormChange}
-            />
-          </div>
-          <input
-            type="submit"
-            className="btn btn-primary btn-lg btn-block"
-            value="Submit"
-          />
-        </form>
-        <br />
-        {props.formType === 'Register' &&
-          <p>Already have an account? <Link to="/login">Log in.</Link></p>
-        }
-        {props.formType !== 'Register' &&
-          <p>Don't have an account? <Link to="/register">Create one.</Link></p>
-        }
-      </Col>
-    </Row>
-  );
-};
+          {this.props.formType !== 'Register' &&
+            <p>Don't have an account? <Link to="/register">Create one.</Link></p>
+          }
+        </Col>
+      </Row>
+    );
+  }
+}
 
-export default Form;
+export default AuthForm;

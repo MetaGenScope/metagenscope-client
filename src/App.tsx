@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import axios from 'axios';
 
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -39,42 +38,9 @@ class App extends React.Component<{}, AppState> {
     };
   }
 
-  handleUserFormSubmit(event: React.FormEvent<HTMLInputElement>) {
-    event.preventDefault();
-    const formType = window.location.href.split('/').reverse()[0];
-    let data;
-    if (formType === 'login') {
-      data = {
-        email: this.state.formData.email,
-        password: this.state.formData.password
-      };
-    }
-    if (formType === 'register') {
-      data = {
-        username: this.state.formData.username,
-        email: this.state.formData.email,
-        password: this.state.formData.password
-      };
-    }
-    const url = `${process.env.REACT_APP_METAGENSCOPE_SERVICE_URL}/auth/${formType}`;
-    axios.post(url, data)
-    .then((res) => {
-      this.setState({
-        formData: {username: '', email: '', password: '' },
-        username: '',
-        email: '',
-        isAuthenticated: true
-      });
-      window.localStorage.setItem('authToken', res.data.auth_token);
-      
-    })
-    .catch((err) => { console.log(err); });
-  }
-
-  handleFormChange(event: React.FormEvent<HTMLFormElement>) {
-    const obj = this.state.formData;
-    obj[event.currentTarget.name] = event.currentTarget.value;
-    this.setState(obj);
+  loginUser(token: string) {
+    window.localStorage.setItem('authToken', token);
+    this.setState({ isAuthenticated: true });
   }
 
   logoutUser() {
@@ -94,10 +60,8 @@ class App extends React.Component<{}, AppState> {
             render={() => (
               <AuthForm
                 formType={'Register'}
-                formData={this.state.formData}
-                handleUserFormSubmit={this.handleUserFormSubmit.bind(this)}
-                handleFormChange={this.handleFormChange.bind(this)}
                 isAuthenticated={this.state.isAuthenticated}
+                loginUser={this.loginUser.bind(this)}
               />
             )}
           />
@@ -107,10 +71,8 @@ class App extends React.Component<{}, AppState> {
             render={() => (
               <AuthForm
                 formType={'Login'}
-                formData={this.state.formData}
-                handleUserFormSubmit={this.handleUserFormSubmit.bind(this)}
-                handleFormChange={this.handleFormChange.bind(this)}
                 isAuthenticated={this.state.isAuthenticated}
+                loginUser={this.loginUser.bind(this)}
               />
             )}
           />

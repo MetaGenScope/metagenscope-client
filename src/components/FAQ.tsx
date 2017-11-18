@@ -15,7 +15,7 @@ const faqs: Array<[string, string]> = [
     'How does MetaGenScope get its results?',
     'MetaGenScope relies on standard metagenomics tools assembled into the '
       + 'MetaUltra pipeline. More details can be found '
-      + '[here](http://wgs.metagenscope.com/docs).'
+      + '[here](/docs).'
   ],
   [
     'How are tools chosen for MetaGenScope?',
@@ -43,7 +43,7 @@ const faqs: Array<[string, string]> = [
   [
     'How do I cite MetaGenScope?',
     'Information about citing MetaGenScope and the tools it uses can be '
-      + 'found [here](http://wgs.metagenscope.com/docs).'
+      + 'found [here](/docs).'
   ],
 ];
 

@@ -39,15 +39,17 @@ class Header extends React.Component<HeaderProps, {}> {
                   </LinkContainer>
                 }
                 {this.props.isAuthenticated &&
-                  <div>
-                    <LinkContainer to="/status">
-                      <MenuItem>User Status</MenuItem>
-                    </LinkContainer>
-                    <MenuItem divider={true} />
-                    <LinkContainer to="/logout">
-                      <MenuItem>Log Out</MenuItem>
-                    </LinkContainer>
-                  </div>
+                  <LinkContainer to="/status">
+                    <MenuItem>User Status</MenuItem>
+                  </LinkContainer>
+                }
+                {this.props.isAuthenticated &&
+                  <MenuItem divider={true} />
+                }
+                {this.props.isAuthenticated &&
+                  <LinkContainer to="/logout">
+                    <MenuItem>Log Out</MenuItem>
+                  </LinkContainer>
                 }
               </NavDropdown>
             </Nav>
