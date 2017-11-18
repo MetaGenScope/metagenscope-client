@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - User authentication.
 - Content for Home and styled About.
 - Docs page.
+- Footer.
 
 ## 0.0.1 - 2017-11-13
 ### Added

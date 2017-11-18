@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import axios from 'axios';
 
 import Header from './components/Header';
+import Footer from './components/Footer';
 import AuthForm from './components/AuthForm';
 import UserStatus from './components/UserStatus';
 import Logout from './components/Logout';
@@ -135,6 +136,7 @@ class App extends React.Component<{}, AppState> {
           <Route exact={true} path="/about" component={About} />
           <Route exact={true} path="/docs" component={Docs} />
         </Switch>
+        <Footer />
       </div>
     );
   }
