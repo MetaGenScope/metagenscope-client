@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { Row, Col } from 'react-bootstrap';
 
 interface FormProp {
@@ -61,6 +61,13 @@ const Form = (props: FormProp) => {
             value="Submit"
           />
         </form>
+        <br />
+        {props.formType === 'Register' &&
+          <p>Already have an account? <Link to="/login">Log in.</Link></p>
+        }
+        {props.formType !== 'Register' &&
+          <p>Don't have an account? <Link to="/register">Create one.</Link></p>
+        }
       </Col>
     </Row>
   );
