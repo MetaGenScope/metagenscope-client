@@ -3,6 +3,8 @@ import { Redirect, Link } from 'react-router-dom';
 import { Row, Col } from 'react-bootstrap';
 import axios from 'axios';
 
+import { API_BASE_URL } from '../utils';
+
 interface FormDataType {
   username: string;
   email: string;
@@ -70,7 +72,7 @@ class AuthForm extends React.Component<FormProp, AuthFormState> {
         password: this.state.formData.password
       };
     }
-    const url = `${process.env.REACT_APP_METAGENSCOPE_SERVICE_URL}/auth/${formType}`;
+    const url = `${API_BASE_URL}/auth/${formType}`;
     axios.post(url, data)
       .then((res) => {
         this.clearForm();

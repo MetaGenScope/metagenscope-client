@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+
+import { API_BASE_URL } from '../utils';
 
 interface UserProps {
   isAuthenticated: boolean;
@@ -14,7 +15,7 @@ interface UserState {
   username: string;
 }
 
-class UserStatus extends Component<UserProps, UserState> {
+class UserStatus extends React.Component<UserProps, UserState> {
 
   constructor (props: UserProps) {
     super(props);
@@ -34,7 +35,7 @@ class UserStatus extends Component<UserProps, UserState> {
 
   getUserStatus() {
     const options = {
-      url: `${process.env.REACT_APP_METAGENSCOPE_SERVICE_URL}/auth/status`,
+      url: `${API_BASE_URL}/auth/status`,
       method: 'get',
       headers: {
         'Content-Type': 'application/json',
