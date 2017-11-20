@@ -32,6 +32,12 @@ class App extends React.Component<{}, AppState> {
     };
   }
 
+  componentWillMount() {
+    if (window.localStorage.getItem('authToken')) {
+      this.setState({ isAuthenticated: true });
+    }
+  }
+
   loginUser(token: string) {
     window.localStorage.setItem('authToken', token);
     this.setState({ isAuthenticated: true });
