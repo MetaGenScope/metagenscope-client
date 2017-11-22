@@ -78,7 +78,9 @@ class AuthForm extends React.Component<FormProp, AuthFormState> {
         this.clearForm();
         this.props.loginUser(res.data.auth_token);
       })
-      .catch((err) => { console.log(err); });
+      .catch((err) => {
+        // console.log(err);
+      });
   }
 
   render() {

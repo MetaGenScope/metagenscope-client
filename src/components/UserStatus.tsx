@@ -52,7 +52,9 @@ class UserStatus extends React.Component<UserProps, UserState> {
           username: res.data.data.username
         });
       })
-      .catch((error) => { console.log(error); });
+      .catch((error) => {
+        // console.log(error);
+      });
   }
 
   render() {

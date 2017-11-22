@@ -1,0 +1,23 @@
+version: 2
+
+jobs:
+  build:
+    docker:
+      - image: circleci/node:9.2.0
+        environment:
+          CLIENT: web-service
+          CLIENT_REPO: https://${GITHUB_TOKEN}@github.com/bchrobot/${CLIENT}.git
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      - run:
+          name: Install node dependencies
+          command: npm install --silent
+
+      - run:
+          name: Lint client
+          command: npm run lint
+

@@ -37,30 +37,6 @@ const team: Array<TeammateType> = [
   },
 ];
 
-class Team extends React.Component {
-  render() {
-    return (
-      <div>
-        <h1>The Team</h1>
-        {
-          team.map((teammate, index) => {
-            return (
-              <div key={index}>
-                {(index !== 0) &&
-                  <hr />
-                }
-                <Teammate teammate={teammate} />
-              </div>
-            );
-          })
-        }
-      </div>
-    );
-  }
-}
-
-export default Team;
-
 class Teammate extends React.Component<TeammateTypeProp, {}> {
   private teammate: TeammateType;
 
@@ -86,3 +62,27 @@ class Teammate extends React.Component<TeammateTypeProp, {}> {
       );
   }
 }
+
+class Team extends React.Component {
+  render() {
+    return (
+      <div>
+        <h1>The Team</h1>
+        {
+          team.map((teammate, index) => {
+            return (
+              <div key={index}>
+                {(index !== 0) &&
+                  <hr />
+                }
+                <Teammate teammate={teammate} />
+              </div>
+            );
+          })
+        }
+      </div>
+    );
+  }
+}
+
+export default Team;

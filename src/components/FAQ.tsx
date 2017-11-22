@@ -47,25 +47,6 @@ const faqs: Array<[string, string]> = [
   ],
 ];
 
-class FAQ extends React.Component<{}, {}> {
-  render() {
-    return (
-      <div>
-        <h1>Frequently Asked Questions</h1>
-        {
-          faqs.map((faq, index) => {
-            return (
-              <Question key={index} question={faq[0]} rawAnswer={faq[1]} />
-            );
-          })
-        }
-      </div>
-    );
-  }
-}
-
-export default FAQ;
-
 interface QuestionPropType {
   question: string;
   rawAnswer: string;
@@ -96,3 +77,22 @@ class Question extends React.Component<QuestionPropType, QuestionStateType> {
     );
   }
 }
+
+class FAQ extends React.Component<{}, {}> {
+  render() {
+    return (
+      <div>
+        <h1>Frequently Asked Questions</h1>
+        {
+          faqs.map((faq, index) => {
+            return (
+              <Question key={index} question={faq[0]} rawAnswer={faq[1]} />
+            );
+          })
+        }
+      </div>
+    );
+  }
+}
+
+export default FAQ;
