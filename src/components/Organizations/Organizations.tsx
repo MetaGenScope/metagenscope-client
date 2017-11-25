@@ -3,6 +3,7 @@ import { Route, Switch, Link } from 'react-router-dom';
 
 import OrganizationsList from './OrganizationsList';
 import OrganizationDetail from './OrganizationDetail';
+import CreateOrganization from './CreateOrganization';
 
 interface OrganizationsProps {
   isAuthenticated: boolean;
@@ -16,6 +17,7 @@ class Organizations extends React.Component<OrganizationsProps, {}> {
     return (
       <Switch>
         <Route exact={true} path="/organizations" component={OrganizationsList} />
+        <Route exact={true} path="/organizations/new" component={CreateOrganization} />
         <Route
           exact={true}
           path="/organizations/:slug"

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import { Row, Col, Table } from 'react-bootstrap';
+import { Row, Col, Table, Button } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 import { Helmet } from 'react-helmet';
 import axios from 'axios';
 
@@ -82,6 +83,11 @@ class OrganizationsList extends React.Component<{}, OrganizationsState> {
               }
             </tbody>
           </Table>
+          <LinkContainer to="/organizations/new">
+            <Button>
+              Create Organization
+            </Button>
+          </LinkContainer>
         </Col>
       </Row>
     );

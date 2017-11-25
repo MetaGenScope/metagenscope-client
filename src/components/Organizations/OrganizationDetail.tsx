@@ -61,7 +61,12 @@ class OrganizationDetail extends React.Component<OrganizationsProps, Organizatio
     return (
       <Row>
         <Helmet>
-          <title>MetaGenScope :: Organizations</title>
+          {this.state.organization &&
+            <title>MetaGenScope :: {this.state.organization.name}</title>
+          }
+          {!this.state.organization &&
+            <title>MetaGenScope :: Not Found</title>
+          }
         </Helmet>
         {this.state.organization &&
           <Col>
@@ -78,6 +83,8 @@ class OrganizationDetail extends React.Component<OrganizationsProps, Organizatio
             Go back to the <Link to="/dashboard/organizations">organizations list</Link>.
           </Col>
         }
+        <br />
+        <p>Back to <Link to="/organizations">Organizations</Link>.</p>
       </Row>
     );
   }
