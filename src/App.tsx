@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import Header from './components/Header';
-import Footer from './components/Footer';
+import Header from './components/Layout/Header';
+import Footer from './components/Layout/Footer';
 import AuthForm from './components/AuthForm';
 import UserStatus from './components/UserStatus';
 import Logout from './components/Logout';
 import Home from './components/Home';
-import About from './components/About';
+import About from './components/About/About';
 import Docs from './components/Docs';
 
 import './App.css';

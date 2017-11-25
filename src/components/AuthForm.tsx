@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import { Row, Col } from 'react-bootstrap';
+import { Helmet } from 'react-helmet';
+
 import axios from 'axios';
 
 import { API_BASE_URL } from '../utils';
@@ -89,7 +91,10 @@ class AuthForm extends React.Component<FormProp, AuthFormState> {
     }
     return (
       <Row>
-        <h1 style={{textTransform: 'capitalize'}}>{this.props.formType}</h1>
+        <Helmet>
+          <title>MetaGenScope :: {this.props.formType.capitalize()}</title>
+        </Helmet>
+        <h1>{this.props.formType.capitalize()}</h1>
         <hr/><br/>
         <Col lg={6} lgOffset={3}>
           <form onSubmit={(event) => this.handleUserFormSubmit(event)}>

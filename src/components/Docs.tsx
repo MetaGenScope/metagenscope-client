@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 const pipelineStyle = {
   width: '100%',
@@ -10,6 +11,9 @@ class Docs extends React.Component {
   render() {
     return (
       <Row>
+        <Helmet>
+          <title>MetaGenScope :: Documenation</title>
+        </Helmet>
         <Col lg={10} lgOffset={1}>
           <h1>The Pipeline</h1>
           <p>MetaGenScope obtains its results from a straightforward repeatable pipeline that we call MetaUltra.</p>

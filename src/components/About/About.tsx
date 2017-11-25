@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Row, Col } from 'react-bootstrap';
+import { Helmet } from 'react-helmet';
 
 import FAQ from './FAQ';
 import Team from './Team';
@@ -15,6 +16,9 @@ class About extends React.Component {
   render() {
     return (
       <Row>
+        <Helmet>
+          <title>MetaGenScope :: About</title>
+        </Helmet>
         <Col lg={10} lgOffset={1}>
           <h1>About</h1>
           <p>MetaGenScope automatically visualizes metagenomic data.</p>

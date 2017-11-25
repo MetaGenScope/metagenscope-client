@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import axios from 'axios';
 
 import { API_BASE_URL } from '../utils';
@@ -63,6 +64,9 @@ class UserStatus extends React.Component<UserProps, UserState> {
     }
     return (
       <div>
+        <Helmet>
+          <title>MetaGenScope :: User Status</title>
+        </Helmet>
         <ul>
           <li><strong>User ID:</strong> {this.state.id}</li>
           <li><strong>Email:</strong> {this.state.email}</li>
