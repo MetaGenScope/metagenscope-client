@@ -27,6 +27,11 @@ class Header extends React.Component<HeaderProps, {}> {
               <LinkContainer to="/docs">
                 <NavItem>Documentation</NavItem>
               </LinkContainer>
+              {this.props.isAuthenticated &&
+                <LinkContainer to="/organizations">
+                  <NavItem>Organizations</NavItem>
+                </LinkContainer>
+              }
               <NavDropdown title="Account" id="basic-nav-dropdown">
                 {!this.props.isAuthenticated &&
                   <LinkContainer to="/register">
@@ -41,6 +46,11 @@ class Header extends React.Component<HeaderProps, {}> {
                 {this.props.isAuthenticated &&
                   <LinkContainer to="/status">
                     <MenuItem>User Status</MenuItem>
+                  </LinkContainer>
+                }
+                {this.props.isAuthenticated &&
+                  <LinkContainer to="/dashboard">
+                    <MenuItem>Dashboard</MenuItem>
                   </LinkContainer>
                 }
                 {this.props.isAuthenticated &&

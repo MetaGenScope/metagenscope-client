@@ -8,6 +8,8 @@ import UserStatus from './components/UserStatus';
 import Logout from './components/Logout';
 import Home from './components/Home';
 import About from './components/About/About';
+import Organizations from './components/Organizations/Organizations';
+import Dashboard from './components/Dashboard/Dashboard';
 import Docs from './components/Docs';
 
 import './App.css';
@@ -81,6 +83,22 @@ class App extends React.Component<{}, AppState> {
             path="/status"
             render={() => (
               <UserStatus
+                isAuthenticated={this.state.isAuthenticated}
+              />
+            )}
+          />
+          <Route
+            path="/dashboard"
+            render={() => (
+              <Dashboard
+                isAuthenticated={this.state.isAuthenticated}
+              />
+            )}
+          />
+          <Route
+            path="/organizations"
+            render={() => (
+              <Organizations
                 isAuthenticated={this.state.isAuthenticated}
               />
             )}
