@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Route, Switch, Link } from 'react-router-dom';
 
 import OrganizationsList from './OrganizationsList';
-import OrganizationDetail from './OrganizationDetail';
+import OrganizationDetail from './OrganizationDetail/OrganizationDetail';
 import CreateOrganization from './CreateOrganization';
 
 interface OrganizationsProps {
@@ -19,7 +19,6 @@ class Organizations extends React.Component<OrganizationsProps, {}> {
         <Route exact={true} path="/organizations" component={OrganizationsList} />
         <Route exact={true} path="/organizations/new" component={CreateOrganization} />
         <Route
-          exact={true}
           path="/organizations/:slug"
           render={(props) => (
             <OrganizationDetail slug={props.match.params.slug} />

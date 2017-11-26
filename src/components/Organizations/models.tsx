@@ -9,3 +9,9 @@ export interface OrganizationType {
   name: string;
   adminEmail: string;
 }
+
+export interface UserType {
+  uuid: string;
+  username: string;
+  fullName: string;
+}
