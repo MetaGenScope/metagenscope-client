@@ -5,9 +5,9 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { Helmet } from 'react-helmet';
 import axios from 'axios';
 
-import { JsonOrganizationType, OrganizationType } from './models';
+import { JsonOrganizationType, OrganizationType } from '../../models/organization';
 
-import { API_BASE_URL } from '../../utils';
+import { API_BASE_URL } from '../../common/utils';
 
 interface OrganizationsState {
   organizations: Array<OrganizationType>;

@@ -1,0 +1,11 @@
+.analysis-group-list {
+  margin: 0;
+  padding: 0;
+}
+
+.analysis-group-list li {
+  margin: 10px 0;
+  padding: 0 10px;
+  list-style: none;
+  border-bottom: 1px solid #DDDDDD;
+}

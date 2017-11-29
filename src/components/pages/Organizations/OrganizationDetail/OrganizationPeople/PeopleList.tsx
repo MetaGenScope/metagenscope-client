@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Row, Col, Panel, ListGroup, DropdownButton, MenuItem } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-import { UserType } from '../../models';
+import { UserType } from '../../../../models/user';
 import { repoUsers } from '../resources/users';
 
 interface PersonRowProps {

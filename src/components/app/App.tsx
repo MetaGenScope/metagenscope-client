@@ -1,16 +1,16 @@
 import * as React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import Header from './components/Layout/Header';
-import Footer from './components/Layout/Footer';
-import AuthForm from './components/AuthForm';
-import UserStatus from './components/UserStatus';
-import Logout from './components/Logout';
-import Home from './components/Home';
-import About from './components/About/About';
-import Organizations from './components/Organizations/Organizations';
-import Dashboard from './components/Dashboard/Dashboard';
-import Docs from './components/Docs';
+import Header from './Layout/Header';
+import Footer from './Layout/Footer';
+import AuthForm from '../pages/AuthForm';
+import UserStatus from '../pages/UserStatus';
+import Logout from '../pages/Logout';
+import Home from '../pages/Home';
+import About from '../pages/About/About';
+import Organizations from '../pages/Organizations/Organizations';
+import Dashboard from '../pages/Dashboard/Dashboard';
+import Docs from '../pages/Docs';
 
 import './App.css';
 

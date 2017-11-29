@@ -3,7 +3,10 @@ import { Link } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Row, Col, Well, Panel, Button, Glyphicon } from 'react-bootstrap';
 
+import AnalysisGroupList from '../../../common/AnalysisGroupList/AnalysisGroupList';
+
 import { repoUsers } from './resources/users';
+import { analysisGroups } from './resources/analysisGroups';
 
 interface OrganizationProjectsProps {
   slug: string;
@@ -19,11 +22,12 @@ class OrganizationProjects extends React.Component<OrganizationProjectsProps, {}
       <Row>
         <Col lg={8}>
           <Well className="text-center">
-            <h4>This organization has no projects.</h4>
+            <h4>This organization has no analysis groups.</h4>
             <LinkContainer to="#">
-              <Button bsStyle="success">New Project</Button>
+              <Button bsStyle="success">New Analysis Group</Button>
             </LinkContainer>
           </Well>
+          <AnalysisGroupList groups={analysisGroups} organization={this.props.slug} />
         </Col>
         <Col lg={4}>
           <Panel footer={peopleFooter}>

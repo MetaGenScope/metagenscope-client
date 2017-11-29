@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet';
 
 import axios from 'axios';
 
-import { API_BASE_URL } from '../utils';
+import { API_BASE_URL } from '../common/utils';
 
 interface FormDataType {
   username: string;

@@ -6,12 +6,12 @@ import { Row, Col, Nav, NavItem, Glyphicon, Badge } from 'react-bootstrap';
 import { Helmet } from 'react-helmet';
 import axios from 'axios';
 
-import { JsonOrganizationType, OrganizationType } from '../models';
+import { JsonOrganizationType, OrganizationType } from '../../../models/organization';
 import OrganizationProjects from './OrganizationProjects';
 import OrganizationPeople from './OrganizationPeople';
 import OrganizationSettings from './OrganizationSettings';
 
-import { API_BASE_URL } from '../../../utils';
+import { API_BASE_URL } from '../../../common/utils';
 import { repoUsers } from './resources/users';
 
 interface OrganizationsProps {
@@ -96,7 +96,7 @@ class OrganizationDetail extends React.Component<OrganizationsProps, Organizatio
             <Row>
               <Nav bsStyle="tabs" activeKey="1">
                 <LinkContainer to={`/organizations/${this.props.slug}`} exact={true}>
-                  <NavItem eventKey="1"><Glyphicon glyph="star" /> Projects <Badge>0</Badge></NavItem>
+                  <NavItem eventKey="1"><Glyphicon glyph="star" /> Analysis Groups <Badge>0</Badge></NavItem>
                 </LinkContainer>
                 <LinkContainer to={`/organizations/${this.props.slug}/people`}>
                   <NavItem eventKey="2"><Glyphicon glyph="user" /> People <Badge>{repoUsers.length}</Badge></NavItem>

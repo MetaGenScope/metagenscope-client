@@ -1,4 +1,4 @@
-import { UserType } from '../../models';
+import { UserType } from '../../../../models/user';
 
 export const repoUsers: Array<UserType> = [
   {
