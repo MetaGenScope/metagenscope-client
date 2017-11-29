@@ -11,7 +11,7 @@ function getHost(): string {
   return `${protocol}//${host}`;
 }
 
-export const API_BASE_URL = getHost();
+export const API_BASE_URL = `${getHost()}/api/v1`;
 
 /// String.capitalize()
 declare global {
