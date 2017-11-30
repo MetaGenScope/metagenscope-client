@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Route, Switch } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 import DefaultLayout from './layouts/DefaultLayout';
 import AuthForm from './screens/Auth/components/AuthForm';
@@ -50,6 +51,11 @@ class App extends React.Component<{}, AppState> {
   render() {
     return (
       <DefaultLayout {...this.state}>
+        <Helmet>
+          <meta charSet="utf-8" />
+          <title>MetaGenScope :: Home</title>
+          <link rel="canonical" href="http://metagenscope.com/" />
+        </Helmet>
         <Switch>
           <Route exact={true} path="/" component={Home} />
           <Route
