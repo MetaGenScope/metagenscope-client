@@ -4,6 +4,7 @@ import { Route, Switch, Link } from 'react-router-dom';
 import OrganizationsList from './OrganizationsList';
 import OrganizationDetail from './OrganizationDetail/OrganizationDetail';
 import CreateOrganization from './CreateOrganization';
+import AnalysisGroupDetail from '../AnalysisGroups/AnalysisGroupDetail';
 
 interface OrganizationsProps {
   isAuthenticated: boolean;
@@ -18,6 +19,12 @@ class Organizations extends React.Component<OrganizationsProps, {}> {
       <Switch>
         <Route exact={true} path="/organizations" component={OrganizationsList} />
         <Route exact={true} path="/organizations/new" component={CreateOrganization} />
+        <Route
+          path="/organizations/:slug/:group_name"
+          render={(props) => (
+            <AnalysisGroupDetail groupName={props.match.params.group_name} />
+          )}
+        />
         <Route
           path="/organizations/:slug"
           render={(props) => (
