@@ -20,15 +20,28 @@ class Organizations extends React.Component<OrganizationsProps, {}> {
         <Route exact={true} path="/organizations" component={OrganizationsList} />
         <Route exact={true} path="/organizations/new" component={CreateOrganization} />
         <Route
-          path="/organizations/:slug/:group_name"
-          render={(props) => (
-            <AnalysisGroupDetail groupName={props.match.params.group_name} />
-          )}
-        />
-        <Route
+          exact={true}
           path="/organizations/:slug"
           render={(props) => (
             <OrganizationDetail slug={props.match.params.slug} />
+          )}
+        />
+        <Route
+          path="/organizations/:slug/people"
+          render={(props) => (
+            <OrganizationDetail slug={props.match.params.slug} />
+          )}
+        />
+        <Route
+          path="/organizations/:slug/settings"
+          render={(props) => (
+            <OrganizationDetail slug={props.match.params.slug} />
+          )}
+        />
+        <Route
+          path="/organizations/:slug/:group_name"
+          render={(props) => (
+            <AnalysisGroupDetail groupName={props.match.params.group_name} />
           )}
         />
       </Switch>
