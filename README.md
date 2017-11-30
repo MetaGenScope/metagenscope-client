@@ -26,6 +26,12 @@ The page will reload if you make edits.
 
 You will also see any lint errors in the console.
 
+## Development
+
+### Project Structure
+
+This project follows the Component Folder Pattern. A good overview of the pattern can be found [here](https://medium.com/@alexmngn/how-to-better-organize-your-react-applications-2fd3ea1920f1).
+
 ## Contributing
 
 Please read [`CONTRIBUTING.md`](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
