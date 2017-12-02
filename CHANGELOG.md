@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Content for Home and styled About.
 - Docs page.
 - Footer.
+- Scatter plot component.
 
 ## 0.0.1 - 2017-11-13
 ### Added

@@ -1,0 +1,152 @@
+import * as React from 'react';
+import { Row, Col } from 'react-bootstrap';
+
+import Plot from './components/Plot';
+import Controls from './components/Controls';
+
+export type CategoryType = {
+  name: string;
+  values: string[];
+};
+
+export type CategoryEntryType = {
+  name: string;
+  value: string;
+};
+
+export type ToolType = {
+  name: string;
+  labels: {
+    x: string;
+    y: string;
+  };
+};
+
+export type CoordType = {
+  tool: string;
+  x: number;
+  y: number;
+};
+
+export type RecordType = {
+  sampleId: string;
+  categories: CategoryEntryType[];  // ex: [ { name: 'city', value: 'Montevideo' } ]
+  coords: CoordType[];       // ex: [ { name: kraken, x: 0, y: 0 } ]
+};
+
+export type ScatterPlotDataType = {
+  categories: CategoryType[];   // ex: [ { name: 'city', values: ['Seoul', 'Oslo'] } ... ]
+  tools: ToolType[];            // ex: [ { name: 'kraken', labels: { x: 0, y: 1 } } ]
+  records: RecordType[];
+};
+
+type Props = {
+  data: ScatterPlotDataType;
+};
+
+type ScatterPlotState = {
+  activeTool: string;
+  activeCategory: string;
+  focusedCategory?: string;
+};
+
+class ScatterPlot extends React.Component<Props, ScatterPlotState> {
+  constructor(props: Props) {
+    super(props);
+
+    this.handleSourceChange = this.handleSourceChange.bind(this);
+    this.handleCategoryChange = this.handleCategoryChange.bind(this);
+
+    this.state = {
+      activeTool: this.props.data.tools[0].name,
+      activeCategory: this.props.data.categories[0].name,
+    };
+  }
+
+  handleSourceChange(newSource: string) {
+    this.setState({
+      activeTool: newSource,
+    });
+  }
+
+  handleCategoryChange(category?: string) {
+    this.setState({
+      focusedCategory: category,
+    });
+  }
+
+  parsedData(toolName: string, categoryName: string) {
+    return this.props.data.records.map((record) => {
+      const coords = record.coords.find((coord, index) => {
+        return coord.tool === toolName;
+      });
+      if (coords === undefined) {
+        throw new Error(`Could not find coords for ${toolName} in `
+          + `sample ${record.sampleId}`);
+      }
+
+      const categoryValue = record.categories.find((category) => {
+        return category.name === categoryName;
+      });
+      if (categoryValue === undefined) {
+        throw new Error(`Could not find category for ${categoryName} in `
+          + `sample ${record.sampleId}`);
+      }
+
+      return {
+        name: record.sampleId,
+        category: categoryValue.value,
+        x: coords.x,
+        y: coords.y,
+      };
+    });
+  }
+
+  axisTitles(toolName: string) {
+    const matchingTool = this.props.data.tools.find((tool) => {
+      return tool.name === toolName;
+    });
+    if (matchingTool === undefined) {
+      return {};
+    }
+
+    return {
+      xAxisTitle: matchingTool.labels.x,
+      yAxisTitle: matchingTool.labels.y,
+    };
+  }
+
+  render() {
+    let values: string[] = [];
+    const activeCategory = this.props.data.categories.find(category => {
+      return category.name === this.state.activeCategory;
+    });
+    if (activeCategory !== undefined) {
+      values = activeCategory.values;
+    }
+
+    return (
+      <Row>
+        <Col lg={8}>
+          <Plot
+            data={this.parsedData(this.state.activeTool, this.state.activeCategory)}
+            focusedCategory={this.state.focusedCategory}
+            {...this.axisTitles(this.state.activeTool)}
+          />
+        </Col>
+        <Col lg={4}>
+          <Controls
+            activeSource={this.state.activeTool}
+            sources={this.props.data.tools.map((tool) => tool.name)}
+            activeCategory={this.state.activeCategory}
+            activeCategoryValues={values}
+            handleSourceChange={this.handleSourceChange}
+            handleCategoryChange={this.handleCategoryChange}
+          />
+        </Col>
+      </Row>
+    );
+  }
+}
+
+export default ScatterPlot;
