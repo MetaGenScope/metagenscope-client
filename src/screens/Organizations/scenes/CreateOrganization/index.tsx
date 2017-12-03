@@ -6,19 +6,23 @@ import axios from 'axios';
 
 import { API_BASE_URL } from '../../../../services/api/utils';
 
-interface FormDataType {
+type FormDataType = {
   name: string;
   adminEmail: string;
-}
+};
 
-interface CreateOrganizationState {
+type Props = {
+  isAuthenticated: boolean;
+};
+
+type CreateOrganizationState = {
   didCreate: boolean;
   formData: FormDataType;
-}
+};
 
-class CreateOrganization extends React.Component<{}, CreateOrganizationState> {
+class CreateOrganization extends React.Component<Props, CreateOrganizationState> {
 
-  constructor(props: {}) {
+  constructor(props: Props) {
     super(props);
 
     this.state = {
@@ -67,6 +71,9 @@ class CreateOrganization extends React.Component<{}, CreateOrganizationState> {
   }
 
   render() {
+    if (!this.props.isAuthenticated) {
+      return <p>You must be logged in to view this. Click <Link to="/login">here</Link> to log back in.</p>;
+    }
     if (this.state.didCreate) {
       return <Redirect to="/organizations" />;
     }

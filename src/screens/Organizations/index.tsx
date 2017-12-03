@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Route, Switch, Link } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 import OrganizationsList from './scenes/OrganizationsList';
 import OrganizationDetail from './scenes/OrganizationDetail';
@@ -12,13 +12,16 @@ interface OrganizationsProps {
 
 class Organizations extends React.Component<OrganizationsProps, {}> {
   render() {
-    if (!this.props.isAuthenticated) {
-      return <p>You must be logged in to view this. Click <Link to="/login">here</Link> to log back in.</p>;
-    }
     return (
       <Switch>
         <Route exact={true} path="/organizations" component={OrganizationsList} />
-        <Route exact={true} path="/organizations/new" component={CreateOrganization} />
+        <Route
+          exact={true}
+          path="/organizations/new"
+          render={(props) => (
+            <CreateOrganization {...this.props} />
+          )}
+        />
         <Route
           exact={true}
           path="/organizations/:slug"
