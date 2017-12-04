@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, ProgressBar } from 'react-bootstrap';
 
 import {
   sampleSimilarity,
@@ -46,7 +46,15 @@ class SampleSimilarity extends React.Component<{}, State> {
             <ScatterPlot data={this.state.data} />
           }
           {!this.state.data &&
-            <h3>Loading...</h3>
+            <div style={{display: 'table', width: '100%', height: '400px'}}>
+              <div style={{display: 'table-cell', verticalAlign: 'middle', padding: '0 15%'}}>
+                <h3>Loading...</h3>
+                <ProgressBar>
+                  <ProgressBar bsStyle="success" now={50} key={1} />
+                  <ProgressBar bsStyle="danger" now={25} key={2} active={true} />
+                </ProgressBar>
+              </div>
+            </div>
           }
         </Col>
       </Row>
