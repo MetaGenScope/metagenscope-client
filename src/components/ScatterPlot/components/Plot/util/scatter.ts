@@ -17,8 +17,8 @@ export function createScatter(rootDiv: HTMLDivElement,
                               rawSVG: SVGSVGElement,
                               data: Entry[],
                               options: Options) {
-  const canvasWidth = 600,
-        canvasHeight = 450,
+  const canvasWidth = 800,
+        canvasHeight = 600,
         svg = d3.select(rawSVG)
           .attr('width', canvasWidth)
           .attr('height', canvasHeight);

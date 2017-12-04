@@ -40,18 +40,18 @@ export type ScatterPlotDataType = {
   records: RecordType[];
 };
 
-type Props = {
+export interface ScatterPlotProps {
   data: ScatterPlotDataType;
-};
+}
 
-type ScatterPlotState = {
+export interface ScatterPlotState {
   activeTool: string;
   activeCategory: string;
   focusedCategory?: string;
-};
+}
 
-class ScatterPlot extends React.Component<Props, ScatterPlotState> {
-  constructor(props: Props) {
+export class ScatterPlot extends React.Component<ScatterPlotProps, ScatterPlotState> {
+  constructor(props: ScatterPlotProps) {
     super(props);
 
     this.handleSourceChange = this.handleSourceChange.bind(this);
@@ -127,14 +127,14 @@ class ScatterPlot extends React.Component<Props, ScatterPlotState> {
 
     return (
       <Row>
-        <Col lg={8}>
+        <Col lg={9}>
           <Plot
             data={this.parsedData(this.state.activeTool, this.state.activeCategory)}
             focusedCategory={this.state.focusedCategory}
             {...this.axisTitles(this.state.activeTool)}
           />
         </Col>
-        <Col lg={4}>
+        <Col lg={3}>
           <Controls
             activeSource={this.state.activeTool}
             sources={this.props.data.tools.map((tool) => tool.name)}
@@ -148,5 +148,3 @@ class ScatterPlot extends React.Component<Props, ScatterPlotState> {
     );
   }
 }
-
-export default ScatterPlot;
