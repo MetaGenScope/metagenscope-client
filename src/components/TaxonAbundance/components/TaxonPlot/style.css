@@ -1,0 +1,22 @@
+.node {
+  stroke: #ffffff;
+  stroke-width: 2px;
+}
+
+.link {
+  fill: none;
+  opacity: .3;
+}
+
+.link.on {
+  opacity: .9;
+}
+
+.node {
+    stroke: none;
+    opacity: .8;
+}
+
+.node.on {
+    opacity:1;
+}
