@@ -1,10 +1,13 @@
 .node {
-  stroke: #ffffff;
-  stroke-width: 2px;
+  stroke: none;
+  opacity: 0.8;
+}
+
+.node.on {
+  opacity: 1;
 }
 
 .link {
-  fill: none;
   opacity: .3;
 }
 
@@ -12,11 +15,15 @@
   opacity: .9;
 }
 
-.node {
-    stroke: none;
-    opacity: .8;
+.taxonomy-tooltip {
+  position: absolute;
+  pointer-events: none;
+  padding: 10px;
+  background: #EEEEEE;
+  border-radius: 5px;
 }
 
-.node.on {
-    opacity:1;
+.taxonomy-tooltip span {
+  font-weight: 600;
+  display: block;
 }
