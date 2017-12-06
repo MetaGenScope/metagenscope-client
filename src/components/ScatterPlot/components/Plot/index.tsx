@@ -1,24 +1,25 @@
 import * as React from 'react';
 
 import { Entry, createScatter } from './util/scatter';
+import { SvgRefProps } from '../../../ResultPlot/index';
 
 import './style.css';
 
-type Props = {
+interface Props extends SvgRefProps {
   data: Entry[];
   focusedCategory?: string;
   xAxisTitle?: string;
   yAxisTitle?: string;
-};
+}
 
 class Plot extends React.Component<Props, {}> {
   private rootDiv: HTMLDivElement | null;
   private scatterSVG: SVGSVGElement | null;
-  
+
   componentDidMount() {
     this.renderScatter(this.props);
   }
-  
+
   shouldComponentUpdate(nextProps: Props) {
     // TODO: Animate this change
     this.renderScatter(nextProps);
@@ -37,11 +38,16 @@ class Plot extends React.Component<Props, {}> {
       createScatter(this.rootDiv, this.scatterSVG, props.data, plotOptions);
     }
   }
-  
+
   render() {
     return (
       <div ref={(elem) => { this.rootDiv = elem; }}>
-        <svg ref={(elem) => { this.scatterSVG = elem; }} />
+        <svg
+          ref={(elem) => {
+            this.scatterSVG = elem;
+            this.props.svgRef(elem);
+          }}
+        />
       </div>
     );
   }

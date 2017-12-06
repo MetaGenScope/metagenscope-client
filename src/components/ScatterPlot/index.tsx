@@ -3,6 +3,7 @@ import { Row, Col } from 'react-bootstrap';
 
 import Plot from './components/Plot';
 import Controls from './components/Controls';
+import { SvgRefProps } from '../ResultPlot/index';
 
 export type CategoryType = {
   name: string;
@@ -40,7 +41,7 @@ export type ScatterPlotDataType = {
   records: RecordType[];
 };
 
-export interface ScatterPlotProps {
+export interface ScatterPlotProps extends SvgRefProps {
   data: ScatterPlotDataType;
 }
 
@@ -132,6 +133,7 @@ export class ScatterPlot extends React.Component<ScatterPlotProps, ScatterPlotSt
             data={this.parsedData(this.state.activeTool, this.state.activeCategory)}
             focusedCategory={this.state.focusedCategory}
             {...this.axisTitles(this.state.activeTool)}
+            svgRef={this.props.svgRef}
           />
         </Col>
         <Col lg={3}>

@@ -1,23 +1,24 @@
 import * as React from 'react';
 
 import { Data, createTaxonAbundance } from './util/taxon';
+import { SvgRefProps } from '../../../ResultPlot/index';
 
 import './style.css';
 
 export interface TaxonPlotDataType extends Data {}
 
-export interface TaxonPlotProps {
+export interface TaxonPlotProps extends SvgRefProps {
   data: TaxonPlotDataType;
 }
 
 export class TaxonPlot extends React.Component<TaxonPlotProps, {}> {
   private rootDiv: HTMLDivElement | null;
   private scatterSVG: SVGSVGElement | null;
-  
+
   componentDidMount() {
     this.renderScatter(this.props);
   }
-  
+
   shouldComponentUpdate(nextProps: TaxonPlotProps) {
     // TODO: Animate this change
     this.renderScatter(nextProps);
@@ -30,11 +31,16 @@ export class TaxonPlot extends React.Component<TaxonPlotProps, {}> {
       createTaxonAbundance(this.rootDiv, this.scatterSVG, props.data);
     }
   }
-  
+
   render() {
     return (
       <div ref={(elem) => { this.rootDiv = elem; }}>
-        <svg ref={(elem) => { this.scatterSVG = elem; }} />
+        <svg
+          ref={(elem) => {
+            this.scatterSVG = elem;
+            this.props.svgRef(elem);
+          }}
+        />
       </div>
     );
   }

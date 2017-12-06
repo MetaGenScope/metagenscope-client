@@ -1,10 +1,17 @@
 import * as React from 'react';
 import { Row, Col } from 'react-bootstrap';
+import { saveSvgAsPng } from 'save-svg-as-png';
 
 import { PlotHeader } from './components/PlotHeader';
 import { PlotLoader } from './components/PlotLoader';
 
+export interface SvgRefProps {
+  svgRef(ref: SVGSVGElement | null): void;
+}
+
 export class ResultPlot<D, P = {}> extends React.Component<P, {data?: D}> {
+
+  protected svgCanvas: SVGSVGElement | null;
 
   protected title: string;
   protected description: React.ReactNode;
@@ -13,11 +20,21 @@ export class ResultPlot<D, P = {}> extends React.Component<P, {data?: D}> {
     super(props);
 
     this.state = {};
+
+    this.saveSvg = this.saveSvg.bind(this);
   }
 
   // Should be overriden by subclasses
-  renderPlot(data: D) {
-    return this.props.children;
+  renderPlot(data: D): React.ReactElement<SvgRefProps> {
+    throw new Error('Subclass should override!');
+  }
+
+  saveSvg() {
+    if (this.svgCanvas === null || this.svgCanvas === undefined) {
+      throw new Error('Missing svgCanvas! Did you forget to pass down \'svgRef\'?');
+    }
+
+    saveSvgAsPng(this.svgCanvas, 'plot.png');
   }
 
   render() {
@@ -28,7 +45,7 @@ export class ResultPlot<D, P = {}> extends React.Component<P, {data?: D}> {
             <PlotHeader
               title={this.title}
               description={this.description}
-              downloadPng={() => {}}
+              downloadPng={this.saveSvg}
               downloadCsv={() => {}}
             />
           </Col>

@@ -38,6 +38,6 @@ export class TaxonAbundance extends ResultPlot<TaxonPlotDataType, TaxonAbundance
   }
 
   renderPlot(data: TaxonPlotDataType) {
-    return <TaxonPlot data={data} />;
+    return <TaxonPlot data={data} svgRef={el => this.svgCanvas = el} />;
   }
 }

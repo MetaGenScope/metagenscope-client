@@ -40,7 +40,7 @@ class SampleSimilarity extends ResultPlot<ScatterPlotDataType, SampleSimilarityP
   }
 
   renderPlot(data: ScatterPlotDataType) {
-    return <ScatterPlot data={data} />;
+    return <ScatterPlot data={data} svgRef={el => this.svgCanvas = el} />;
   }
 }
 
