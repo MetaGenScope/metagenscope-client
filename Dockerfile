@@ -22,7 +22,10 @@ RUN npm install pushstate-server -g --silent
 ADD . /usr/src/app
 
 # Build react app
-RUN npm run build
+RUN /usr/local/bin/node \
+  --max_semi_space_size=1 \
+  --max_old_space_size=148 \
+  /usr/local/bin/npm run build
 
 # Start app
 CMD ["pushstate-server", "build"]
