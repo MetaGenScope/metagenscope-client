@@ -12,5 +12,9 @@ ADD package.json /usr/src/app/package.json
 RUN npm install --silent
 RUN npm install react-scripts@0.9.5 -g --silent
 
+ADD typings.json /usr/src/app/typings.json
+RUN npm install typings -g --silent
+RUN typings install
+
 # Start app
 CMD ["npm", "start"]

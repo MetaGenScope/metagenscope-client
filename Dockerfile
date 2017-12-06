@@ -18,10 +18,14 @@ ADD package.json /usr/src/app/package.json
 RUN npm install --silent
 RUN npm install pushstate-server -g --silent
 
+ADD typings.json /usr/src/app/typings.json
+RUN npm install typings -g --silent
+RUN typings install
+
 # Add app
 ADD . /usr/src/app
 
-# Build react app
+# Build react app (limit Node's resource hogging)
 RUN /usr/local/bin/node \
   --max_semi_space_size=1 \
   --max_old_space_size=148 \
