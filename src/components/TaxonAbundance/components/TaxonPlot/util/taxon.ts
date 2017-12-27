@@ -201,8 +201,8 @@ export function createTaxonAbundance(rootDiv: HTMLDivElement, rawSVG: SVGSVGElem
   const tooltipContent = (node: SankeyNode) => {
     const title = node.nodeName;
     const subtitle = node.percentage ? `${node.percentage.toFixed(2)}%` : '';
-    return `<span>${title}</span>${subtitle}`
-  }
+    return `<span>${title}</span>${subtitle}`;
+  };
 
   nodes.append('rect')
     .attr('x', (d) => d.x0!)
