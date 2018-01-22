@@ -1,5 +1,5 @@
 export interface AnalysisGroupType {
-  uuid: string;
+  slug: string;
   name: string;
   description: string;
 }

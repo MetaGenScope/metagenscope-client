@@ -3,14 +3,9 @@ import { Link } from 'react-router-dom';
 import { Row, Col, Table, Button } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Helmet } from 'react-helmet';
-import axios from 'axios';
 
-import {
-  JsonOrganizationType,
-  OrganizationType
-} from '../../../../services/api/models/organization';
-
-import { API_BASE_URL } from '../../../../services/api//utils';
+import { OrganizationType } from '../../../../services/api/models/organization';
+import { getOrganizations } from '../../../../services/api';
 
 interface OrganizationsState {
   organizations: Array<OrganizationType>;
@@ -28,33 +23,12 @@ class OrganizationsList extends React.Component<{}, OrganizationsState> {
 
   componentDidMount() {
     // Assume that we are authenticated because Dashboard catches that
-    this.getOrganizations();
-  }
-
-  getOrganizations() {
-    const options = {
-      url: `${API_BASE_URL}/organizations`,
-      method: 'get',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${window.localStorage.authToken}`
-      }
-    };
-
-    return axios(options)
-      .then((res) => {
-        const rawOrganizations = res.data.data.organizations as Array<JsonOrganizationType>;
-        const organizations: Array<OrganizationType> = rawOrganizations.map((organization) => {
-          return {
-            id: organization.id,
-            name: organization.name,
-            adminEmail: organization.admin_email,
-          };
-        });
+    getOrganizations()
+      .then((organizations) => {
         this.setState({ organizations });
       })
       .catch((error) => {
-        // console.log(error);
+        console.log(error);
       });
   }
 

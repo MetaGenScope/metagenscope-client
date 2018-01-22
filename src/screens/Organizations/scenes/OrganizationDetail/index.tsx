@@ -4,21 +4,17 @@ import { Link } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Row, Col, Nav, NavItem, Glyphicon, Badge } from 'react-bootstrap';
 import { Helmet } from 'react-helmet';
-import axios from 'axios';
 
-import {
-  JsonOrganizationType,
-  OrganizationType
-} from '../../../../services/api/models/organization';
 import OrganizationProjects from './scenes/OrganizationProjects';
-import OrganizationPeople from './scenes/OrganizationPeople';
+import PeopleList from './scenes/OrganizationPeople/components/PeopleList';
+import PersonDetail from './scenes/OrganizationPeople/components/PersonDetail';
 import OrganizationSettings from './scenes/OrganizationSettings';
 
-import { API_BASE_URL } from '../../../../services/api/utils';
-import { repoUsers } from '../../../../services/api/mocks/users';
+import { OrganizationType } from '../../../../services/api/models/organization';
+import { getOrganization } from '../../../../services/api';
 
 interface OrganizationsProps {
-    slug: string;
+  slug: string;
 }
 
 interface OrganizationState {
@@ -37,32 +33,12 @@ class OrganizationDetail extends React.Component<OrganizationsProps, Organizatio
 
   componentDidMount() {
     // Assume that we are authenticated because Dashboard catches that
-    this.getOrganization();
-  }
-
-  getOrganization() {
-    const options = {
-      url: `${API_BASE_URL}/organizations/${this.props.slug}`,
-      method: 'get',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${window.localStorage.authToken}`
-      }
-    };
-
-    return axios(options)
-      .then((res) => {
-        const rawOrganization = res.data.data as JsonOrganizationType;
-        this.setState({
-          organization: {
-            id: rawOrganization.id,
-            name: rawOrganization.name,
-            adminEmail: rawOrganization.admin_email,
-          },
-        });
+    getOrganization(this.props.slug)
+      .then((organization) => {
+        this.setState({ organization });
       })
       .catch((error) => {
-        // console.log(error);
+        console.log(error);
       });
   }
 
@@ -71,7 +47,7 @@ class OrganizationDetail extends React.Component<OrganizationsProps, Organizatio
       <div>
         <Helmet>
           {this.state.organization &&
-            <title>MetaGenScope :: {this.state.organization.name}</title>
+            <title>{`MetaGenScope :: ${this.state.organization.name}`}</title>
           }
           {!this.state.organization &&
             <title>MetaGenScope :: Not Found</title>
@@ -99,10 +75,14 @@ class OrganizationDetail extends React.Component<OrganizationsProps, Organizatio
             <Row>
               <Nav bsStyle="tabs" activeKey="1">
                 <LinkContainer to={`/organizations/${this.props.slug}`} exact={true}>
-                  <NavItem eventKey="1"><Glyphicon glyph="star" /> Analysis Groups <Badge>0</Badge></NavItem>
+                  <NavItem eventKey="1"><Glyphicon glyph="star" /> Analysis Groups <Badge>
+                    {this.state.organization.sampleGroups.length}
+                  </Badge></NavItem>
                 </LinkContainer>
                 <LinkContainer to={`/organizations/${this.props.slug}/people`}>
-                  <NavItem eventKey="2"><Glyphicon glyph="user" /> People <Badge>{repoUsers.length}</Badge></NavItem>
+                  <NavItem eventKey="2"><Glyphicon glyph="user" /> People <Badge>
+                    {this.state.organization.users.length}
+                  </Badge></NavItem>
                 </LinkContainer>
                 <LinkContainer to={`/organizations/${this.props.slug}/settings`}>
                   <NavItem eventKey="3"><Glyphicon glyph="cog" /> Settings</NavItem>
@@ -114,14 +94,36 @@ class OrganizationDetail extends React.Component<OrganizationsProps, Organizatio
               <Route
                 exact={true}
                 path="/organizations/:slug"
-                render={(props) => (
-                  <OrganizationProjects slug={props.match.params.slug} />
-                )}
+                render={(props) => {
+                  const users = this.state.organization ? this.state.organization.users : [];
+                  const sampleGroups = this.state.organization ? this.state.organization.sampleGroups : [];
+                  return (
+                    <OrganizationProjects
+                      slug={props.match.params.slug}
+                      users={users}
+                      sampleGroups={sampleGroups}
+                    />
+                  );
+                }}
               />
               <Route
+                exact={true}
                 path="/organizations/:slug/people"
+                render={(props) => {
+                  const users = this.state.organization ? this.state.organization.users : [];
+                  return (
+                    <PeopleList orgSlug={props.match.params.slug} people={users} />
+                  );
+                }}
+              />
+              <Route
+                exact={true}
+                path="/organizations/:slug/people/:username"
                 render={(props) => (
-                  <OrganizationPeople />
+                  <PersonDetail
+                    orgSlug={props.match.params.slug}
+                    username={props.match.params.username}
+                  />
                 )}
               />
               <Route

@@ -2,9 +2,8 @@ import * as React from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { Row, Col, Button } from 'react-bootstrap';
 import { Helmet } from 'react-helmet';
-import axios from 'axios';
 
-import { API_BASE_URL } from '../../../../services/api/utils';
+import { createOrganization } from '../../../../services/api';
 
 type FormDataType = {
   name: string;
@@ -51,22 +50,12 @@ class CreateOrganization extends React.Component<Props, CreateOrganizationState>
 
   handleUserFormSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const options = {
-      url: `${API_BASE_URL}/organizations`,
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${window.localStorage.authToken}`
-      },
-      data: this.state.formData,
-    };
-
-    return axios(options)
+    createOrganization(this.state.formData)
       .then((res) => {
         this.setState({ didCreate: true });
       })
       .catch((error) => {
-        // console.log(error);
+        console.log(error);
       });
   }
 

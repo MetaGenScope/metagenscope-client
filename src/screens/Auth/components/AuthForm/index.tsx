@@ -2,10 +2,9 @@ import * as React from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import { Row, Col } from 'react-bootstrap';
 import { Helmet } from 'react-helmet';
+import { AxiosPromise } from 'axios';
 
-import axios from 'axios';
-
-import { API_BASE_URL } from '../../../../services/api/utils';
+import { authenticate } from '../../../../services/api';
 
 interface FormDataType {
   username: string;
@@ -60,28 +59,27 @@ class AuthForm extends React.Component<FormProp, AuthFormState> {
   handleUserFormSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const formType = this.props.formType;
-    let data;
+    let request: AxiosPromise;
     if (formType === 'login') {
-      data = {
+      request = authenticate(formType, {
         email: this.state.formData.email,
-        password: this.state.formData.password
-      };
+        password: this.state.formData.password,
+      });
     }
     if (formType === 'register') {
-      data = {
+      request = authenticate(formType, {
         username: this.state.formData.username,
         email: this.state.formData.email,
-        password: this.state.formData.password
-      };
+        password: this.state.formData.password,
+      });
     }
-    const url = `${API_BASE_URL}/auth/${formType}`;
-    axios.post(url, data)
+    request!
       .then((res) => {
         this.clearForm();
         this.props.loginUser(res.data.auth_token);
       })
       .catch((err) => {
-        // console.log(err);
+        console.log(err);
       });
   }
 

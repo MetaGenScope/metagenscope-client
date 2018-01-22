@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import axios from 'axios';
 
-import { API_BASE_URL } from '../../services/api/utils';
+import { getUserStatus } from '../../services/api';
 
 interface UserProps {
   isAuthenticated: boolean;
@@ -30,32 +29,14 @@ class UserStatus extends React.Component<UserProps, UserState> {
 
   componentDidMount() {
     if (this.props.isAuthenticated) {
-      this.getUserStatus();
-    }
-  }
-
-  getUserStatus() {
-    const options = {
-      url: `${API_BASE_URL}/auth/status`,
-      method: 'get',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${window.localStorage.authToken}`
-      }
-    };
-
-    return axios(options)
-      .then((res) => {
-        this.setState({
-          created_at: res.data.data.created_at,
-          email: res.data.data.email,
-          id: res.data.data.id,
-          username: res.data.data.username
+      getUserStatus()
+        .then((userState) => {
+          this.setState(userState);
+        })
+        .catch((error) => {
+          console.log(error);
         });
-      })
-      .catch((error) => {
-        // console.log(error);
-      });
+    }
   }
 
   render() {

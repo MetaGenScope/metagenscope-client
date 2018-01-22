@@ -9,6 +9,7 @@ import Logout from './screens/Auth/scenes/Logout';
 import Home from './screens/Home';
 import About from './screens/About';
 import Organizations from './screens/Organizations';
+import AnalysisGroups from './screens/AnalysisGroups';
 import Dashboard from './screens/Dashboard';
 import Docs from './screens/Docs';
 
@@ -46,7 +47,7 @@ class App extends React.Component<{}, AppState> {
   logoutUser() {
     window.localStorage.clear();
     this.setState({ isAuthenticated: false });
-  }  
+  }
 
   render() {
     return (
@@ -101,6 +102,14 @@ class App extends React.Component<{}, AppState> {
             path="/organizations"
             render={() => (
               <Organizations
+                isAuthenticated={this.state.isAuthenticated}
+              />
+            )}
+          />
+          <Route
+            path="/analysis-groups"
+            render={() => (
+              <AnalysisGroups
                 isAuthenticated={this.state.isAuthenticated}
               />
             )}

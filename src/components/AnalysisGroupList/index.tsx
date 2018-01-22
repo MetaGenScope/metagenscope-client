@@ -19,7 +19,7 @@ class AnalysisGroupList extends React.Component<Prop, {}> {
           this.props.groups.map((group) => {
             return (
               <AnalysisGroupListItem
-                key={group.uuid}
+                key={group.slug}
                 group={group}
                 organization={this.props.organization}
               />

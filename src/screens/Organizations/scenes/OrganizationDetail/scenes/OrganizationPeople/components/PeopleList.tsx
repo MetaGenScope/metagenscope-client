@@ -3,53 +3,49 @@ import { Row, Col, Panel, ListGroup, DropdownButton, MenuItem } from 'react-boot
 import { Link } from 'react-router-dom';
 
 import { UserType } from '../../../../../../../services/api/models/user';
-import { repoUsers } from '../../../../../../../services/api/mocks/users';
 
 interface PersonRowProps {
   orgSlug: string;
   user: UserType;
 }
 
-class PersonRow extends React.Component<PersonRowProps, {}> {
-  render() {
-    return (
-      <li className="list-group-item">
-        <span className="pull-right">
-          <DropdownButton title="Settings" id={'dropdown-basic-uuid'} pullRight={true}>
-            <MenuItem eventKey="1">Manage</MenuItem>
-            <MenuItem eventKey="2" style={{color: 'red'}}>Remove from organization</MenuItem>
-          </DropdownButton>
-        </span>
-        <p><Link to={`/organizations/${this.props.orgSlug}/people/${this.props.user.username}`}>
-          {this.props.user.fullName}
-        </Link></p>
-      </li>
-    );
-  }
-}
+const PersonRow: React.SFC<PersonRowProps> = (props) => {
+  return (
+    <li className="list-group-item">
+      <span className="pull-right">
+        <DropdownButton title="Settings" id={'dropdown-basic-uuid'} pullRight={true}>
+          <MenuItem eventKey="1">Manage</MenuItem>
+          <MenuItem eventKey="2" style={{color: 'red'}}>Remove from organization</MenuItem>
+        </DropdownButton>
+      </span>
+      <p><Link to={`/organizations/${props.orgSlug}/people/${props.user.username}`}>
+        {props.user.username}
+      </Link></p>
+    </li>
+  );
+};
 
 interface PeopleListProps {
   orgSlug: string;
+  people: Array<UserType>;
 }
 
-class PeopleList extends React.Component<PeopleListProps, {}> {
-  render() {
-    return (
-      <Row>
-        <Col lg={12}>
-          <Panel header="Select All">
-            <ListGroup fill={true} componentClass="ul">
-              {
-                repoUsers.map((user, index) => {
-                  return <PersonRow key={index} orgSlug={this.props.orgSlug} user={user} />;
-                })
-              }
-            </ListGroup>
-          </Panel>
-        </Col>
-      </Row>
-    );
-  }
-}
+const PeopleList: React.SFC<PeopleListProps> = (props) => {
+  return (
+    <Row>
+      <Col lg={12}>
+        <Panel header="Select All">
+          <ListGroup fill={true} componentClass="ul">
+            {
+              props.people.map((user, index) => {
+                return <PersonRow key={index} orgSlug={props.orgSlug} user={user} />;
+              })
+            }
+          </ListGroup>
+        </Panel>
+      </Col>
+    </Row>
+  );
+};
 
 export default PeopleList;
