@@ -1,11 +1,9 @@
 import axios from 'axios';
 
 import { API_BASE_URL } from './utils';
-import {
-  JsonOrganizationType,
-  OrganizationType
-} from './models/organization';
+import { JsonOrganizationType, OrganizationType } from './models/organization';
 import { AnalysisGroupType } from './models/analysisGroup';
+import { QueryResultType } from './models/queryResult';
 
 type LoginType = {
   email: string;
@@ -117,8 +115,25 @@ export const getAnalysisGroup = function(slug: string) {
       const sampleGroup: AnalysisGroupType = {
         slug: res.data.data.sample_group.slug,
         name: res.data.data.sample_group.name,
+        queryResultId: res.data.data.sample_group.query_result_id,
         description: '[description not supported yet]',
       };
       return sampleGroup;
+    });
+};
+
+export const getQueryResults = function(id: string) {
+  const options = {
+    url: `${API_BASE_URL}/query_results/${id}`,
+    method: 'get',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${window.localStorage.authToken}`
+    },
+  };
+
+  return axios(options)
+    .then((res) => {
+      return res.data.data as QueryResultType;
     });
 };

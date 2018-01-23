@@ -2,8 +2,9 @@ import * as React from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { Helmet } from 'react-helmet';
 
+import { getAnalysisGroup, getQueryResults } from '../../../../services/api';
 import { AnalysisGroupType } from '../../../../services/api/models/analysisGroup';
-import { getAnalysisGroup } from '../../../../services/api';
+import { QueryResultType } from '../../../../services/api/models/queryResult';
 
 import SampleSimilarity from '../../../../components/SampleSimilarity';
 import { TaxonAbundance } from '../../../../components/TaxonAbundance';
@@ -14,6 +15,7 @@ interface AnalysisGroupDetailProps {
 
 interface AnalysisGroupDetailState {
   group?: AnalysisGroupType;
+  queryResults?: QueryResultType;
 }
 
 class AnalysisGroupDetail extends React.Component<AnalysisGroupDetailProps, AnalysisGroupDetailState> {
@@ -23,6 +25,7 @@ class AnalysisGroupDetail extends React.Component<AnalysisGroupDetailProps, Anal
 
     this.state = {
       group: undefined,
+      queryResults: undefined,
     };
   }
 
@@ -30,6 +33,13 @@ class AnalysisGroupDetail extends React.Component<AnalysisGroupDetailProps, Anal
     getAnalysisGroup(this.props.groupSlug)
       .then((group) => {
         this.setState({ group });
+        return group;
+      })
+      .then((group) => {
+        return getQueryResults(group.queryResultId);
+      })
+      .then((queryResults) => {
+        this.setState({ queryResults });
       });
   }
 
@@ -50,7 +60,9 @@ class AnalysisGroupDetail extends React.Component<AnalysisGroupDetailProps, Anal
             <hr />
             <Row>
               <Col lg={12}>
-                <SampleSimilarity groupId={this.state.group.slug} />
+                {this.state.queryResults && this.state.queryResults.sample_similarity &&
+                  <SampleSimilarity sampleSimilarity={this.state.queryResults.sample_similarity} />
+                }
                 <hr />
                 <TaxonAbundance groupId={this.state.group.slug} />
               </Col>

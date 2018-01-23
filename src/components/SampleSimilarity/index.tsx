@@ -1,14 +1,12 @@
 import * as React from 'react';
 
-import {
-  sampleSimilarity,
-  convertOldResults,
-} from '../../services/api/mocks/sampleSimilarity';
-import { ScatterPlot, ScatterPlotDataType } from '../ScatterPlot';
+import { SampleSimilarityResultType } from '../../services/api/models/queryResult';
+
+import { ScatterPlot, ScatterPlotDataType, CategoryType, ToolType, RecordType } from '../ScatterPlot';
 import { ResultPlot } from '../ResultPlot';
 
 export interface SampleSimilarityProps {
-  groupId: string;
+  sampleSimilarity: SampleSimilarityResultType;
 }
 
 class SampleSimilarity extends ResultPlot<ScatterPlotDataType, SampleSimilarityProps> {
@@ -29,18 +27,62 @@ class SampleSimilarity extends ResultPlot<ScatterPlotDataType, SampleSimilarityP
   }
 
   componentDidMount() {
-    // Simulate network request
-    setTimeout(
-      () => {
-        this.setState({
-          data: convertOldResults(sampleSimilarity),
-        });
-      },
-      1000);
+    const data = this.convertSampleSimilarity(this.props.sampleSimilarity);
+    this.setState({ data });
   }
 
   renderPlot(data: ScatterPlotDataType) {
     return <ScatterPlot data={data} svgRef={el => this.svgCanvas = el} />;
+  }
+
+  convertSampleSimilarity(source: SampleSimilarityResultType) {
+    const categories: CategoryType[] = Object.keys(source.categories).map(k => {
+      const values = source.categories[k] as string[];
+      return {
+        name: k,
+        values,
+      };
+    });
+
+    const tools: ToolType[] = Object.keys(source.tools).map(k => {
+      const result = source.tools[k];
+      return {
+        name: k,
+        labels: {
+          x: result.x_label,
+          y: result.y_label,
+        },
+      };
+    });
+
+    const records: RecordType[] = source.data_records.map(record => {
+      const recordCategories = categories.map(category => {
+        return {
+          name: category.name,
+          value: record[category.name],
+        };
+      });
+      const coords = tools.map(tool => {
+        return {
+          tool: tool.name,
+          x: record[`${tool.name}_x`],
+          y: record[`${tool.name}_y`],
+        };
+      });
+      return {
+        sampleId: record['SampleID'],
+        categories: recordCategories,
+        coords,
+      };
+    });
+
+    const data: ScatterPlotDataType = {
+      categories,
+      tools,
+      records,
+    };
+
+    return data;
   }
 }
 
