@@ -16,7 +16,7 @@ export const authenticate = function(formType: string, data: LoginType) {
   return axios.post(url, data);
 };
 
-export const createOrganization = function(data: { name: string, adminEmail: string }) {
+export const createOrganization = function(name: string, adminEmail: string) {
   const options = {
     url: `${API_BASE_URL}/organizations`,
     method: 'post',
@@ -24,7 +24,10 @@ export const createOrganization = function(data: { name: string, adminEmail: str
       'Content-Type': 'application/json',
       Authorization: `Bearer ${window.localStorage.authToken}`
     },
-    data,
+    data: {
+      name,
+      admin_email: adminEmail,
+    },
   };
 
   return axios(options);

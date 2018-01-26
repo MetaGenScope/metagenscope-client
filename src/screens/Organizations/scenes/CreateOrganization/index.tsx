@@ -50,7 +50,9 @@ class CreateOrganization extends React.Component<Props, CreateOrganizationState>
 
   handleUserFormSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    createOrganization(this.state.formData)
+    const name = this.state.formData.name,
+          adminEmail = this.state.formData.adminEmail;
+    createOrganization(name, adminEmail)
       .then((res) => {
         this.setState({ didCreate: true });
       })
