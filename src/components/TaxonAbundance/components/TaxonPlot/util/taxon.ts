@@ -3,27 +3,27 @@ import * as d3_sankey from 'd3-sankey';
 import * as chroma from 'chroma-js';
 
 // Input types
-export type Link = {
-  source: string;
-  target: string;
-  value: number;
-};
-
-export interface Time {
+export interface Node {
   id: string;
-  nodeName: string;
-  nodeValue: number;
+  name: string;
+  value: number;
   percentage?: number;
 }
 
+export interface Edge {
+  source: string;
+  target: string;
+  value: number;
+}
+
 export interface Data {
-  links: Link[];
-  times: Time[][];
+  nodes: Node[];
+  edges: Edge[];
 }
 
 // Convenience types
-type SankeyLink = d3_sankey.SankeyLink<Time, {}>;
-type SankeyNode = d3_sankey.SankeyNode<Time, {}>;
+type SankeyLink = d3_sankey.SankeyLink<Node, {}>;
+type SankeyNode = d3_sankey.SankeyNode<Node, {}>;
 
 // Constants
 const rankNames = ['Kingdom', 'Phylum', 'Class', 'Order', 'Family', 'Genus', 'Species', 'Sample'];
@@ -53,7 +53,7 @@ const createColorMap = function(nodes: SankeyNode[]): Map<string, string> {
       } else {
         const parentNode = node.targetLinks![0].source as SankeyNode;
         const parentColor = colorMap.get(parentNode.id)!;
-        const mixColor = d3colors(node.nodeName.replace(/ .*/, ''));
+        const mixColor = d3colors(node.name.replace(/ .*/, ''));
         color = chroma.mix(chroma(parentColor), chroma(mixColor), 0.3).hex();
       }
       colorMap.set(node.id, color);
@@ -94,11 +94,6 @@ const alignNodes = function(nodes: SankeyNode[], yMarginTop: number, nodePadding
 };
 
 export function createTaxonAbundance(rootDiv: HTMLDivElement, rawSVG: SVGSVGElement, inputData: Data) {
-  // Validate input
-  if (inputData.times.length !== rankNames.length) {
-    throw new Error(`inputData.times does not match expected length of ${rankNames.length}`);
-  }
-
   // Set up canvas
   const boundingSize = d3.select(rootDiv).node()!.getBoundingClientRect(),
       canvasWidth = boundingSize.width,
@@ -112,7 +107,7 @@ export function createTaxonAbundance(rootDiv: HTMLDivElement, rawSVG: SVGSVGElem
         nodePadding = 1;
 
   // Create Sankey graph helper
-  const sankey = d3_sankey.sankey<Time, {}>()
+  const sankey = d3_sankey.sankey<Node, {}>()
       .nodeWidth(nodeWidth)
       .nodePadding(nodePadding)
       .nodeId(n => n.id)
@@ -153,18 +148,13 @@ export function createTaxonAbundance(rootDiv: HTMLDivElement, rawSVG: SVGSVGElem
     .style('z-index', 5)
     .style('opacity', 0);
 
-  // Flatten and convert input nodes
-  const sankeyNodes: SankeyNode[] = [];
-  inputData.times.forEach((rank, depth) => {
-    rank.forEach(n => {
-      sankeyNodes.push(Object.assign({depth}, n));
-    });
-  });
+  // Convert input nodes
+  const sankeyNodes: SankeyNode[] = inputData.nodes;
 
   // Create Sankey graph from inputs
-  const graph: d3_sankey.SankeyGraph<Time, {}> = {
+  const graph: d3_sankey.SankeyGraph<Node, {}> = {
     nodes: sankeyNodes,
-    links: inputData.links,
+    links: inputData.edges,
   };
 
   // Perform inital layout pass
@@ -199,7 +189,7 @@ export function createTaxonAbundance(rootDiv: HTMLDivElement, rawSVG: SVGSVGElem
     .enter().append('g');
 
   const tooltipContent = (node: SankeyNode) => {
-    const title = node.nodeName;
+    const title = node.name;
     const subtitle = node.percentage ? `${node.percentage.toFixed(2)}%` : '';
     return `<span>${title}</span>${subtitle}`;
   };

@@ -1,14 +1,11 @@
 import * as React from 'react';
 
-import {
-  taxonAbundance,
-  convertOldResults,
-} from '../../services/api/mocks/taxonAbundance';
+import { TaxonAbundanceResultType } from '../../services/api/models/queryResult';
 import { ResultPlot } from '../ResultPlot';
 import { TaxonPlot, TaxonPlotDataType } from './components/TaxonPlot';
 
 export interface TaxonAbundanceProps {
-  groupId: string;
+  taxonAbundance: TaxonAbundanceResultType;
 }
 
 export class TaxonAbundance extends ResultPlot<TaxonPlotDataType, TaxonAbundanceProps> {
@@ -27,14 +24,7 @@ export class TaxonAbundance extends ResultPlot<TaxonPlotDataType, TaxonAbundance
   }
 
   componentDidMount() {
-    // Simulate network request
-    setTimeout(
-      () => {
-        this.setState({
-          data: convertOldResults(taxonAbundance),
-        });
-      },
-      1000);
+    this.setState({ data: this.props.taxonAbundance });
   }
 
   renderPlot(data: TaxonPlotDataType) {

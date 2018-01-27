@@ -64,7 +64,9 @@ class AnalysisGroupDetail extends React.Component<AnalysisGroupDetailProps, Anal
                   <SampleSimilarity sampleSimilarity={this.state.queryResults.sample_similarity} />
                 }
                 <hr />
-                <TaxonAbundance groupId={this.state.group.slug} />
+                {this.state.queryResults && this.state.queryResults.taxon_abundance &&
+                  <TaxonAbundance taxonAbundance={this.state.queryResults.taxon_abundance} />
+                }
               </Col>
             </Row>
           </div>
