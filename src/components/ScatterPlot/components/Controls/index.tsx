@@ -6,12 +6,14 @@ import Category from './components/Category';
 import PlotSource from './components/PlotSource';
 
 type ControlsProps = {
-  activeSource: string;
   sources: string[];
+  activeSource: string;
+  categories: string[];
   activeCategory: string;
   activeCategoryValues: string[];
   handleSourceChange(newSource: string): void;
   handleCategoryChange(category?: string): void;
+  handleColorByCategoryChanged(category?: string): void;
 };
 
 class Controls extends React.Component<ControlsProps, {}> {
@@ -20,6 +22,7 @@ class Controls extends React.Component<ControlsProps, {}> {
 
     this.handleSourceChange = this.handleSourceChange.bind(this);
     this.handleCategoryChange = this.handleCategoryChange.bind(this);
+    this.handleColorByCategoryChanged = this.handleColorByCategoryChanged.bind(this);
   }
 
   handleSourceChange(newSource: string) {
@@ -28,6 +31,10 @@ class Controls extends React.Component<ControlsProps, {}> {
 
   handleCategoryChange(category?: string) {
     this.props.handleCategoryChange(category);
+  }
+
+  handleColorByCategoryChanged(name: string) {
+    this.props.handleColorByCategoryChanged(name);
   }
 
   render() {
@@ -42,14 +49,16 @@ class Controls extends React.Component<ControlsProps, {}> {
     return (
       <Well>
         <Row>
-          <Col lg={12} md={4} sm={12}>         
+          <Col lg={12} md={4} sm={12}>
             <Category
-              categoryName={this.props.activeCategory}
+              categories={this.props.categories}
+              selectedCategoryName={this.props.activeCategory}
               categoryValues={values}
               activeCategoryChanged={this.handleCategoryChange}
+              colorByCategoryChanged={this.handleColorByCategoryChanged}
             />
           </Col>
-          <Col lg={12} md={4} sm={12}>         
+          <Col lg={12} md={4} sm={12}>
             <PlotSource {...this.props} />
           </Col>
         </Row>

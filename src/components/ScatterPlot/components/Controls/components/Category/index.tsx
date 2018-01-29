@@ -1,14 +1,17 @@
 import * as React from 'react';
+import { FormGroup, ControlLabel } from 'react-bootstrap';
 
 import CategoryItem from './components/CategoryItem';
 import './style.css';
 
 type CategoryProps = {
-  categoryName: string;
+  categories: string[];
+  selectedCategoryName: string;
   categoryValues: {
     name: string;
     color: string;
   }[];
+  colorByCategoryChanged(name: string): void;
   activeCategoryChanged(name?: string): void;
 };
 
@@ -18,6 +21,7 @@ class Category extends React.Component<CategoryProps, {}> {
 
     this.focusChanged = this.focusChanged.bind(this);
     this.focusLost = this.focusLost.bind(this);
+    this.handleColorByCategoryChange = this.handleColorByCategoryChange.bind(this);
   }
 
   focusLost() {
@@ -28,10 +32,29 @@ class Category extends React.Component<CategoryProps, {}> {
     this.props.activeCategoryChanged(category);
   }
 
+  handleColorByCategoryChange(event: React.FormEvent<HTMLSelectElement>) {
+    const newColorByCategory = event.currentTarget.value;
+    this.props.colorByCategoryChanged(newColorByCategory);
+  }
+
   render() {
     return(
-      <div>
-        <p>{this.props.categoryName.capitalize()} category</p>
+      <form>
+        <FormGroup controlId="formControlsSelect">
+          <ControlLabel>Color by category:</ControlLabel>
+          <select
+            className="form-control"
+            value={this.props.selectedCategoryName}
+            onChange={this.handleColorByCategoryChange}
+          >
+            {this.props.categories.map((categoryName, index) => {
+              return (
+                <option key={index} value={categoryName}>{categoryName.capitalize()}</option>
+              );
+            })}
+          </select>
+        </FormGroup>
+        <FormGroup>
         <ul className="scatter-controls-categories" onMouseLeave={this.focusLost}>
           {this.props.categoryValues.map((categoryValue, index) => {
             return (
@@ -44,7 +67,8 @@ class Category extends React.Component<CategoryProps, {}> {
             );
           })}
         </ul>
-      </div>
+        </FormGroup>
+      </form>
     );
   }
 }

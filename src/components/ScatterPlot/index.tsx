@@ -57,6 +57,7 @@ export class ScatterPlot extends React.Component<ScatterPlotProps, ScatterPlotSt
 
     this.handleSourceChange = this.handleSourceChange.bind(this);
     this.handleCategoryChange = this.handleCategoryChange.bind(this);
+    this.handleColorByCategoryChange = this.handleColorByCategoryChange.bind(this);
 
     this.state = {
       activeTool: this.props.data.tools[0].name,
@@ -73,6 +74,12 @@ export class ScatterPlot extends React.Component<ScatterPlotProps, ScatterPlotSt
   handleCategoryChange(category?: string) {
     this.setState({
       focusedCategory: category,
+    });
+  }
+
+  handleColorByCategoryChange(category: string) {
+    this.setState({
+      activeCategory: category,
     });
   }
 
@@ -140,10 +147,12 @@ export class ScatterPlot extends React.Component<ScatterPlotProps, ScatterPlotSt
           <Controls
             activeSource={this.state.activeTool}
             sources={this.props.data.tools.map((tool) => tool.name)}
+            categories={this.props.data.categories.map((category) => category.name)}
             activeCategory={this.state.activeCategory}
             activeCategoryValues={values}
             handleSourceChange={this.handleSourceChange}
             handleCategoryChange={this.handleCategoryChange}
+            handleColorByCategoryChanged={this.handleColorByCategoryChange}
           />
         </Col>
       </Row>

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FormGroup, Radio } from 'react-bootstrap';
+import { FormGroup, Radio, ControlLabel } from 'react-bootstrap';
 
 type PlotSourceProps = {
   activeSource: string;
@@ -11,8 +11,8 @@ class PlotSource extends React.Component<PlotSourceProps, {}> {
   render() {
     return(
       <form>
-        <p>Plot calculated similarity by</p>
         <FormGroup>
+          <ControlLabel>Plot calculated similarity by:</ControlLabel>
           {this.props.sources.map((source, index) => {
             const checked = source === this.props.activeSource;
             return (
