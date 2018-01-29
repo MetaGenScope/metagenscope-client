@@ -9,6 +9,8 @@ export interface SampleSimilarityProps {
   sampleSimilarity: SampleSimilarityResultType;
 }
 
+const SAMPLE_ID_KEY = 'SampleID';
+
 class SampleSimilarity extends ResultPlot<ScatterPlotDataType, SampleSimilarityProps> {
 
   constructor(props: SampleSimilarityProps) {
@@ -70,7 +72,7 @@ class SampleSimilarity extends ResultPlot<ScatterPlotDataType, SampleSimilarityP
         };
       });
       return {
-        sampleId: record['SampleID'],
+        sampleId: record[SAMPLE_ID_KEY],
         categories: recordCategories,
         coords,
       };
