@@ -1,7 +1,7 @@
 version: 2
 
 jobs:
-  build:
+  run_tests:
     docker:
       - image: circleci/node:9.2.0
         environment:
@@ -21,3 +21,63 @@ jobs:
           name: Lint client
           command: npm run lint
 
+  build_emptyfish:
+    docker:
+      - image: circleci/node:9.2.0
+
+    environment:
+      TAG: emptyfish
+      DOCKER_ORG: metagenscope
+      REACT_APP_METAGENSCOPE_SERVICE_URL: https://www.emptyfish.net
+
+    steps:
+      - checkout
+
+      - setup_remote_docker
+
+      - run:
+          name: Set COMMIT env var
+          command: echo 'export COMMIT=${CIRCLE_SHA1::8}' >> $BASH_ENV
+
+      - run:
+          name: Sign in to Docker Hub
+          command: docker login -u $DOCKER_ID -p $DOCKER_PASSWORD
+
+      - run:
+          name: Build and push web service
+          environment:
+            CLIENT_SERVICE: metagenscope-client
+            NODE_ENV: production
+          command: |
+            docker build . -t $CLIENT_SERVICE:$COMMIT
+            docker tag $CLIENT_SERVICE:$COMMIT $DOCKER_ORG/$CLIENT_SERVICE:$TAG
+            docker push $DOCKER_ORG/$CLIENT_SERVICE
+
+  deploy_emptyfish:
+    docker:
+      - image: circleci/node:9.2.0
+
+    working_directory: ~/repo
+
+    steps:
+      - run:
+          name: Deploy to emptyfish.net
+          command: |
+            set -x
+            echo "$DROPLET_IP $DROPLET_HOST_KEY" > ~/tmp_auth_hosts
+            ssh -A -o "UserKnownHostsFile ~/tmp_auth_hosts" $DROPLET_USER@$DROPLET_IP "cd /home/metagenscope/metagenscope-app && sh deploy.sh"
+
+workflows:
+  version: 2
+  test-and-deploy:
+    jobs:
+      - run_tests:
+            context: org-global
+      - build_emptyfish:
+          context: org-global
+          requires:
+            - run_tests
+      - deploy_emptyfish:
+          context: org-global
+          requires:
+            - build_emptyfish
