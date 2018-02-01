@@ -8,6 +8,8 @@ import { QueryResultType } from '../../../../services/api/models/queryResult';
 
 import SampleSimilarity from '../../../../components/SampleSimilarity';
 import { TaxonAbundance } from '../../../../components/TaxonAbundance';
+import ReadsClassifiedPlot from '../../../../components/ReadsClassified';
+import HMPPlot from '../../../../components/HMPPlot';
 
 interface AnalysisGroupDetailProps {
   groupSlug: string;
@@ -66,6 +68,14 @@ class AnalysisGroupDetail extends React.Component<AnalysisGroupDetailProps, Anal
                 <hr />
                 {this.state.queryResults && this.state.queryResults.taxon_abundance &&
                   <TaxonAbundance taxonAbundance={this.state.queryResults.taxon_abundance} />
+                }
+                <hr />
+                {this.state.queryResults && this.state.queryResults.hmp &&
+                  <HMPPlot hmp={this.state.queryResults.hmp} />
+                }
+                <hr />
+                {this.state.queryResults && this.state.queryResults.reads_classified &&
+                  <ReadsClassifiedPlot readsClassified={this.state.queryResults.reads_classified} />
                 }
               </Col>
             </Row>

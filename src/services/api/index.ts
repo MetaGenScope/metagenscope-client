@@ -137,6 +137,22 @@ export const getQueryResults = function(id: string) {
 
   return axios(options)
     .then((res) => {
-      return res.data.data as QueryResultType;
+      let result = res.data.data as QueryResultType;
+      if (result.hmp) {
+        // Convert to Map types
+        const categoriesMap = buildMap(res.data.data.hmp.categories);
+        const dataMap = buildMap(res.data.data.hmp.data);
+        result.hmp.categories = categoriesMap;
+        result.hmp.data = dataMap;
+      }
+      return result;
     });
 };
+
+function buildMap(obj: object) {
+  const map = new Map();
+  Object.keys(obj).forEach(key => {
+      map.set(key, obj[key]);
+  });
+  return map;
+}
