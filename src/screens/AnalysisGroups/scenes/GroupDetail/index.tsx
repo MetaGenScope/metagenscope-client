@@ -6,10 +6,33 @@ import { getAnalysisGroup, getQueryResults } from '../../../../services/api';
 import { AnalysisGroupType } from '../../../../services/api/models/analysisGroup';
 import { QueryResultType } from '../../../../services/api/models/queryResult';
 
-import SampleSimilarity from '../../../../components/SampleSimilarity';
+import { SampleSimilarity } from '../../../../components/SampleSimilarity';
 import { TaxonAbundance } from '../../../../components/TaxonAbundance';
-import ReadsClassifiedPlot from '../../../../components/ReadsClassified';
-import HMPPlot from '../../../../components/HMPPlot';
+import { HMPPlot } from '../../../../components/HMPPlot';
+import { ReadsClassifiedPlot } from '../../../../components/ReadsClassified';
+
+interface AnalysisGroupList {
+  queryResult: QueryResultType;
+}
+
+const AnalysisGroupList: React.SFC<AnalysisGroupList> = (props) => {
+  return (
+    <div>
+      {props.queryResult.result_types.indexOf('sample_similarity') > -1 &&
+        <SampleSimilarity id={props.queryResult.id} />
+      }
+      {props.queryResult.result_types.indexOf('taxon_abundance') > -1 &&
+        <TaxonAbundance id={props.queryResult.id} />
+      }
+      {props.queryResult.result_types.indexOf('reads_classified') > -1 &&
+        <ReadsClassifiedPlot id={props.queryResult.id} />
+      }
+      {props.queryResult.result_types.indexOf('hmp') > -1 &&
+        <HMPPlot id={props.queryResult.id} />
+      }
+    </div>
+  );
+};
 
 interface AnalysisGroupDetailProps {
   groupSlug: string;
@@ -62,24 +85,18 @@ class AnalysisGroupDetail extends React.Component<AnalysisGroupDetailProps, Anal
             <hr />
             <Row>
               <Col lg={12}>
-                {this.state.queryResults && this.state.queryResults.sample_similarity &&
-                  <SampleSimilarity sampleSimilarity={this.state.queryResults.sample_similarity} />
+                {this.state.queryResults &&
+                  <AnalysisGroupList queryResult={this.state.queryResults} />
                 }
-                <hr />
-                {this.state.queryResults && this.state.queryResults.taxon_abundance &&
-                  <TaxonAbundance taxonAbundance={this.state.queryResults.taxon_abundance} />
-                }
-                <hr />
-                {this.state.queryResults && this.state.queryResults.hmp &&
-                  <HMPPlot hmp={this.state.queryResults.hmp} />
-                }
-                <hr />
-                {this.state.queryResults && this.state.queryResults.reads_classified &&
-                  <ReadsClassifiedPlot readsClassified={this.state.queryResults.reads_classified} />
+                {!this.state.queryResults &&
+                  <h3>Loading...</h3>
                 }
               </Col>
             </Row>
           </div>
+        }
+        {!this.state.group &&
+          <h1>Loading...</h1>
         }
       </div>
     );

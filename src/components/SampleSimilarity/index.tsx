@@ -1,19 +1,22 @@
 import * as React from 'react';
 
 import { SampleSimilarityResultType } from '../../services/api/models/queryResult';
+import { getSampleSimilarity } from '../../services/api';
 
-import { ScatterPlot, ScatterPlotDataType, CategoryType, ToolType, RecordType } from '../ScatterPlot';
-import { ResultPlot } from '../ResultPlot';
-
-export interface SampleSimilarityProps {
-  sampleSimilarity: SampleSimilarityResultType;
-}
+import {
+  ScatterPlot,
+  ScatterPlotDataType,
+  CategoryType,
+  ToolType,
+  RecordType
+} from '../ScatterPlot';
+import { D3ResultPlot } from '../ResultPlot';
 
 const SAMPLE_ID_KEY = 'SampleID';
 
-class SampleSimilarity extends ResultPlot<ScatterPlotDataType, SampleSimilarityProps> {
+export class SampleSimilarity extends D3ResultPlot<SampleSimilarityResultType> {
 
-  constructor(props: SampleSimilarityProps) {
+  constructor(props: { id: string }) {
     super(props);
 
     this.title = 'Sample Similarity';
@@ -28,13 +31,13 @@ class SampleSimilarity extends ResultPlot<ScatterPlotDataType, SampleSimilarityP
     );
   }
 
-  componentDidMount() {
-    const data = this.convertSampleSimilarity(this.props.sampleSimilarity);
-    this.setState({ data });
+  fetchData() {
+    return getSampleSimilarity(this.props.id);
   }
 
-  renderPlot(data: ScatterPlotDataType) {
-    return <ScatterPlot data={data} svgRef={el => this.svgCanvas = el} />;
+  renderPlot(data: SampleSimilarityResultType) {
+    const scatterPlotData = this.convertSampleSimilarity(data);
+    return <ScatterPlot data={scatterPlotData} svgRef={el => this.svgCanvas = el} />;
   }
 
   convertSampleSimilarity(source: SampleSimilarityResultType) {
@@ -87,5 +90,3 @@ class SampleSimilarity extends ResultPlot<ScatterPlotDataType, SampleSimilarityP
     return data;
   }
 }
-
-export default SampleSimilarity;

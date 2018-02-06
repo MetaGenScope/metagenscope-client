@@ -1,15 +1,12 @@
 import * as React from 'react';
 
 import { TaxonAbundanceResultType } from '../../services/api/models/queryResult';
-import { ResultPlot } from '../ResultPlot';
-import { TaxonPlot, TaxonPlotDataType } from './components/TaxonPlot';
+import { getTaxonAbundance } from '../../services/api';
+import { D3ResultPlot } from '../ResultPlot';
+import { TaxonPlot } from './components/TaxonPlot';
 
-export interface TaxonAbundanceProps {
-  taxonAbundance: TaxonAbundanceResultType;
-}
-
-export class TaxonAbundance extends ResultPlot<TaxonPlotDataType, TaxonAbundanceProps> {
-  constructor(props: TaxonAbundanceProps) {
+export class TaxonAbundance extends D3ResultPlot<TaxonAbundanceResultType> {
+  constructor(props: { id: string }) {
     super(props);
 
     this.title = 'Taxon Abundance';
@@ -23,11 +20,11 @@ export class TaxonAbundance extends ResultPlot<TaxonPlotDataType, TaxonAbundance
     );
   }
 
-  componentDidMount() {
-    this.setState({ data: this.props.taxonAbundance });
+  fetchData() {
+    return getTaxonAbundance(this.props.id);
   }
 
-  renderPlot(data: TaxonPlotDataType) {
+  renderPlot(data: TaxonAbundanceResultType) {
     return <TaxonPlot data={data} svgRef={el => this.svgCanvas = el} />;
   }
 }

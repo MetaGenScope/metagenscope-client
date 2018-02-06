@@ -3,7 +3,14 @@ import axios from 'axios';
 import { API_BASE_URL } from './utils';
 import { JsonOrganizationType, OrganizationType } from './models/organization';
 import { AnalysisGroupType } from './models/analysisGroup';
-import { QueryResultType } from './models/queryResult';
+import {
+  QueryResultType,
+  QueryResultWrapper,
+  SampleSimilarityResultType,
+  TaxonAbundanceResultType,
+  ReadsClassifiedType,
+  HMPResultType,
+} from './models/queryResult';
 
 type LoginType = {
   email: string;
@@ -137,13 +144,77 @@ export const getQueryResults = function(id: string) {
 
   return axios(options)
     .then((res) => {
-      let result = res.data.data as QueryResultType;
-      if (result.hmp) {
-        // Convert to Map types
-        const categoriesMap = buildMap(res.data.data.hmp.categories);
-        const dataMap = buildMap(res.data.data.hmp.data);
-        result.hmp.categories = categoriesMap;
-        result.hmp.data = dataMap;
+      return res.data.data as QueryResultType;
+    });
+};
+
+export const getSampleSimilarity = function(id: string) {
+  const options = {
+    url: `${API_BASE_URL}/query_results/${id}/sample_similarity`,
+    method: 'get',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${window.localStorage.authToken}`
+    },
+  };
+
+  return axios(options)
+    .then((res) => {
+      return res.data.data as QueryResultWrapper<SampleSimilarityResultType>;
+    });
+};
+
+export const getTaxonAbundance = function(id: string) {
+  const options = {
+    url: `${API_BASE_URL}/query_results/${id}/taxon_abundance`,
+    method: 'get',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${window.localStorage.authToken}`
+    },
+  };
+
+  return axios(options)
+    .then((res) => {
+      return res.data.data as QueryResultWrapper<TaxonAbundanceResultType>;
+    });
+};
+
+export const getReadsClassified = function(id: string) {
+  const options = {
+    url: `${API_BASE_URL}/query_results/${id}/reads_classified`,
+    method: 'get',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${window.localStorage.authToken}`
+    },
+  };
+
+  return axios(options)
+    .then((res) => {
+      return res.data.data as QueryResultWrapper<ReadsClassifiedType>;
+    });
+};
+
+export const getHMP = function(id: string) {
+  const options = {
+    url: `${API_BASE_URL}/query_results/${id}/hmp`,
+    method: 'get',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${window.localStorage.authToken}`
+    },
+  };
+
+  return axios(options)
+    .then((res) => {
+      // Convert to Map types
+      const result = res.data.data as QueryResultWrapper<HMPResultType>;
+      if (result.data) {
+        const categoriesMap = buildMap(result.data.categories);
+        const dataMap = buildMap(result.data.data);
+        result.data.categories = categoriesMap;
+        result.data.data = dataMap;
       }
       return result;
     });

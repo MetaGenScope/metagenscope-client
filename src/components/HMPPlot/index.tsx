@@ -6,34 +6,34 @@ import HighchartsMore = require('highcharts/highcharts-more');
 HighchartsExporting(Highcharts);
 HighchartsOfflineExporting(Highcharts);
 HighchartsMore(Highcharts);
-import { Row, Col } from 'react-bootstrap';
 
-import { PlotHeader } from '../../components/ResultPlot/components/PlotHeader';
+import { HighChartResultPlot } from '../../components/ResultPlot';
 import { HMPResultType } from '../../services/api/models/queryResult';
+import { getHMP } from '../../services/api';
 
-export interface HMPProps {
-  hmp: HMPResultType;
-}
+export class HMPPlot extends HighChartResultPlot<HMPResultType> {
 
-class HMPPlot extends React.Component<HMPProps, {}> {
-
-  chart: Highcharts.ChartObject;
-
-  constructor(props: HMPProps) {
+  constructor(props: {id: string}) {
     super(props);
 
-    this.saveSvg = this.saveSvg.bind(this);
+    this.title = 'Human Body Sites';
+    this.description = (
+      <p>This chart shows the average similarity between bacterial  {' '}
+        communities in the samples and human body sites from the Human Microbiome Project.</p>
+    );
   }
 
-  componentDidMount() {
-    const hmpData = this.props.hmp;
+  fetchData() {
+    return getHMP(this.props.id);
+  }
 
-    const categories = Array.from(hmpData.categories.keys());
+  createPlot(data: HMPResultType, graphId: string): Highcharts.ChartObject {
+    const categories = Array.from(data.categories.keys());
     const activeCategory = categories[0];
-    const datums = hmpData.data.get(activeCategory)!;
+    const datums = data.data.get(activeCategory)!;
 
     const series: Highcharts.IndividualSeriesOptions[] = datums.map(source => {
-      const data: Highcharts.DataPoint[] = source.data.map(datum => {
+      const dataPoints: Highcharts.DataPoint[] = source.data.map(datum => {
         return {
           low: datum[0],
           q1: datum[1],
@@ -44,11 +44,11 @@ class HMPPlot extends React.Component<HMPProps, {}> {
       });
       return {
         name: source.name,
-        data,
+        data: dataPoints,
       };
     });
 
-    this.chart = Highcharts.chart('hmp-chart', {
+    return Highcharts.chart(graphId, {
       chart: {
         type: 'boxplot',
       },
@@ -59,7 +59,7 @@ class HMPPlot extends React.Component<HMPProps, {}> {
         enabled: true,
       },
       xAxis: {
-        categories: hmpData.sites,
+        categories: data.sites,
       },
       yAxis: {
         title: {
@@ -72,42 +72,4 @@ class HMPPlot extends React.Component<HMPProps, {}> {
       series,
     });
   }
-
-  saveSvg() {
-    if (this.chart !== undefined) {
-      this.chart.exportChart();
-    }
-  }
-
-  componentWillUnmount() {
-    if (this.chart !== undefined) {
-      this.chart.destroy();
-    }
-  }
-
-  render() {
-    const description = 'This chart shows the average similarity between bacterial '
-        + 'communities in the samples and human body sites from the Human Microbiome Project.';
-    return (
-      <div>
-        <Row>
-          <Col lg={12}>
-            <PlotHeader
-              title="Human Body Sites"
-              description={description}
-              downloadPng={this.saveSvg}
-              downloadCsv={() => {}}
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col lg={12}>
-            <div id="hmp-chart" />
-          </Col>
-        </Row>
-      </div>
-    );
-  }
 }
-
-export default HMPPlot;

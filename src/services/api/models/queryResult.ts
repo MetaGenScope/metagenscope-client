@@ -1,9 +1,9 @@
 export enum QueryResultStatus {
-  Error = 'ERROR',
-  Pending = 'PENDING',
-  Working = 'WORKING',
-  Success = 'SUCCESS',
-};
+  Error = 'E',
+  Pending = 'P',
+  Working = 'W',
+  Success = 'S',
+}
 
 export interface TaxonAbundanceResultType {
   nodes: {
@@ -42,11 +42,13 @@ export interface ReadsClassifiedType {
   }[];
 }
 
-export interface QueryResultType {
+export interface QueryResultWrapper<T> {
   status: QueryResultStatus;
+  data?: T;
+}
+
+export interface QueryResultType {
+  id: string;
   sample_group_id: string;
-  sample_similarity?: SampleSimilarityResultType;
-  taxon_abundance?: TaxonAbundanceResultType;
-  hmp?: HMPResultType;
-  reads_classified?: ReadsClassifiedType;
+  result_types: string[];
 }
