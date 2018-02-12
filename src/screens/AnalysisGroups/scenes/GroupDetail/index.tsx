@@ -41,6 +41,7 @@ interface AnalysisGroupDetailProps {
 interface AnalysisGroupDetailState {
   group?: AnalysisGroupType;
   queryResults?: QueryResultType;
+  error?: string;
 }
 
 class AnalysisGroupDetail extends React.Component<AnalysisGroupDetailProps, AnalysisGroupDetailState> {
@@ -51,6 +52,7 @@ class AnalysisGroupDetail extends React.Component<AnalysisGroupDetailProps, Anal
     this.state = {
       group: undefined,
       queryResults: undefined,
+      error: undefined,
     };
   }
 
@@ -65,6 +67,9 @@ class AnalysisGroupDetail extends React.Component<AnalysisGroupDetailProps, Anal
       })
       .then((queryResults) => {
         this.setState({ queryResults });
+      })
+      .catch((error) => {
+        this.setState({ error });
       });
   }
 
@@ -95,7 +100,10 @@ class AnalysisGroupDetail extends React.Component<AnalysisGroupDetailProps, Anal
             </Row>
           </div>
         }
-        {!this.state.group &&
+        {this.state.error &&
+          <h1>Error: {this.state.error}</h1>
+        }
+        {!this.state.group && !this.state.error &&
           <h1>Loading...</h1>
         }
       </div>
