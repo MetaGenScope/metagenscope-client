@@ -16,6 +16,24 @@ API calls are all defined in `src/services/api/index.ts`. The API call method cr
 
 To simplify displaying data, we have provided the `ResultPlot` component. `ResultPlot` handles polling the server for display module data and manages state. You will use either `HighChartResultPlot` or `D3ResultPlot` depending on whether you are using a HighChart graph or custom D3 code.
 
+You will need set the title and description of the module in the constructor:
+
+```ts
+constructor(props: { id: string }) {
+  ...
+
+  this.title = 'My Display Module';
+  this.description = (
+    <div>
+      <p>Paragraph one.</p>
+      <p>Paragraph two.</p>
+    </div>
+  );
+
+  ...
+}
+```
+
 You will need to override `fetchData(): Promise<QueryResultWrapper<T>>`. The body of this method will be the API call you defined in the previous step.
 
 Within this component, you may define any additional state or sub-components you need to (ex. color-by controls). It will be helpful to define the actual plot as a separate reusable component (ex. Scatter Plot). Then you can use the `ResultPlot` just to transform the fetched data to a generic plot input data type and pass that to the generic plot. See `src/components/SampleSimilarity/` for an example of a display module with controls for interacting with the graph.
