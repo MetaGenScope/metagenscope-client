@@ -21,6 +21,7 @@ export class ReadsClassifiedPlot extends HighChartResultPlot<ReadsClassifiedType
       <p>This chart shows the proportion of reads in each sample {' '}
         assigned to different groups.</p>
     );
+    this.chartId = 'reads-classified';
   }
 
   fetchData() {

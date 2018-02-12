@@ -46,6 +46,16 @@ See `src/components/HMPPlot/` for an example of implementing a HighChart display
 
 ### Custom D3
 
+HighChart needs a unique `id` for each module. You will need provide the `chartId` of the module in the constructor:
+
+```ts
+constructor(props: { id: string }) {
+  ...
+  this.chartId = 'my-display-module';
+  ...
+}
+```
+
 You will need to override `renderPlot(data: T): React.ReactNode`.
 
 See `src/components/TaxonAbundance/` for an example of implementing a display module with custom D3 code.

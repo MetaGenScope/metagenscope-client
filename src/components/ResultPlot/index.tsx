@@ -252,6 +252,7 @@ export class D3ResultPlot<T> extends ResultPlot<T> {
 export class HighChartResultPlot<T> extends ResultPlot<T> {
 
   chart: Highcharts.ChartObject;
+  protected chartId: string;
 
   /**
    * Render HighChart within a <div> element.
@@ -264,7 +265,7 @@ export class HighChartResultPlot<T> extends ResultPlot<T> {
 
   /** @inheritdoc */
   handleData(data: T) {
-    this.chart = this.createPlot(data, `${this.constructor.name}-chart`);
+    this.chart = this.createPlot(data, `${this.chartId}-chart`);
   }
 
   saveSvg() {
@@ -316,7 +317,7 @@ export class HighChartResultPlot<T> extends ResultPlot<T> {
               <h3>There was an error: [error].</h3>
             }
             {this.state.status === WrapperStatus.Success && this.props.children}
-            <div id={`${this.constructor.name}-chart`} />
+            <div id={`${this.chartId}-chart`} />
           </Col>
         </Row>
       </div>
