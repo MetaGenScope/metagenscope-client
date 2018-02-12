@@ -35,6 +35,10 @@ You will also see any lint errors in the console.
 
 ## Development
 
+Developer documentation can be found in [`docs/`](./docs/).
+
+This project uses JSDoc, see their [Getting Started](http://usejsdoc.org/about-getting-started.html) page if you are unfamilair.
+
 ### Project Structure
 
 This project follows the Component Folder Pattern. A good overview of the pattern can be found [here](https://medium.com/@alexmngn/how-to-better-organize-your-react-applications-2fd3ea1920f1).

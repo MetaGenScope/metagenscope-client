@@ -28,14 +28,25 @@ interface WrapperState<T> {
   data?: T;
 }
 
-// This class handles network requests, polling, and state.
-//
-// Subclasses will need to implement methods for their own needs.
+/**
+ * Base class for managing state and rendering a front-end display module.
+ *
+ * Polling strategy based on https://github.com/cameronbourke/react-async-poll
+ */
 export class ResultPlot<T> extends React.Component<WrapperProps, WrapperState<T>> {
 
   protected title: string;
   protected description: React.ReactNode;
 
+  // Polling interval (ms)
+  protected intervalDuration: number;
+  protected interval?: number;
+  protected keepPolling: boolean;
+
+  /**
+   * Create a Result plot.
+   * @param props - The component props.
+   */
   constructor(props: WrapperProps) {
     super(props);
 
@@ -44,17 +55,104 @@ export class ResultPlot<T> extends React.Component<WrapperProps, WrapperState<T>
       data: undefined,
     };
 
+    // Default to 20 seconds
+    this.intervalDuration = 20 * 1000;
+    this.interval = undefined;
+    this.keepPolling = false;
+
     this.saveSvg = this.saveSvg.bind(this);
+    this.startPolling = this.startPolling.bind(this);
+    this.stopPolling = this.stopPolling.bind(this);
   }
 
+  /** @inheritdoc */
+  componentDidMount() {
+    this.startPolling();
+  }
+
+  /** @inheritdoc */
+  componentWillUnmount() {
+    this.stopPolling();
+  }
+
+  /** Generate a .png file from a display module's SVG element. */
   saveSvg() {
     throw new Error('Subclass should override!');
   }
 
+  /** Fetch the data required to render this display module. */
   fetchData(): Promise<QueryResultWrapper<T>> {
     throw new Error('Subclass should override!');
   }
 
+  /**
+   * Take steps to render the data upon successful fetch.
+   * @param data - The successfully fetched data specific to this display module.
+   */
+  handleData(data: T) {
+    throw new Error('Subclass should override!');
+  }
+
+  /** Begin polling the server for display module results. */
+  startPolling () {
+    if (this.interval) {
+      return;
+    }
+    this.keepPolling = true;
+    this.asyncInterval(this.intervalDuration, () => {
+      return this.fetchData()
+        .then((result) => {
+          this.updateStatusForQueryResultStatus(result.status);
+          if (result.data) {
+            this.handleData(result.data);
+            this.stopPolling();
+          }
+        }).catch((error) => {
+          this.setState({ status: WrapperStatus.Error });
+          this.stopPolling();
+        });
+    });
+  }
+
+  /** Stop polling the server for display module results. */
+  stopPolling () {
+    this.keepPolling = false;
+    if (this.interval) {
+      clearTimeout(this.interval);
+    }
+  }
+
+  /**
+   * Kick off polling of result module data.
+   * @param intervalDuration - Interval duration between poll requests.
+   */
+  asyncInterval(intervalDuration: number, fn: () => Promise<void>) {
+    const promise = fn();
+
+    const asyncTimeoutBody = () => {
+      this.asyncInterval(intervalDuration, fn);
+    };
+    // Use window explicitly here to prevent NodeJS's setTimeout being used
+    const asyncTimeout = () => window.setTimeout(asyncTimeoutBody, intervalDuration);
+
+    const assignNextInterval = () => {
+      if (!this.keepPolling) {
+        this.stopPolling();
+        return;
+      }
+      this.interval = asyncTimeout();
+    };
+
+    // Continue polling, even on error, until this.stopPolling is called
+    Promise.resolve(promise)
+      .then(assignNextInterval)
+      .catch(assignNextInterval);
+  }
+
+  /**
+   * Convert the server's result status to local state.
+   * @param queryStatus - Result status returned by the server.
+   */
   updateStatusForQueryResultStatus(queryStatus: QueryResultStatus) {
     switch (queryStatus) {
       case QueryResultStatus.Pending:
@@ -69,10 +167,15 @@ export class ResultPlot<T> extends React.Component<WrapperProps, WrapperState<T>
       case QueryResultStatus.Error:
         this.setState({ status: WrapperStatus.Error });
         break;
+
+      default:
+        // no-op; enumeration is exhaustive
+        break;
     }
   }
 }
 
+/** Class for front-end display module using custom D3 graphics. */
 export class D3ResultPlot<T> extends ResultPlot<T> {
 
   protected svgCanvas: SVGSVGElement | null;
@@ -83,10 +186,15 @@ export class D3ResultPlot<T> extends ResultPlot<T> {
     this.saveSvg = this.saveSvg.bind(this);
   }
 
+  /**
+   * Execute custom D3 code to render result data.
+   * @param data - The successfully fetched data specific to this display module.
+   */
   renderPlot(data: T): React.ReactNode {
     throw new Error('Subclass should override!');
   }
 
+  /** Generate and save png from SVG element. */
   saveSvg() {
     if (this.svgCanvas === null || this.svgCanvas === undefined) {
       throw new Error('Missing svgCanvas! Did you forget to pass down \'svgRef\'?');
@@ -95,16 +203,12 @@ export class D3ResultPlot<T> extends ResultPlot<T> {
     saveSvgAsPng(this.svgCanvas, 'plot.png');
   }
 
-  componentDidMount() {
-    this.fetchData()
-      .then((result) => {
-        this.updateStatusForQueryResultStatus(result.status);
-        if (result.data) {
-          this.setState({ data: result.data });
-        }
-      });
+  /** @inheritdoc */
+  handleData(data: T) {
+    this.setState({ data });
   }
 
+  /** @inheritdoc */
   render() {
     return (
       <div>
@@ -114,7 +218,7 @@ export class D3ResultPlot<T> extends ResultPlot<T> {
               title={this.title}
               description={this.description}
               downloadPng={this.saveSvg}
-              downloadCsv={() => {}}
+              downloadCsv={() => {}}    // tslint:disable-line:no-empty
             />
           </Col>
         </Row>
@@ -149,18 +253,18 @@ export class HighChartResultPlot<T> extends ResultPlot<T> {
 
   chart: Highcharts.ChartObject;
 
+  /**
+   * Render HighChart within a <div> element.
+   * @param data - The successfully fetched data specific to this display module.
+   * @param graphId - ID of the <div> element in which to render the HighChart.
+   */
   createPlot(data: T, graphId: string): Highcharts.ChartObject {
     throw new Error('Subclass should override!');
   }
 
-  componentDidMount() {
-    this.fetchData()
-      .then((result) => {
-        this.updateStatusForQueryResultStatus(result.status);
-        if (result.data) {
-          this.chart = this.createPlot(result.data, `${this.constructor.name}-chart`);
-        }
-      });
+  /** @inheritdoc */
+  handleData(data: T) {
+    this.chart = this.createPlot(data, `${this.constructor.name}-chart`);
   }
 
   saveSvg() {
@@ -169,12 +273,18 @@ export class HighChartResultPlot<T> extends ResultPlot<T> {
     }
   }
 
+  /** @inheritdoc */
   componentWillUnmount() {
+    if (super.componentWillUnmount) {
+      super.componentWillUnmount();
+    }
+
     if (this.chart !== undefined) {
       this.chart.destroy();
     }
   }
 
+  /** @inheritdoc */
   render() {
     return (
       <div>
@@ -184,7 +294,7 @@ export class HighChartResultPlot<T> extends ResultPlot<T> {
               title={this.title}
               description={this.description}
               downloadPng={this.saveSvg}
-              downloadCsv={() => {}}
+              downloadCsv={() => {}}    // tslint:disable-line:no-empty
             />
           </Col>
         </Row>
@@ -205,6 +315,7 @@ export class HighChartResultPlot<T> extends ResultPlot<T> {
             {this.state.status === WrapperStatus.Error &&
               <h3>There was an error: [error].</h3>
             }
+            {this.state.status === WrapperStatus.Success && this.props.children}
             <div id={`${this.constructor.name}-chart`} />
           </Col>
         </Row>
