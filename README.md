@@ -37,6 +37,8 @@ You will also see any lint errors in the console.
 
 Developer documentation can be found in [`docs/`](./docs/).
 
+MetaGenScope uses the GitFlow branching strategy along with Pull Requests for code reviews. Check out [this post](https://devblog.dwarvesf.com/post/git-best-practices/) by the Dwarves Foundation for more information.
+
 This project uses JSDoc, see their [Getting Started](http://usejsdoc.org/about-getting-started.html) page if you are unfamilair.
 
 ### Project Structure

@@ -75,9 +75,15 @@ workflows:
             context: org-global
       - build_emptyfish:
           context: org-global
+          filters:
+            branches:
+              only: develop
           requires:
             - run_tests
       - deploy_emptyfish:
           context: org-global
+          filters:
+            branches:
+              only: develop
           requires:
             - build_emptyfish
