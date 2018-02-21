@@ -1,8 +1,9 @@
 import * as React from 'react';
 import * as Highcharts from 'highcharts';
-import HighchartsExporting = require('highcharts/modules/exporting');
-import HighchartsOfflineExporting = require('highcharts/modules/offline-exporting');
-import HighchartsMore = require('highcharts/highcharts-more');
+
+const HighchartsMore = require('highcharts/highcharts-more'),
+      HighchartsExporting = require('highcharts/modules/exporting'),
+      HighchartsOfflineExporting = require('highcharts/modules/offline-exporting');
 HighchartsExporting(Highcharts);
 HighchartsOfflineExporting(Highcharts);
 HighchartsMore(Highcharts);
