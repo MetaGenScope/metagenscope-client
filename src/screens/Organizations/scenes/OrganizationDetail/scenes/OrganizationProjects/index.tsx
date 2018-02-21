@@ -14,10 +14,6 @@ interface OrganizationProjectsProps {
   sampleGroups: Array<AnalysisGroupType>;
 }
 
-const peopleFooter = (
-  <Button>Invite someone</Button>
-);
-
 const OrganizationProjects: React.SFC<OrganizationProjectsProps> = (props) => {
   return (
     <Row>
@@ -35,22 +31,27 @@ const OrganizationProjects: React.SFC<OrganizationProjectsProps> = (props) => {
         }
       </Col>
       <Col lg={4}>
-        <Panel footer={peopleFooter}>
-          <Link to={`/organizations/${props.slug}/people`} style={{display: 'block'}}>People
-            <span className="pull-right">{props.users.length} <Glyphicon glyph="chevron-right" /></span>
-          </Link>
-          <br />
-          <ul>
-            {
-              props.users.map((user, index) => {
-                return (
-                  <li key={index}>
-                    <Link to={`/organizations/${props.slug}/people/${user.username}`}>{user.username}</Link>
-                  </li>
-                );
-              })
-            }
-          </ul>
+        <Panel>
+          <Panel.Body>
+            <Link to={`/organizations/${props.slug}/people`} style={{display: 'block'}}>People
+              <span className="pull-right">{props.users.length} <Glyphicon glyph="chevron-right" /></span>
+            </Link>
+            <br />
+            <ul>
+              {
+                props.users.map((user, index) => {
+                  return (
+                    <li key={index}>
+                      <Link to={`/organizations/${props.slug}/people/${user.username}`}>{user.username}</Link>
+                    </li>
+                  );
+                })
+              }
+            </ul>
+          </Panel.Body>
+          <Panel.Footer>
+            <Button>Invite someone</Button>
+          </Panel.Footer>
         </Panel>
       </Col>
     </Row>

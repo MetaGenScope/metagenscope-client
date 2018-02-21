@@ -12,7 +12,8 @@ class PersonDetail extends React.Component<PersonDetailProps, {}> {
     return (
       <Row>
         <Col lg={3}>
-          <Panel header="Benjamin Chrobot">
+          <Panel>
+            <Panel.Heading>Benjamin Chrobot</Panel.Heading>
             <ListGroup fill={true}>
               <LinkContainer to={`/organizations/${this.props.orgSlug}/people/${this.props.username}`}>
                 <ListGroupItem>0 Projects</ListGroupItem>
@@ -26,7 +27,7 @@ class PersonDetail extends React.Component<PersonDetailProps, {}> {
           <Well className="text-center">
             <Glyphicon glyph="book" />
             <h4>No projects</h4>
-            <p>It doesn’t look like <strong>bchrobot</strong> has access to any projects yet.</p> 
+            <p>It doesn’t look like <strong>bchrobot</strong> has access to any projects yet.</p>
           </Well>
         </Col>
       </Row>

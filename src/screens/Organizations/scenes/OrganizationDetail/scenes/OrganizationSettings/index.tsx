@@ -14,25 +14,31 @@ export default class OrganizationSettings extends React.Component<OrganizationSe
     return (
       <Row>
         <Col lg={3}>
-          <Panel header="Organization Settings">
-            <ListGroup fill={true}>
-            <LinkContainer to={`/organizations/${this.props.slug}/settings/profile`}>
-                <ListGroupItem>Profile</ListGroupItem>
-              </LinkContainer>
-              <LinkContainer to={`/organizations/${this.props.slug}/settings/member_privileges`}>
-                <ListGroupItem>Member privileges</ListGroupItem>
-              </LinkContainer>
-              <LinkContainer to={`/organizations/${this.props.slug}/settings/projects`}>
-                <ListGroupItem>Projects</ListGroupItem>
-              </LinkContainer>
-            </ListGroup>
+          <Panel>
+            <Panel.Heading>Organization Settings</Panel.Heading>
+            <Panel.Body>
+              <ListGroup fill={true}>
+              <LinkContainer to={`/organizations/${this.props.slug}/settings/profile`}>
+                  <ListGroupItem>Profile</ListGroupItem>
+                </LinkContainer>
+                <LinkContainer to={`/organizations/${this.props.slug}/settings/member_privileges`}>
+                  <ListGroupItem>Member privileges</ListGroupItem>
+                </LinkContainer>
+                <LinkContainer to={`/organizations/${this.props.slug}/settings/projects`}>
+                  <ListGroupItem>Projects</ListGroupItem>
+                </LinkContainer>
+              </ListGroup>
+            </Panel.Body>
           </Panel>
-          <Panel header="Developer Settings">
-            <ListGroup fill={true}>
-              <LinkContainer to={`/organizations/${this.props.slug}/settings/tokens`}>
-                <ListGroupItem>API Tokens</ListGroupItem>
-              </LinkContainer>
-            </ListGroup>
+          <Panel>
+            <Panel.Heading>Developer Settings</Panel.Heading>
+            <Panel.Body>
+              <ListGroup fill={true}>
+                <LinkContainer to={`/organizations/${this.props.slug}/settings/tokens`}>
+                  <ListGroupItem>API Tokens</ListGroupItem>
+                </LinkContainer>
+              </ListGroup>
+            </Panel.Body>
           </Panel>
         </Col>
         <Col lg={9}>
@@ -85,5 +91,5 @@ export default class OrganizationSettings extends React.Component<OrganizationSe
         </Col>
       </Row>
     );
-  } 
+  }
 }

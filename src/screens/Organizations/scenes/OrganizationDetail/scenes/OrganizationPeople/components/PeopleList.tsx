@@ -34,14 +34,17 @@ const PeopleList: React.SFC<PeopleListProps> = (props) => {
   return (
     <Row>
       <Col lg={12}>
-        <Panel header="Select All">
-          <ListGroup fill={true} componentClass="ul">
-            {
-              props.people.map((user, index) => {
-                return <PersonRow key={index} orgSlug={props.orgSlug} user={user} />;
-              })
-            }
-          </ListGroup>
+        <Panel>
+          <Panel.Heading>Select All</Panel.Heading>
+          <Panel.Body>
+            <ListGroup fill={true} componentClass="ul">
+              {
+                props.people.map((user, index) => {
+                  return <PersonRow key={index} orgSlug={props.orgSlug} user={user} />;
+                })
+              }
+            </ListGroup>
+          </Panel.Body>
         </Panel>
       </Col>
     </Row>
