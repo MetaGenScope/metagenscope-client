@@ -9,7 +9,7 @@ import { AnalysisGroupType } from '../../../../../../services/api/models/analysi
 import { UserType } from '../../../../../../services/api/models/user';
 
 interface OrganizationProjectsProps {
-  slug: string;
+  uuid: string;
   users: Array<UserType>;
   sampleGroups: Array<AnalysisGroupType>;
 }
@@ -19,7 +19,7 @@ const OrganizationProjects: React.SFC<OrganizationProjectsProps> = (props) => {
     <Row>
       <Col lg={8}>
         {props.sampleGroups &&
-          <AnalysisGroupList groups={props.sampleGroups} organization={props.slug} />
+          <AnalysisGroupList groups={props.sampleGroups} organization={props.uuid} />
         }
         {!props.sampleGroups &&
           <Well className="text-center">
@@ -33,7 +33,7 @@ const OrganizationProjects: React.SFC<OrganizationProjectsProps> = (props) => {
       <Col lg={4}>
         <Panel>
           <Panel.Body>
-            <Link to={`/organizations/${props.slug}/people`} style={{display: 'block'}}>People
+            <Link to={`/organizations/${props.uuid}/people`} style={{display: 'block'}}>People
               <span className="pull-right">{props.users.length} <Glyphicon glyph="chevron-right" /></span>
             </Link>
             <br />
@@ -42,7 +42,7 @@ const OrganizationProjects: React.SFC<OrganizationProjectsProps> = (props) => {
                 props.users.map((user, index) => {
                   return (
                     <li key={index}>
-                      <Link to={`/organizations/${props.slug}/people/${user.username}`}>{user.username}</Link>
+                      <Link to={`/organizations/${props.uuid}/people/${user.username}`}>{user.username}</Link>
                     </li>
                   );
                 })

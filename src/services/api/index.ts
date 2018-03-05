@@ -55,7 +55,7 @@ export const getOrganizations = function() {
       const rawOrganizations = res.data.data.organizations as Array<JsonOrganizationType>;
       const organizations: Array<OrganizationType> = rawOrganizations.map((organization) => {
         return {
-          id: organization.slug,
+          uuid: organization.uuid,
           name: organization.name,
           adminEmail: organization.admin_email,
           users: organization.users.users,
@@ -66,9 +66,9 @@ export const getOrganizations = function() {
     });
 };
 
-export const getOrganization = function(slug: string) {
+export const getOrganization = function(uuid: string) {
   const options = {
-    url: `${API_BASE_URL}/organizations/${slug}`,
+    url: `${API_BASE_URL}/organizations/${uuid}`,
     method: 'get',
     headers: {
       'Content-Type': 'application/json',
@@ -84,7 +84,7 @@ export const getOrganization = function(slug: string) {
         return group;
       });
       const organization = {
-        id: rawOrganization.slug,
+        uuid: rawOrganization.uuid,
         name: rawOrganization.name,
         adminEmail: rawOrganization.admin_email,
         users: rawOrganization.users.users,
@@ -110,9 +110,9 @@ export const getUserStatus = function() {
     });
 };
 
-export const getAnalysisGroup = function(slug: string) {
+export const getAnalysisGroup = function(uuid: string) {
   const options = {
-    url: `${API_BASE_URL}/sample_group/${slug}`,
+    url: `${API_BASE_URL}/sample_group/${uuid}`,
     method: 'get',
     headers: {
       'Content-Type': 'application/json',
@@ -123,7 +123,7 @@ export const getAnalysisGroup = function(slug: string) {
   return axios(options)
     .then((res) => {
       const sampleGroup: AnalysisGroupType = {
-        slug: res.data.data.sample_group.slug,
+        uuid: res.data.data.sample_group.uuid,
         name: res.data.data.sample_group.name,
         queryResultId: res.data.data.sample_group.query_result_id,
         description: '[description not supported yet]',
@@ -132,9 +132,9 @@ export const getAnalysisGroup = function(slug: string) {
     });
 };
 
-export const getQueryResults = function(id: string) {
+export const getQueryResults = function(uuid: string) {
   const options = {
-    url: `${API_BASE_URL}/query_results/${id}`,
+    url: `${API_BASE_URL}/query_results/${uuid}`,
     method: 'get',
     headers: {
       'Content-Type': 'application/json',

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { UserType } from '../../../../../../../services/api/models/user';
 
 interface PersonRowProps {
-  orgSlug: string;
+  orguuid: string;
   user: UserType;
 }
 
@@ -18,7 +18,7 @@ const PersonRow: React.SFC<PersonRowProps> = (props) => {
           <MenuItem eventKey="2" style={{color: 'red'}}>Remove from organization</MenuItem>
         </DropdownButton>
       </span>
-      <p><Link to={`/organizations/${props.orgSlug}/people/${props.user.username}`}>
+      <p><Link to={`/organizations/${props.orguuid}/people/${props.user.username}`}>
         {props.user.username}
       </Link></p>
     </li>
@@ -26,7 +26,7 @@ const PersonRow: React.SFC<PersonRowProps> = (props) => {
 };
 
 interface PeopleListProps {
-  orgSlug: string;
+  orguuid: string;
   people: Array<UserType>;
 }
 
@@ -40,7 +40,7 @@ const PeopleList: React.SFC<PeopleListProps> = (props) => {
             <ListGroup fill={true} componentClass="ul">
               {
                 props.people.map((user, index) => {
-                  return <PersonRow key={index} orgSlug={props.orgSlug} user={user} />;
+                  return <PersonRow key={index} orguuid={props.orguuid} user={user} />;
                 })
               }
             </ListGroup>
