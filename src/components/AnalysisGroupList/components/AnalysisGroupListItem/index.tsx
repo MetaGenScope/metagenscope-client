@@ -12,7 +12,7 @@ class AnalysisGroupListItem extends React.Component<Prop, {}> {
   render() {
     return (
       <li className="analysis-group-list-item">
-        <Link to={`/analysis-groups/${this.props.group.slug}`}>
+        <Link to={`/analysis-groups/${this.props.group.uuid}`}>
           <h4>{this.props.group.name}</h4>
         </Link>
         <p>{this.props.group.description}</p>

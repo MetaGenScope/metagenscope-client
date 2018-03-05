@@ -11,10 +11,10 @@ const AnalysisGroups: React.SFC<PersonRowProps> = (props) => {
   return (
     <Switch>
       <Route
-        path="/analysis-groups/:slug"
+        path="/analysis-groups/:uuid"
         render={(routeProps) => (
           <AnalysisGroupDetail
-            groupSlug={routeProps.match.params.slug}
+            groupUUID={routeProps.match.params.uuid}
           />
         )}
       />

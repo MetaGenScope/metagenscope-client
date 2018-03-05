@@ -52,7 +52,7 @@ class OrganizationsList extends React.Component<{}, OrganizationsState> {
                 this.state.organizations.map((organization, index) => {
                   return (
                     <tr key={index}>
-                      <td><Link to={`/organizations/${organization.id}`}>{organization.name}</Link></td>
+                      <td><Link to={`/organizations/${organization.uuid}`}>{organization.name}</Link></td>
                       <td>{organization.adminEmail}</td>
                     </tr>
                   );

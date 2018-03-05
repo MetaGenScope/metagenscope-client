@@ -2,14 +2,14 @@ import { UserType } from './user';
 import { AnalysisGroupType } from './analysisGroup';
 
 export interface OrganizationType {
-  id: string;
+  uuid: string;
   name: string;
   adminEmail: string;
   users: Array<UserType>;
   sampleGroups: Array<AnalysisGroupType>;
 }
 export interface JsonOrganizationType {
-  slug: string;
+  uuid: string;
   name: string;
   admin_email: string;
   users: {

@@ -3,7 +3,7 @@ import { Row, Col, Panel, Button, ListGroup, ListGroupItem, Well, Glyphicon } fr
 import { LinkContainer } from 'react-router-bootstrap';
 
 interface PersonDetailProps {
-  orgSlug: string;
+  orguuid: string;
   username: string;
 }
 
@@ -15,7 +15,7 @@ class PersonDetail extends React.Component<PersonDetailProps, {}> {
           <Panel>
             <Panel.Heading>Benjamin Chrobot</Panel.Heading>
             <ListGroup fill={true}>
-              <LinkContainer to={`/organizations/${this.props.orgSlug}/people/${this.props.username}`}>
+              <LinkContainer to={`/organizations/${this.props.orguuid}/people/${this.props.username}`}>
                 <ListGroupItem>0 Projects</ListGroupItem>
               </LinkContainer>
               <ListGroupItem>Membership</ListGroupItem>

@@ -35,7 +35,7 @@ const AnalysisGroupList: React.SFC<AnalysisGroupList> = (props) => {
 };
 
 interface AnalysisGroupDetailProps {
-  groupSlug: string;
+  groupUUID: string;
 }
 
 interface AnalysisGroupDetailState {
@@ -57,7 +57,7 @@ class AnalysisGroupDetail extends React.Component<AnalysisGroupDetailProps, Anal
   }
 
   componentDidMount() {
-    getAnalysisGroup(this.props.groupSlug)
+    getAnalysisGroup(this.props.groupUUID)
       .then((group) => {
         this.setState({ group });
         return group;
