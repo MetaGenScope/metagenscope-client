@@ -112,7 +112,7 @@ export const getUserStatus = function() {
 
 export const getAnalysisGroup = function(uuid: string) {
   const options = {
-    url: `${API_BASE_URL}/sample_group/${uuid}`,
+    url: `${API_BASE_URL}/sample_groups/${uuid}`,
     method: 'get',
     headers: {
       'Content-Type': 'application/json',
@@ -125,7 +125,7 @@ export const getAnalysisGroup = function(uuid: string) {
       const sampleGroup: AnalysisGroupType = {
         uuid: res.data.data.sample_group.uuid,
         name: res.data.data.sample_group.name,
-        queryResultId: res.data.data.sample_group.query_result_id,
+        analysisResultId: res.data.data.sample_group.analysis_result_id,
         description: '[description not supported yet]',
       };
       return sampleGroup;
@@ -134,7 +134,7 @@ export const getAnalysisGroup = function(uuid: string) {
 
 export const getQueryResults = function(uuid: string) {
   const options = {
-    url: `${API_BASE_URL}/query_results/${uuid}`,
+    url: `${API_BASE_URL}/analysis_results/${uuid}`,
     method: 'get',
     headers: {
       'Content-Type': 'application/json',
@@ -150,7 +150,7 @@ export const getQueryResults = function(uuid: string) {
 
 export const getSampleSimilarity = function(id: string) {
   const options = {
-    url: `${API_BASE_URL}/query_results/${id}/sample_similarity`,
+    url: `${API_BASE_URL}/analysis_results/${id}/sample_similarity`,
     method: 'get',
     headers: {
       'Content-Type': 'application/json',
@@ -166,7 +166,7 @@ export const getSampleSimilarity = function(id: string) {
 
 export const getTaxonAbundance = function(id: string) {
   const options = {
-    url: `${API_BASE_URL}/query_results/${id}/taxon_abundance`,
+    url: `${API_BASE_URL}/analysis_results/${id}/taxon_abundance`,
     method: 'get',
     headers: {
       'Content-Type': 'application/json',
@@ -182,7 +182,7 @@ export const getTaxonAbundance = function(id: string) {
 
 export const getReadsClassified = function(id: string) {
   const options = {
-    url: `${API_BASE_URL}/query_results/${id}/reads_classified`,
+    url: `${API_BASE_URL}/analysis_results/${id}/reads_classified`,
     method: 'get',
     headers: {
       'Content-Type': 'application/json',
@@ -198,7 +198,7 @@ export const getReadsClassified = function(id: string) {
 
 export const getHMP = function(id: string) {
   const options = {
-    url: `${API_BASE_URL}/query_results/${id}/hmp`,
+    url: `${API_BASE_URL}/analysis_results/${id}/hmp`,
     method: 'get',
     headers: {
       'Content-Type': 'application/json',

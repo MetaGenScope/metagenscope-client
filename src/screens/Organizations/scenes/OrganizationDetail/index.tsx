@@ -75,7 +75,7 @@ class OrganizationDetail extends React.Component<OrganizationsProps, Organizatio
             <Row>
               <Nav bsStyle="tabs" activeKey="1">
                 <LinkContainer to={`/organizations/${this.props.uuid}`} exact={true}>
-                  <NavItem eventKey="1"><Glyphicon glyph="star" /> Analysis Groups <Badge>
+                  <NavItem eventKey="1"><Glyphicon glyph="star" /> Sample Groups <Badge>
                     {this.state.organization.sampleGroups.length}
                   </Badge></NavItem>
                 </LinkContainer>
