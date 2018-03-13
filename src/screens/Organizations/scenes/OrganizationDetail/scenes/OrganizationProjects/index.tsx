@@ -23,7 +23,7 @@ const OrganizationProjects: React.SFC<OrganizationProjectsProps> = (props) => {
         }
         {!props.sampleGroups &&
           <Well className="text-center">
-            <h4>This organization has no analysis groups.</h4>
+            <h4>This organization has no sample groups.</h4>
             <LinkContainer to="#">
               <Button bsStyle="success">New Analysis Group</Button>
             </LinkContainer>

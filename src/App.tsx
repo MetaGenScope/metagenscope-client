@@ -107,7 +107,7 @@ class App extends React.Component<{}, AppState> {
             )}
           />
           <Route
-            path="/analysis-groups"
+            path="/sample-groups"
             render={() => (
               <AnalysisGroups
                 isAuthenticated={this.state.isAuthenticated}

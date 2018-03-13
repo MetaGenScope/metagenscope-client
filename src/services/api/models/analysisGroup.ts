@@ -1,6 +1,6 @@
 export interface AnalysisGroupType {
   uuid: string;
   name: string;
-  queryResultId: string;
+  analysisResultId: string;
   description: string;
 }

@@ -63,7 +63,7 @@ class AnalysisGroupDetail extends React.Component<AnalysisGroupDetailProps, Anal
         return group;
       })
       .then((group) => {
-        return getQueryResults(group.queryResultId);
+        return getQueryResults(group.analysisResultId);
       })
       .then((queryResults) => {
         this.setState({ queryResults });
