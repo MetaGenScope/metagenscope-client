@@ -1,4 +1,4 @@
-export interface AnalysisGroupType {
+export interface SampleGroupType {
   uuid: string;
   name: string;
   analysisResultId: string;

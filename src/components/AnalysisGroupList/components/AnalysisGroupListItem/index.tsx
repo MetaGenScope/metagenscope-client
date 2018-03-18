@@ -1,10 +1,10 @@
 import * as React from 'react';
 
-import { AnalysisGroupType } from '../../../../services/api/models/analysisGroup';
+import { SampleGroupType } from '../../../../services/api/models/analysisGroup';
 import { Link } from 'react-router-dom';
 
 interface Prop {
-  group: AnalysisGroupType;
+  group: SampleGroupType;
   organization: string;
 }
 

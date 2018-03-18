@@ -2,9 +2,9 @@ import axios from 'axios';
 
 import { API_BASE_URL } from './utils';
 import { JsonOrganizationType, OrganizationType } from './models/organization';
-import { AnalysisGroupType } from './models/analysisGroup';
+import { SampleGroupType } from './models/analysisGroup';
 import {
-  QueryResultType,
+  AnalysisResultType,
   QueryResultWrapper,
   SampleSimilarityResultType,
   TaxonAbundanceResultType,
@@ -79,16 +79,17 @@ export const getOrganization = function(uuid: string) {
   return axios(options)
     .then((res) => {
       const rawOrganization = res.data.data.organization as JsonOrganizationType;
-      const sampleGroups = rawOrganization.sample_groups.sample_groups.map(group => {
-        group.description = 'Lorem ipsum description.';
-        return group;
-      });
+      for (let i = 0; i < rawOrganization.sample_groups.sample_groups.length; i++) {
+        const analysisUUID = res.data.data.organization.sample_groups.sample_groups[i].analysis_result_id;
+        rawOrganization.sample_groups.sample_groups[i].analysisResultId = analysisUUID;
+        rawOrganization.sample_groups.sample_groups[i].description = 'Lorem ipsum description.';
+      }
       const organization = {
         uuid: rawOrganization.uuid,
         name: rawOrganization.name,
         adminEmail: rawOrganization.admin_email,
         users: rawOrganization.users.users,
-        sampleGroups: sampleGroups,
+        sampleGroups: rawOrganization.sample_groups.sample_groups,
       };
       return organization;
     });
@@ -110,7 +111,7 @@ export const getUserStatus = function() {
     });
 };
 
-export const getAnalysisGroup = function(uuid: string) {
+export const getSampleGroup = function(uuid: string) {
   const options = {
     url: `${API_BASE_URL}/sample_groups/${uuid}`,
     method: 'get',
@@ -122,17 +123,17 @@ export const getAnalysisGroup = function(uuid: string) {
 
   return axios(options)
     .then((res) => {
-      const sampleGroup: AnalysisGroupType = {
+      const sampleGroup: SampleGroupType = {
         uuid: res.data.data.sample_group.uuid,
         name: res.data.data.sample_group.name,
-        analysisResultId: res.data.data.sample_group.analysis_result_id,
+        analysisResultId: res.data.data.sample_group.analysis_result_uuid,
         description: '[description not supported yet]',
       };
       return sampleGroup;
     });
 };
 
-export const getQueryResults = function(uuid: string) {
+export const getAnalysisResults = function(uuid: string) {
   const options = {
     url: `${API_BASE_URL}/analysis_results/${uuid}`,
     method: 'get',
@@ -144,7 +145,7 @@ export const getQueryResults = function(uuid: string) {
 
   return axios(options)
     .then((res) => {
-      return res.data.data as QueryResultType;
+      return res.data.data.analysis_result as AnalysisResultType;
     });
 };
 

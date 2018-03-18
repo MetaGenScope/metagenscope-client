@@ -5,13 +5,13 @@ import { Row, Col, Well, Panel, Button, Glyphicon } from 'react-bootstrap';
 
 import AnalysisGroupList from '../../../../../../components/AnalysisGroupList';
 
-import { AnalysisGroupType } from '../../../../../../services/api/models/analysisGroup';
+import { SampleGroupType } from '../../../../../../services/api/models/analysisGroup';
 import { UserType } from '../../../../../../services/api/models/user';
 
 interface OrganizationProjectsProps {
   uuid: string;
   users: Array<UserType>;
-  sampleGroups: Array<AnalysisGroupType>;
+  sampleGroups: Array<SampleGroupType>;
 }
 
 const OrganizationProjects: React.SFC<OrganizationProjectsProps> = (props) => {

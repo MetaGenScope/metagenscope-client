@@ -7,7 +7,7 @@ interface PersonRowProps {
   isAuthenticated: boolean;
 }
 
-const AnalysisGroups: React.SFC<PersonRowProps> = (props) => {
+const SampleGroups: React.SFC<PersonRowProps> = (props) => {
   return (
     <Switch>
       <Route
@@ -22,4 +22,4 @@ const AnalysisGroups: React.SFC<PersonRowProps> = (props) => {
   );
 };
 
-export default AnalysisGroups;
+export default SampleGroups;
