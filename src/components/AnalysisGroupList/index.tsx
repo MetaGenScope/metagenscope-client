@@ -1,13 +1,13 @@
 import * as React from 'react';
 
-import { AnalysisGroupType } from '../../services/api/models/analysisGroup';
+import { SampleGroupType } from '../../services/api/models/analysisGroup';
 
 import AnalysisGroupListItem from './components/AnalysisGroupListItem';
 
 import './analysisGroupList.css';
 
 interface Prop {
-    groups: Array<AnalysisGroupType>;
+    groups: Array<SampleGroupType>;
     organization: string;
 }
 

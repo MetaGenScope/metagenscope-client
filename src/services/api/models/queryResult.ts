@@ -47,8 +47,7 @@ export interface QueryResultWrapper<T> {
   data?: T;
 }
 
-export interface QueryResultType {
-  id: string;
-  sample_group_id: string;
+export interface AnalysisResultType {
+  uuid: string;
   result_types: string[];
 }

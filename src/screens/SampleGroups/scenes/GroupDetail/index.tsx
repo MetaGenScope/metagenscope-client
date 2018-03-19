@@ -2,9 +2,9 @@ import * as React from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { Helmet } from 'react-helmet';
 
-import { getAnalysisGroup, getQueryResults } from '../../../../services/api';
-import { AnalysisGroupType } from '../../../../services/api/models/analysisGroup';
-import { QueryResultType } from '../../../../services/api/models/queryResult';
+import { getSampleGroup, getAnalysisResults } from '../../../../services/api';
+import { SampleGroupType } from '../../../../services/api/models/analysisGroup';
+import { AnalysisResultType } from '../../../../services/api/models/queryResult';
 
 import { SampleSimilarity } from '../../../../components/SampleSimilarity';
 import { TaxonAbundance } from '../../../../components/TaxonAbundance';
@@ -12,23 +12,23 @@ import { HMPPlot } from '../../../../components/HMPPlot';
 import { ReadsClassifiedPlot } from '../../../../components/ReadsClassified';
 
 interface AnalysisGroupList {
-  queryResult: QueryResultType;
+  queryResult: AnalysisResultType;
 }
 
 const AnalysisGroupList: React.SFC<AnalysisGroupList> = (props) => {
   return (
     <div>
       {props.queryResult.result_types.indexOf('sample_similarity') > -1 &&
-        <SampleSimilarity id={props.queryResult.id} />
+        <SampleSimilarity id={props.queryResult.uuid} />
       }
       {props.queryResult.result_types.indexOf('taxon_abundance') > -1 &&
-        <TaxonAbundance id={props.queryResult.id} />
+        <TaxonAbundance id={props.queryResult.uuid} />
       }
       {props.queryResult.result_types.indexOf('reads_classified') > -1 &&
-        <ReadsClassifiedPlot id={props.queryResult.id} />
+        <ReadsClassifiedPlot id={props.queryResult.uuid} />
       }
       {props.queryResult.result_types.indexOf('hmp') > -1 &&
-        <HMPPlot id={props.queryResult.id} />
+        <HMPPlot id={props.queryResult.uuid} />
       }
     </div>
   );
@@ -39,8 +39,8 @@ interface AnalysisGroupDetailProps {
 }
 
 interface AnalysisGroupDetailState {
-  group?: AnalysisGroupType;
-  queryResults?: QueryResultType;
+  group?: SampleGroupType;
+  queryResults?: AnalysisResultType;
   error?: string;
 }
 
@@ -57,13 +57,13 @@ class AnalysisGroupDetail extends React.Component<AnalysisGroupDetailProps, Anal
   }
 
   componentDidMount() {
-    getAnalysisGroup(this.props.groupUUID)
+    getSampleGroup(this.props.groupUUID)
       .then((group) => {
         this.setState({ group });
         return group;
       })
       .then((group) => {
-        return getQueryResults(group.analysisResultId);
+        return getAnalysisResults(group.analysisResultId);
       })
       .then((queryResults) => {
         this.setState({ queryResults });
