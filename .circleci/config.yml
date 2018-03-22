@@ -28,7 +28,7 @@ jobs:
 
       - run:
           name: Install node dependencies
-          command: typings install
+          command: ./node_modules/.bin/typings install
 
       - run:
           name: Lint client
