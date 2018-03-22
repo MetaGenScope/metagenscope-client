@@ -27,7 +27,7 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       - run:
-          name: Install node dependencies
+          name: Install typings dependencies
           command: ./node_modules/.bin/typings install
 
       - run:
