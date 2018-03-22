@@ -21,12 +21,12 @@ jobs:
           name: Lint client
           command: npm run lint
 
-  build_emptyfish:
+  build_staging:
     docker:
       - image: circleci/node:9.2.0
 
     environment:
-      TAG: emptyfish
+      TAG: staging
       DOCKER_ORG: metagenscope
       REACT_APP_METAGENSCOPE_SERVICE_URL: https://www.emptyfish.net
 
@@ -53,7 +53,7 @@ jobs:
             docker tag $CLIENT_SERVICE:$COMMIT $DOCKER_ORG/$CLIENT_SERVICE:$TAG
             docker push $DOCKER_ORG/$CLIENT_SERVICE
 
-  deploy_emptyfish:
+  deploy_staging:
     docker:
       - image: circleci/node:9.2.0
 
@@ -73,17 +73,17 @@ workflows:
     jobs:
       - run_tests:
             context: org-global
-      - build_emptyfish:
+      - build_staging:
           context: org-global
           filters:
             branches:
               only: develop
           requires:
             - run_tests
-      - deploy_emptyfish:
+      - deploy_staging:
           context: org-global
           filters:
             branches:
               only: develop
           requires:
-            - build_emptyfish
+            - build_staging
