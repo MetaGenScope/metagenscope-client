@@ -1,0 +1,31 @@
+/* Scatter */
+.axis path, .axis line {
+  fill: none;
+  shape-rendering: crispEdges;
+  stroke: #B3B3B3;
+}
+
+.axis text {
+  font-size: 10px;
+  fill: #6B6B6B;
+}
+
+.dots .dot {
+  opacity: 0.7;
+}
+
+.dots.focused .dot {
+  opacity: 0.1;
+}
+
+.dots.focused .dot.focused {
+  opacity: 0.7;
+}
+
+.scatter-tooltip {
+  position: absolute;
+  pointer-events: none;
+  padding: 10px;
+  background: #EEEEEE;
+  border-radius: 5px;
+}
