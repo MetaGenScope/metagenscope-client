@@ -2,23 +2,25 @@ import * as React from 'react';
 
 import * as Highcharts from 'highcharts';
 
-const HighchartsExporting = require('highcharts/modules/exporting'),
+const HighchartsMore = require('highcharts/highcharts-more'),
+      HighchartsExporting = require('highcharts/modules/exporting'),
       HighchartsOfflineExporting = require('highcharts/modules/offline-exporting');
 HighchartsExporting(Highcharts);
 HighchartsOfflineExporting(Highcharts);
+HighchartsMore(Highcharts);
 
-export interface HighChartsPlotProps<T> {
-  data: T;
+export interface HighChartsPlotProps {
+  options: Highcharts.Options;
+  chartId: string;
 }
 
-export default class HighChartsPlot extends React.Component<{options: Highcharts.Options}, {}> {
+export default class HighChartsPlot extends React.Component<HighChartsPlotProps, {}> {
 
-  chart: Highcharts.ChartObject;
-  protected chartId: string;
+  protected chart: Highcharts.ChartObject;
 
   /** @inheritdoc */
   componentDidMount() {
-    this.chart = Highcharts.chart(`${this.chartId}-chart`, this.props.options);
+    this.chart = Highcharts.chart(`${this.props.chartId}-chart`, this.props.options);
   }
 
   /** @inheritdoc */
@@ -34,6 +36,6 @@ export default class HighChartsPlot extends React.Component<{options: Highcharts
 
   /** @inheritdoc */
   render() {
-    return <div id={`${this.chartId}-chart`} />;
+    return <div id={`${this.props.chartId}-chart`} />;
   }
 }

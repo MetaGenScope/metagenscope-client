@@ -55,7 +55,7 @@ const ReadsClassifiedContainer: React.SFC<{data: ReadsClassifiedType}> = (props)
     series,
   };
 
-  return <HighChartsPlot options={chartOptions} />;
+  return <HighChartsPlot chartId="reads-classified" options={chartOptions} />;
 };
 
 export default ReadsClassifiedContainer;
