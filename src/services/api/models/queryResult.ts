@@ -19,9 +19,19 @@ export interface TaxonAbundanceResultType {
 }
 
 export interface SampleSimilarityResultType {
-  categories: object;
-  tools: object;
-  data_records: object[];
+  categories: {
+    [key: string]: string[];
+  };
+  tools: {
+    [key: string]: {
+      x_label: string;
+      y_label: string;
+    };
+  };
+  data_records: {
+    // tslint:disable-next-line no-any
+    [index: string]: any;
+  }[];
 }
 
 export interface HMPResultType {
