@@ -1,12 +1,14 @@
 import * as React from 'react';
 
+import { D3DisplayContainer } from '../components/DisplayContainer/d3';
+import { DisplayContainerProps } from '../components/DisplayContainer';
+import TaxonAbundancePlot from '../plots/TaxonAbundancePlot';
 import { TaxonAbundanceResultType } from '../../services/api/models/queryResult';
 import { getTaxonAbundance } from '../../services/api';
-import { D3ResultPlot } from '../ResultPlot';
-import { TaxonPlot } from './components/TaxonPlot';
 
-export class TaxonAbundance extends D3ResultPlot<TaxonAbundanceResultType> {
-  constructor(props: { id: string }) {
+export class TaxonAbundanceModule extends D3DisplayContainer<TaxonAbundanceResultType> {
+
+  constructor(props: DisplayContainerProps) {
     super(props);
 
     this.title = 'Taxon Abundance';
@@ -20,11 +22,13 @@ export class TaxonAbundance extends D3ResultPlot<TaxonAbundanceResultType> {
     );
   }
 
+  /** @inheritdoc */
   fetchData() {
-    return getTaxonAbundance(this.props.id);
+    return getTaxonAbundance(this.props.uuid);
   }
 
-  renderPlot(data: TaxonAbundanceResultType) {
-    return <TaxonPlot data={data} svgRef={el => this.svgCanvas = el} />;
+  /** @inheritdoc */
+  plotContainer(data: TaxonAbundanceResultType): JSX.Element {
+    return <TaxonAbundancePlot data={data} svgRef={el => this.svgCanvas = el} />;
   }
 }

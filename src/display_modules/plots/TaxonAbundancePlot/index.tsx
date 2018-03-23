@@ -1,17 +1,17 @@
 import * as React from 'react';
 
 import { Data, createTaxonAbundance } from './util/taxon';
-import { SvgRefProps } from '../../../ResultPlot/index';
+import { SvgRefProps } from '../../components/DisplayContainer';
 
 import './style.css';
 
-export interface TaxonPlotDataType extends Data {}
+export type TaxonAbundanceData = Data;
 
-export interface TaxonPlotProps extends SvgRefProps {
-  data: TaxonPlotDataType;
+export interface TaxonAbundancePlotProps extends SvgRefProps {
+  data: TaxonAbundanceData;
 }
 
-export class TaxonPlot extends React.Component<TaxonPlotProps, {}> {
+export default class TaxonAbundancePlot extends React.Component<TaxonAbundancePlotProps, {}> {
   private rootDiv: HTMLDivElement | null;
   private scatterSVG: SVGSVGElement | null;
 
@@ -19,14 +19,14 @@ export class TaxonPlot extends React.Component<TaxonPlotProps, {}> {
     this.renderScatter(this.props);
   }
 
-  shouldComponentUpdate(nextProps: TaxonPlotProps) {
+  shouldComponentUpdate(nextProps: TaxonAbundancePlotProps) {
     // TODO: Animate this change
     this.renderScatter(nextProps);
 
     return false;
   }
 
-  renderScatter(props: TaxonPlotProps) {
+  renderScatter(props: TaxonAbundancePlotProps) {
     if (this.rootDiv !== null && this.scatterSVG !== null) {
       createTaxonAbundance(this.rootDiv, this.scatterSVG, props.data);
     }

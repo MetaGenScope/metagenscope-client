@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Row, Col } from 'react-bootstrap';
-import { saveSvgAsPng } from 'save-svg-as-png';
 
 import { QueryResultWrapper, QueryResultStatus } from '../../services/api/models/queryResult';
 
@@ -172,80 +171,6 @@ export class ResultPlot<T> extends React.Component<WrapperProps, WrapperState<T>
         // no-op; enumeration is exhaustive
         break;
     }
-  }
-}
-
-/** Class for front-end display module using custom D3 graphics. */
-export class D3ResultPlot<T> extends ResultPlot<T> {
-
-  protected svgCanvas: SVGSVGElement | null;
-
-  constructor(props: WrapperProps) {
-    super(props);
-
-    this.saveSvg = this.saveSvg.bind(this);
-  }
-
-  /**
-   * Execute custom D3 code to render result data.
-   * @param data - The successfully fetched data specific to this display module.
-   */
-  renderPlot(data: T): React.ReactNode {
-    throw new Error('Subclass should override!');
-  }
-
-  /** Generate and save png from SVG element. */
-  saveSvg() {
-    if (this.svgCanvas === null || this.svgCanvas === undefined) {
-      throw new Error('Missing svgCanvas! Did you forget to pass down \'svgRef\'?');
-    }
-
-    saveSvgAsPng(this.svgCanvas, 'plot.png');
-  }
-
-  /** @inheritdoc */
-  handleData(data: T) {
-    this.setState({ data });
-  }
-
-  /** @inheritdoc */
-  render() {
-    return (
-      <div>
-        <Row>
-          <Col lg={12}>
-            <PlotHeader
-              title={this.title}
-              description={this.description}
-              downloadPng={this.saveSvg}
-              downloadCsv={() => {}}    // tslint:disable-line:no-empty
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col lg={12}>
-          {this.state.status === WrapperStatus.Loading &&
-            <div>
-              <h3>Fetching result...</h3>
-              <PlotLoader percentComplete={25} />
-            </div>
-          }
-          {this.state.status === WrapperStatus.Pending &&
-            <h3>Query result in queue to be processed.</h3>
-          }
-          {this.state.status === WrapperStatus.Working &&
-            <h3>Query result still processing.</h3>
-          }
-          {this.state.status === WrapperStatus.Error &&
-            <h3>There was an error: [error].</h3>
-          }
-          {this.state.status === WrapperStatus.Success && this.state.data &&
-            this.renderPlot(this.state.data)
-          }
-          </Col>
-        </Row>
-      </div>
-    );
   }
 }
 

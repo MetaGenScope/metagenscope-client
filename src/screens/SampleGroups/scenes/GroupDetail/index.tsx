@@ -6,10 +6,10 @@ import { getSampleGroup, getAnalysisResults } from '../../../../services/api';
 import { SampleGroupType } from '../../../../services/api/models/analysisGroup';
 import { AnalysisResultType } from '../../../../services/api/models/queryResult';
 
-import { TaxonAbundance } from '../../../../components/TaxonAbundance';
 import { HMPPlot } from '../../../../components/HMPPlot';
 import { ReadsClassifiedPlot } from '../../../../components/ReadsClassified';
 import { SampleSimilarityModule } from '../../../../display_modules/SampleSimilarity';
+import { TaxonAbundanceModule } from '../../../../display_modules/TaxonAbundance';
 
 interface AnalysisGroupList {
   queryResult: AnalysisResultType;
@@ -22,7 +22,7 @@ const AnalysisGroupList: React.SFC<AnalysisGroupList> = (props) => {
         <SampleSimilarityModule uuid={props.queryResult.uuid} />
       }
       {props.queryResult.result_types.indexOf('taxon_abundance') > -1 &&
-        <TaxonAbundance id={props.queryResult.uuid} />
+        <TaxonAbundanceModule uuid={props.queryResult.uuid} />
       }
       {props.queryResult.result_types.indexOf('reads_classified') > -1 &&
         <ReadsClassifiedPlot id={props.queryResult.uuid} />
