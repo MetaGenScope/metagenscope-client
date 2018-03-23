@@ -7,9 +7,9 @@ import { SampleGroupType } from '../../../../services/api/models/analysisGroup';
 import { AnalysisResultType } from '../../../../services/api/models/queryResult';
 
 import { HMPPlot } from '../../../../components/HMPPlot';
-import { ReadsClassifiedPlot } from '../../../../components/ReadsClassified';
 import { SampleSimilarityModule } from '../../../../display_modules/SampleSimilarity';
 import { TaxonAbundanceModule } from '../../../../display_modules/TaxonAbundance';
+import { ReadsClassifiedModule } from '../../../../display_modules/ReadsClassified';
 
 interface AnalysisGroupList {
   queryResult: AnalysisResultType;
@@ -25,7 +25,7 @@ const AnalysisGroupList: React.SFC<AnalysisGroupList> = (props) => {
         <TaxonAbundanceModule uuid={props.queryResult.uuid} />
       }
       {props.queryResult.result_types.indexOf('reads_classified') > -1 &&
-        <ReadsClassifiedPlot id={props.queryResult.uuid} />
+        <ReadsClassifiedModule uuid={props.queryResult.uuid} />
       }
       {props.queryResult.result_types.indexOf('hmp') > -1 &&
         <HMPPlot id={props.queryResult.uuid} />

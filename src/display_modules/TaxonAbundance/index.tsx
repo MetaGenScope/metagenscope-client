@@ -30,6 +30,7 @@ export class TaxonAbundanceModule extends D3DisplayContainer<TaxonAbundanceResul
 
   /** @inheritdoc */
   plotContainer(data: TaxonAbundanceResultType): JSX.Element {
+    // Plot has no controls so we do not need a container to manage controls state
     return <TaxonAbundancePlot data={data} svgRef={el => this.svgCanvas = el} />;
   }
 }
