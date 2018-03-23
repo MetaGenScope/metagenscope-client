@@ -12,14 +12,10 @@ export class ReadsClassifiedModule extends DisplayContainer<ReadsClassifiedType>
   constructor(props: DisplayContainerProps) {
     super(props);
 
-    this.title = 'Taxon Abundance';
+    this.title = 'Reads Classified';
     this.description = (
-      <div>
-        <p>This plot shows the relative abundance of each different microbes found in {' '}
-          each sample</p>
-        <p>Hover over the plot to highlight connections. Thicker connections represent {' '}
-          larger proportions of taxa in a given sample.</p>
-      </div>
+      <p>This chart shows the proportion of reads in each sample {' '}
+        assigned to different groups.</p>
     );
   }
 
