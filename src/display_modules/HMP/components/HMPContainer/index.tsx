@@ -1,9 +1,12 @@
 import * as React from 'react';
 import * as Highcharts from 'highcharts';
+import { Row, Col } from 'react-bootstrap';
 
 import HighChartsPlot from '../../../plots/HighChartsPlot';
 
 import { HMPResultType } from '../../../../services/api/models/queryResult';
+
+import HMPControls from './components/HMPControls';
 
 export interface HMPProps {
   data: HMPResultType;
@@ -19,13 +22,20 @@ export class HMPContainer extends React.Component<HMPProps, HMPState> {
     super(props);
 
     this.handleCategoryChange = this.handleCategoryChange.bind(this);
+    this.handleColorByCategoryChanged = this.handleColorByCategoryChanged.bind(this);
 
     this.state = {
-      activeCategory: Object.keys(this.props.data.categories)[1],
+      activeCategory: Object.keys(this.props.data.categories)[0],
     };
   }
 
   handleCategoryChange(category: string) {
+    this.setState({
+      activeCategory: category,
+    });
+  }
+
+  handleColorByCategoryChanged(category: string) {
     this.setState({
       activeCategory: category,
     });
@@ -78,8 +88,26 @@ export class HMPContainer extends React.Component<HMPProps, HMPState> {
   }
 
   render() {
-    const chartOptions = this.chartOptions(this.state.activeCategory);
-    return <HighChartsPlot chartId="human-body-sites" options={chartOptions} />;
+    const activeCategory = this.state.activeCategory,
+          activeCategoryValues = this.props.data.categories[activeCategory];
+    const chartOptions = this.chartOptions(activeCategory);
+
+    return (
+      <Row>
+        <Col lg={9}>
+          <HighChartsPlot chartId="human-body-sites" options={chartOptions} />;
+        </Col>
+        <Col lg={3}>
+          <HMPControls
+            categories={Object.keys(this.props.data.categories)}
+            activeCategory={activeCategory}
+            activeCategoryValues={activeCategoryValues}
+            handleCategoryChange={this.handleCategoryChange}
+            handleColorByCategoryChanged={this.handleColorByCategoryChanged}
+          />
+        </Col>
+      </Row>
+    );
   }
 
 }

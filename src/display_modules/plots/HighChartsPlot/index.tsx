@@ -23,6 +23,15 @@ export default class HighChartsPlot extends React.Component<HighChartsPlotProps,
     this.chart = Highcharts.chart(`${this.props.chartId}-chart`, this.props.options);
   }
 
+  /** Update the chart for the new chart options. */
+  shouldComponentUpdate(nextProps: HighChartsPlotProps) {
+    if (this.chart !== undefined) {
+      this.chart.update(nextProps.options);
+    }
+
+    return false;
+  }
+
   /** @inheritdoc */
   componentWillUnmount() {
     if (super.componentWillUnmount) {
