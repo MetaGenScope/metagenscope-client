@@ -2,9 +2,10 @@ import * as React from 'react';
 
 import { D3DisplayContainer } from '../components/DisplayContainer/d3';
 import { DisplayContainerProps } from '../components/DisplayContainer';
-import TaxonAbundancePlot from '../plots/TaxonAbundancePlot';
 import { TaxonAbundanceResultType } from '../../services/api/models/queryResult';
 import { getTaxonAbundance } from '../../services/api';
+
+import TaxonAbundancePlot from './components/TaxonAbundancePlot';
 
 export class TaxonAbundanceModule extends D3DisplayContainer<TaxonAbundanceResultType> {
 

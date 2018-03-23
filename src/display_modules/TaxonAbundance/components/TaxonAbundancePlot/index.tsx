@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { Data, createTaxonAbundance } from './util/taxon';
-import { SvgRefProps } from '../../components/DisplayContainer';
+import { SvgRefProps } from '../../../components/DisplayContainer';
 
 import './style.css';
 
