@@ -212,19 +212,11 @@ export const getHMP = function(id: string) {
       // Convert to Map types
       const result = res.data.data as QueryResultWrapper<HMPResultType>;
       if (result.data) {
-        const categoriesMap = buildMap(result.data.categories);
-        const dataMap = buildMap(result.data.data);
+        const categoriesMap = result.data.categories;
+        const dataMap = result.data.data;
         result.data.categories = categoriesMap;
         result.data.data = dataMap;
       }
       return result;
     });
 };
-
-function buildMap(obj: object) {
-  const map = new Map();
-  Object.keys(obj).forEach(key => {
-      map.set(key, obj[key]);
-  });
-  return map;
-}

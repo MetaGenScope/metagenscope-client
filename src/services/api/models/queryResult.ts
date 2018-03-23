@@ -35,12 +35,16 @@ export interface SampleSimilarityResultType {
 }
 
 export interface HMPResultType {
-  categories: Map<string, string[]>;
+  categories: {
+    [key: string]: string[];
+  };
   sites: string[];
-  data: Map<string, {
-    name: string;
-    data: number[][];
-  }[]>;
+  data: {
+    [key: string]: {
+      name: string;
+      data: number[][];
+    }[];
+  };
 }
 
 export interface ReadsClassifiedType {
