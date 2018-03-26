@@ -8,6 +8,7 @@ type ControlsProps = {
   categories: string[];
   activeCategory: string;
   activeCategoryValues: string[];
+  activeCategoryColor: d3.ScaleOrdinal<string, string>;
   handleCategoryChange(category?: string): void;
   handleColorByCategoryChanged(category?: string): void;
 };
@@ -29,11 +30,10 @@ export default class HMPControls extends React.Component<ControlsProps, {}> {
   }
 
   render() {
-    const color = d3.scaleOrdinal(d3.schemeCategory20);
     const values = this.props.activeCategoryValues.map(category => {
       return {
         name: category,
-        color: color(category),
+        color: this.props.activeCategoryColor(category),
       };
     });
 

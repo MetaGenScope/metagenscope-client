@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as Highcharts from 'highcharts';
+import * as d3 from 'd3';
 import { Row, Col } from 'react-bootstrap';
 
 import HighChartsPlot from '../../../plots/HighChartsPlot';
@@ -18,8 +19,12 @@ export interface HMPState {
 
 export class HMPContainer extends React.Component<HMPProps, HMPState> {
 
+  protected color: d3.ScaleOrdinal<string, string>;
+
   constructor(props: HMPProps) {
     super(props);
+
+    this.color = d3.scaleOrdinal(d3.schemeCategory20);
 
     this.handleCategoryChange = this.handleCategoryChange.bind(this);
     this.handleColorByCategoryChanged = this.handleColorByCategoryChanged.bind(this);
@@ -57,6 +62,7 @@ export class HMPContainer extends React.Component<HMPProps, HMPState> {
       return {
         name: source.name,
         data: dataPoints,
+        color: this.color(source.name),
       };
     });
 
@@ -102,6 +108,7 @@ export class HMPContainer extends React.Component<HMPProps, HMPState> {
             categories={Object.keys(this.props.data.categories)}
             activeCategory={activeCategory}
             activeCategoryValues={activeCategoryValues}
+            activeCategoryColor={this.color}
             handleCategoryChange={this.handleCategoryChange}
             handleColorByCategoryChanged={this.handleColorByCategoryChanged}
           />
