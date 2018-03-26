@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { D3DisplayContainer } from '../components/DisplayContainer/d3';
+import D3DisplayContainer from '../components/DisplayContainer/d3';
 import { DisplayContainerProps } from '../components/DisplayContainer';
 import { SampleSimilarityResultType } from '../../services/api/models/queryResult';
 import { getSampleSimilarity } from '../../services/api';

@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { D3DisplayContainer } from '../components/DisplayContainer/d3';
+import D3DisplayContainer from '../components/DisplayContainer/d3';
 import { DisplayContainerProps } from '../components/DisplayContainer';
 import { TaxonAbundanceResultType } from '../../services/api/models/queryResult';
 import { getTaxonAbundance } from '../../services/api';
