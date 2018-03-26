@@ -1,10 +1,11 @@
 import * as React from 'react';
 import * as Highcharts from 'highcharts';
 
+import { ChartRefProps } from '../../../components/DisplayContainer/highcharts';
 import HighChartsPlot from '../../../plots/HighChartsPlot';
 import { ReadsClassifiedType } from '../../../../services/api/models/queryResult';
 
-const ReadsClassifiedContainer: React.SFC<{data: ReadsClassifiedType}> = (props) => {
+const ReadsClassifiedContainer: React.SFC<{data: ReadsClassifiedType} & ChartRefProps> = (props) => {
   const series: Highcharts.IndividualSeriesOptions[] = props.data.data.map(source => {
     return {
       name: source.category,
@@ -55,7 +56,13 @@ const ReadsClassifiedContainer: React.SFC<{data: ReadsClassifiedType}> = (props)
     series,
   };
 
-  return <HighChartsPlot chartId="reads-classified" options={chartOptions} />;
+  return (
+    <HighChartsPlot
+      chartId="reads-classified"
+      options={chartOptions}
+      chartRef={props.chartRef}
+    />
+  );
 };
 
 export default ReadsClassifiedContainer;

@@ -9,7 +9,9 @@ HighchartsExporting(Highcharts);
 HighchartsOfflineExporting(Highcharts);
 HighchartsMore(Highcharts);
 
-export interface HighChartsPlotProps {
+import { ChartRefProps } from '../../components/DisplayContainer/highcharts';
+
+export interface HighChartsPlotProps extends ChartRefProps {
   options: Highcharts.Options;
   chartId: string;
 }
@@ -21,6 +23,7 @@ export default class HighChartsPlot extends React.Component<HighChartsPlotProps,
   /** @inheritdoc */
   componentDidMount() {
     this.chart = Highcharts.chart(`${this.props.chartId}-chart`, this.props.options);
+    this.props.chartRef(this.chart);
   }
 
   /** Update the chart for the new chart options. */

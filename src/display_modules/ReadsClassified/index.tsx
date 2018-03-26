@@ -1,13 +1,13 @@
 import * as React from 'react';
 
-import { DisplayContainer } from '../components/DisplayContainer';
+import HighchartsDisplayContainer from '../components/DisplayContainer/highcharts';
 import { DisplayContainerProps } from '../components/DisplayContainer';
 import { ReadsClassifiedType } from '../../services/api/models/queryResult';
 import { getReadsClassified } from '../../services/api';
 
 import ReadsClassifiedContainer from './components/ReadsClassifiedContainer';
 
-export class ReadsClassifiedModule extends DisplayContainer<ReadsClassifiedType> {
+export class ReadsClassifiedModule extends HighchartsDisplayContainer<ReadsClassifiedType> {
 
   constructor(props: DisplayContainerProps) {
     super(props);
@@ -26,6 +26,6 @@ export class ReadsClassifiedModule extends DisplayContainer<ReadsClassifiedType>
 
   /** @inheritdoc */
   plotContainer(data: ReadsClassifiedType): JSX.Element {
-    return <ReadsClassifiedContainer data={data} />;
+    return <ReadsClassifiedContainer data={data} chartRef={el => this.chart = el} />;
   }
 }

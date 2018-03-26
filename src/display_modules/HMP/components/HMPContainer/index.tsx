@@ -4,12 +4,12 @@ import * as d3 from 'd3';
 import { Row, Col } from 'react-bootstrap';
 
 import HighChartsPlot from '../../../plots/HighChartsPlot';
-
 import { HMPResultType } from '../../../../services/api/models/queryResult';
+import { ChartRefProps } from '../../../components/DisplayContainer/highcharts';
 
 import HMPControls from './components/HMPControls';
 
-export interface HMPProps {
+export interface HMPProps extends ChartRefProps {
   data: HMPResultType;
 }
 
@@ -101,7 +101,11 @@ export class HMPContainer extends React.Component<HMPProps, HMPState> {
     return (
       <Row>
         <Col lg={9}>
-          <HighChartsPlot chartId="human-body-sites" options={chartOptions} />;
+          <HighChartsPlot
+            chartId="human-body-sites"
+            options={chartOptions}
+            chartRef={this.props.chartRef}
+          />;
         </Col>
         <Col lg={3}>
           <HMPControls
