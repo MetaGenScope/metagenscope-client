@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { Entry, createScatter } from './util/scatter';
-import { SvgRefProps } from '../../components/DisplayContainer';
+import { SvgRefProps } from '../../components/DisplayContainer/d3';
 
 import './style.css';
 

@@ -6,10 +6,6 @@ import { QueryResultWrapper, QueryResultStatus } from '../../../services/api/mod
 import { DisplayModuleState, StatusMonitor } from './components/StatusMonitor';
 import { PlotHeader } from './components/PlotHeader';
 
-export interface SvgRefProps {
-  svgRef(ref: SVGSVGElement | null): void;
-}
-
 export interface DisplayContainerProps {
   uuid: string;
 }

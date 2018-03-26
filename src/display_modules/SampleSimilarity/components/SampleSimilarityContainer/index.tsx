@@ -5,7 +5,7 @@ import { SampleSimilarityResultType } from '../../../../services/api/models/quer
 
 import ScatterPlot, { ScatterPlotEntry } from '../../../plots/ScatterPlot';
 import SampleSimilarityControls from './components/SampleSimilarityControls';
-import { SvgRefProps } from '../../../components/DisplayContainer';
+import { SvgRefProps } from '../../../components/DisplayContainer/d3';
 
 const SAMPLE_ID_KEY = 'SampleID';
 

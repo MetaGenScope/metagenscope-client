@@ -2,6 +2,10 @@ import { saveSvgAsPng } from 'save-svg-as-png';
 
 import { DisplayContainer } from '.';
 
+export interface SvgRefProps {
+  svgRef(ref: SVGSVGElement | null): void;
+}
+
 export class D3DisplayContainer<D, P = {}> extends DisplayContainer<D, P> {
 
   protected svgCanvas: SVGSVGElement | null;
