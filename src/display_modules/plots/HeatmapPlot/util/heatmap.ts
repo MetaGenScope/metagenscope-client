@@ -1,12 +1,4 @@
 import * as d3 from 'd3';
-import * as Highcharts from 'highcharts';
-
-const HighchartsMore = require('highcharts/highcharts-more'),
-      HighchartsExporting = require('highcharts/modules/exporting'),
-      HighchartsOfflineExporting = require('highcharts/modules/offline-exporting');
-HighchartsExporting(Highcharts);
-HighchartsOfflineExporting(Highcharts);
-HighchartsMore(Highcharts);
 
 export interface HeatMapDatum {
   x: number;
