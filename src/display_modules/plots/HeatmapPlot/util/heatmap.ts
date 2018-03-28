@@ -43,15 +43,6 @@ export default class HeatMap {
 
     // Add canvas
     this.canvas = this.svg.append('g');
-
-    this.bootstap();
-  }
-
-  /**
-   * Set up canvas, tooltip, etc.
-   */
-  protected bootstap() {
-    // Stub
   }
 
   /**
@@ -74,8 +65,11 @@ export default class HeatMap {
     this.svg.attr('width', width).attr('height', height);
     this.canvas.attr('transform', `translate(${this.margin.left}, ${this.margin.top})`);
 
-    const colors = ['#ffffd9', '#edf8b1', '#c7e9b4', '#7fcdbb', '#41b6c4', '#1d91c0', '#225ea8', '#253494', '#081d58'],
-          buckets = 9;
+    const buckets = 9;
+    const colorGenerator = d3.scaleLinear<string>()
+          .domain([0, (buckets - 1) / 2, buckets - 1])
+          .range(['green', 'yellow', 'red']);
+    const colors = d3.range(buckets).map(colorGenerator);
     const colorScale = d3.scaleQuantile<string>()
         .domain([0, buckets - 1, valMax])
         .range(colors);
@@ -91,10 +85,9 @@ export default class HeatMap {
             .attr('y', (d: HeatMapDatum) => d.y * gridSize)
             .attr('width', gridSize)
             .attr('height', gridSize)
-            .transition().duration(1300).delay(600)
-                .style('fill', (d: HeatMapDatum) => {
-                  return colorScale(d.value);
-                });
+            .style('fill', (d: HeatMapDatum) => {
+              return colorScale(d.value);
+            });
 
     cards.exit().remove();
 
