@@ -5,6 +5,7 @@ import { JsonOrganizationType, OrganizationType } from './models/organization';
 import { SampleGroupType } from './models/analysisGroup';
 import { SampleType } from './models/sample';
 import {
+  QueryResultStatus,
   AnalysisResultType,
   QueryResultWrapper,
   SampleSimilarityResultType,
@@ -12,6 +13,7 @@ import {
   ReadsClassifiedType,
   HMPResultType,
   AGSResultType,
+  BetaDiversityType,
 } from './models/queryResult';
 
 import { betaDiversity } from './seed/beta_diversity';
@@ -294,8 +296,9 @@ export const getAGS = function(uuid: string) {
     });
 };
 
-export const getBetaDiversity = function(uuid: string) {
-  return Promise.resolve(() => {
-    return betaDiversity;
+export const getBetaDiversity = function(uuid: string): Promise<QueryResultWrapper<BetaDiversityType>> {
+  return Promise.resolve({
+    status: QueryResultStatus.Success,
+    data: betaDiversity,
   });
 };
