@@ -14,6 +14,8 @@ import {
   AGSResultType,
 } from './models/queryResult';
 
+import { betaDiversity } from './seed/beta_diversity';
+
 type LoginType = {
   email: string;
   password: string;
@@ -290,4 +292,10 @@ export const getAGS = function(uuid: string) {
     .then((res) => {
       return res.data.data as QueryResultWrapper<AGSResultType>;
     });
+};
+
+export const getBetaDiversity = function(uuid: string) {
+  return Promise.resolve(() => {
+    return betaDiversity;
+  });
 };
