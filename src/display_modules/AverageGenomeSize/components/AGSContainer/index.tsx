@@ -4,13 +4,13 @@ import * as d3 from 'd3';
 import { Row, Col } from 'react-bootstrap';
 
 import HighChartsPlot from '../../../plots/HighChartsPlot';
-import { HMPResultType } from '../../../../services/api/models/queryResult';
+import { AGSResultType } from '../../../../services/api/models/queryResult';
 import { ChartRefProps } from '../../../components/DisplayContainer/highcharts';
 
-import HMPControls from './components/HMPControls';
+import AGSControls from './components/AGSControls';
 
 export interface HMPProps extends ChartRefProps {
-  data: HMPResultType;
+  data: AGSResultType;
 }
 
 export interface HMPState {
@@ -47,24 +47,25 @@ export class HMPContainer extends React.Component<HMPProps, HMPState> {
   }
 
   chartOptions(activeCategory: string): Highcharts.Options {
-    const datums = this.props.data.data[activeCategory];
+    const data = this.props.data.distributions[activeCategory];
+    const categoryValues = Object.keys(data);
 
-    const series: Highcharts.IndividualSeriesOptions[] = datums.map(source => {
-      const dataPoints: Highcharts.DataPoint[] = source.data.map(datum => {
-        return {
-          low: datum[0],
-          q1: datum[1],
-          median: datum[2],
-          q3: datum[3],
-          high: datum[4],
-        };
-      });
+    const dataPoints: Highcharts.DataPoint[] = categoryValues.map(categoryValue => {
+      const datum = data[categoryValue];
       return {
-        name: source.name,
-        data: dataPoints,
-        color: this.color(source.name),
+        low: datum.min_val,
+        q1: datum.q1_val,
+        median: datum.mean_val,
+        q3: datum.q3_val,
+        high: datum.max_val,
+        color: this.color(categoryValue),
       };
     });
+    const categorySeries = {
+      name: activeCategory,
+      data: dataPoints,
+      showInLegend: false,
+    };
 
     const chartOptions: Highcharts.Options = {
       chart: {
@@ -77,17 +78,17 @@ export class HMPContainer extends React.Component<HMPProps, HMPState> {
         enabled: true,
       },
       xAxis: {
-        categories: this.props.data.sites,
+        categories: categoryValues,
       },
       yAxis: {
         title: {
-          text: 'Cosine Similarity',
+          text: 'Base Pairs',
         },
       },
       exporting: {
         enabled: false,
       },
-      series,
+      series: [categorySeries],
     };
 
     return chartOptions;
@@ -102,13 +103,13 @@ export class HMPContainer extends React.Component<HMPProps, HMPState> {
       <Row>
         <Col lg={9}>
           <HighChartsPlot
-            chartId="human-body-sites"
+            chartId="average-genome-size"
             options={chartOptions}
             chartRef={this.props.chartRef}
           />
         </Col>
         <Col lg={3}>
-          <HMPControls
+          <AGSControls
             categories={Object.keys(this.props.data.categories)}
             activeCategory={activeCategory}
             activeCategoryValues={activeCategoryValues}

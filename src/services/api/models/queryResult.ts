@@ -47,6 +47,23 @@ export interface HMPResultType {
   };
 }
 
+export interface AGSResultType {
+  categories: {
+    [key: string]: string[];
+  };
+  distributions: {
+    [key: string]: {
+      [key: string]: {
+        min_val: number;
+        q1_val: number;
+        mean_val: number;
+        q3_val: number;
+        max_val: number;
+      };
+    }[];
+  };
+}
+
 export interface ReadsClassifiedType {
   categories: string[];
   sample_names: string[];

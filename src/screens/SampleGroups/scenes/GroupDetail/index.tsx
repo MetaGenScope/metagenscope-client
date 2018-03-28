@@ -10,6 +10,7 @@ import { SampleSimilarityModule } from '../../../../display_modules/SampleSimila
 import { TaxonAbundanceModule } from '../../../../display_modules/TaxonAbundance';
 import { ReadsClassifiedModule } from '../../../../display_modules/ReadsClassified';
 import HMPModule from '../../../../display_modules/HMP';
+import AGSModule from '../../../../display_modules/AverageGenomeSize';
 
 interface AnalysisGroupList {
   queryResult: AnalysisResultType;
@@ -29,6 +30,9 @@ const AnalysisGroupList: React.SFC<AnalysisGroupList> = (props) => {
       }
       {props.queryResult.result_types.indexOf('hmp') > -1 &&
         <HMPModule uuid={props.queryResult.uuid} />
+      }
+      {props.queryResult.result_types.indexOf('average_genome_size') > -1 &&
+        <AGSModule uuid={props.queryResult.uuid} />
       }
     </div>
   );
