@@ -10,6 +10,7 @@ import {
   TaxonAbundanceResultType,
   ReadsClassifiedType,
   HMPResultType,
+  AGSResultType,
 } from './models/queryResult';
 
 type LoginType = {
@@ -218,5 +219,21 @@ export const getHMP = function(id: string) {
         result.data.data = dataMap;
       }
       return result;
+    });
+};
+
+export const getAGS = function(uuid: string) {
+  const options = {
+    url: `${API_BASE_URL}/analysis_results/${uuid}/average_genome_size`,
+    method: 'get',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${window.localStorage.authToken}`
+    },
+  };
+
+  return axios(options)
+    .then((res) => {
+      return res.data.data as QueryResultWrapper<AGSResultType>;
     });
 };
