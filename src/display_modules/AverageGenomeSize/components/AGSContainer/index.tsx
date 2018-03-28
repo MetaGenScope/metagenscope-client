@@ -106,7 +106,7 @@ export class HMPContainer extends React.Component<HMPProps, HMPState> {
             chartId="average-genome-size"
             options={chartOptions}
             chartRef={this.props.chartRef}
-          />;
+          />
         </Col>
         <Col lg={3}>
           <AGSControls
