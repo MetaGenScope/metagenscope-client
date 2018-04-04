@@ -6,7 +6,7 @@ const heroBackground = require('./images/red-banner.png');
 const expert = require('./images/expert.png');
 const lightBulb = require('./images/light-bulb.png');
 
-const heroStyle = {
+const heroStyle: React.CSSProperties = {
   height: '400px',
   backgroundSize: 'cover',
   backgroundImage: `url( ${heroBackground} )`,
