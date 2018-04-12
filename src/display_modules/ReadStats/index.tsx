@@ -2,17 +2,17 @@ import * as React from 'react';
 
 import HighchartsDisplayContainer from '../components/DisplayContainer/highcharts';
 import { DisplayContainerProps } from '../components/DisplayContainer';
-import { ReadsClassifiedType } from '../../services/api/models/queryResult';
-import { getReadsClassified } from '../../services/api';
+import { ReadStatsType } from '../../services/api/models/queryResult';
+import { getReadStats } from '../../services/api';
 
-import ReadsClassifiedContainer from './components/ReadsClassifiedContainer';
+import ReadStatsContainer from './components/ReadStatsContainer';
 
-export class ReadsClassifiedModule extends HighchartsDisplayContainer<ReadsClassifiedType> {
+export class ReadStatsModule extends HighchartsDisplayContainer<ReadStatsType> {
 
   constructor(props: DisplayContainerProps) {
     super(props);
 
-    this.title = 'Reads Classified';
+    this.title = 'Read Statistics';
     this.description = (
       <p>This chart shows the proportion of reads in each sample {' '}
         assigned to different groups.</p>
@@ -21,11 +21,11 @@ export class ReadsClassifiedModule extends HighchartsDisplayContainer<ReadsClass
 
   /** @inheritdoc */
   fetchData() {
-    return getReadsClassified(this.props.uuid);
+    return getReadStats(this.props.uuid);
   }
 
   /** @inheritdoc */
-  plotContainer(data: ReadsClassifiedType): JSX.Element {
-    return <ReadsClassifiedContainer data={data} chartRef={el => this.chart = el} />;
+  plotContainer(data: ReadStatsType): JSX.Element {
+    return <ReadStatsContainer data={data} chartRef={el => this.chart = el} />;
   }
 }
