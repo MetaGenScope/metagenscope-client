@@ -4,13 +4,13 @@ import * as d3 from 'd3';
 import { Row, Col } from 'react-bootstrap';
 
 import HighChartsPlot from '../../../plots/HighChartsPlot';
-import { AGSResultType } from '../../../../services/api/models/queryResult';
+import { AlphaDivResultType } from '../../../../services/api/models/queryResult';
 import { ChartRefProps } from '../../../components/DisplayContainer/highcharts';
 
-import AGSControls from './components/AGSControls';
+import AlphaDiversityControls from './components/AlphaDiversityControls';
 
 export interface HMPProps extends ChartRefProps {
-  data: AGSResultType;
+  data: AlphaDivResultType;
 }
 
 export interface HMPState {
@@ -103,7 +103,7 @@ export class HMPContainer extends React.Component<HMPProps, HMPState> {
       <Row>
         <Col lg={9}>
           <HighChartsPlot
-            chartId="average-genome-size"
+            chartId="alpha-diversity"
             options={chartOptions}
             chartRef={this.props.chartRef}
           />

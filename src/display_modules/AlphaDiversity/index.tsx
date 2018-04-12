@@ -2,30 +2,30 @@ import * as React from 'react';
 
 import HighchartsDisplayContainer from '../components/DisplayContainer/highcharts';
 import { DisplayContainerProps } from '../components/DisplayContainer';
-import { AGSResultType } from '../../services/api/models/queryResult';
-import { getAGS } from '../../services/api';
+import { AlphaDivResultType } from '../../services/api/models/queryResult';
+import { getAlphaDiv } from '../../services/api';
 
-import AGSContainer from './components/AGSContainer';
+import AlphaDiversityContainer from './components/AlphaDiversityContainer';
 
-export default class HMPModule extends HighchartsDisplayContainer<AGSResultType> {
+export default class HMPModule extends HighchartsDisplayContainer<AlphaDivResultType> {
 
   constructor(props: DisplayContainerProps) {
     super(props);
 
     this.title = 'Alpha Diversity';
     this.description = (
-      <p>Generally a larger average genome size indicates a community   {' '}
-        with broader function, as opposed to specific niches.</p>
+      <p>Higher alpha diversity indicates a richer more  {' '}
+        active community with more niches.</p>
     );
   }
 
   /** @inheritdoc */
   fetchData() {
-    return getAGS(this.props.uuid);
+    return getAlphaDiv(this.props.uuid);
   }
 
   /** @inheritdoc */
-  plotContainer(data: AGSResultType): JSX.Element {
-    return <AGSContainer data={data} chartRef={el => this.chart = el} />;
+  plotContainer(data: AlphaDivResultType): JSX.Element {
+    return <AlphaDiversityContainer data={data} chartRef={el => this.chart = el} />;
   }
 }

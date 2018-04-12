@@ -70,6 +70,23 @@ export interface AGSResultType {
   };
 }
 
+export interface AlphaDivResultType {
+  categories: {
+    [key: string]: string[];
+  };
+  distributions: {
+    [key: string]: {
+      [key: string]: {
+        min_val: number;
+        q1_val: number;
+        mean_val: number;
+        q3_val: number;
+        max_val: number;
+      };
+    }[];
+  };  
+}
+
 export interface ReadsClassifiedType {
   samples: {
     [key: string]: {
