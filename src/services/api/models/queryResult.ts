@@ -98,6 +98,10 @@ export interface SampleTaxonomyType {
   [key: string]: SunburstDataType;
 }
 
+export interface ReadStatsResultType {
+  samples: {};
+}
+
 export interface QueryResultWrapper<T> {
   status: QueryResultStatus;
   data?: T;
