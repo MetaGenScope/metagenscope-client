@@ -16,7 +16,7 @@ const AnalysisGroupList: React.SFC<AnalysisGroupList> = (props) => {
   return (
     <div>
       {props.queryResult.result_types.indexOf('reads_classified') > -1 &&
-        <ReadsClassifiedModule uuid={props.queryResult.uuid} />
+        <ReadsClassifiedModule uuid={props.queryResult.uuid} isSingleton={true} />
       }
     </div>
   );
