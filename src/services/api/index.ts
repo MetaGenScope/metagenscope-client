@@ -3,6 +3,7 @@ import axios from 'axios';
 import { API_BASE_URL } from './utils';
 import { JsonOrganizationType, OrganizationType } from './models/organization';
 import { SampleGroupType } from './models/analysisGroup';
+import { SampleType } from './models/sample';
 import {
   AnalysisResultType,
   QueryResultWrapper,
@@ -131,6 +132,32 @@ export const getSampleGroup = function(uuid: string) {
         description: '[description not supported yet]',
       };
       return sampleGroup;
+    });
+};
+
+export const getSampleGroupSamples = function(uuid: string) {
+  const options = {
+    url: `${API_BASE_URL}/sample_groups/${uuid}/samples`,
+    method: 'get',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${window.localStorage.authToken}`
+    },
+  };
+
+  return axios(options)
+    .then((res) => {
+      const rawSamples = res.data.data.samples;
+      // tslint:disable-next-line no-any
+      const samples: SampleType[] = rawSamples.map((rawSample: any) => {
+        return {
+          uuid: rawSample.uuid,
+          name: rawSample.name,
+          analysisResultUuid: rawSample.analysis_result_uuid,
+          metadata: rawSample.metadata,
+        };
+      });
+      return samples;
     });
 };
 
