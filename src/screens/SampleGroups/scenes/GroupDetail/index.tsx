@@ -12,6 +12,8 @@ import { ReadsClassifiedModule } from '../../../../display_modules/ReadsClassifi
 import HMPModule from '../../../../display_modules/HMP';
 import AGSModule from '../../../../display_modules/AverageGenomeSize';
 
+import CollapsingSampleList from './components/CollapsingSampleList';
+
 interface AnalysisGroupList {
   queryResult: AnalysisResultType;
 }
@@ -94,6 +96,7 @@ class AnalysisGroupDetail extends React.Component<AnalysisGroupDetailProps, Anal
             <hr />
             <Row>
               <Col lg={12}>
+                <CollapsingSampleList sampleGroupUuid={this.state.group.uuid} />
                 {this.state.queryResults &&
                   <AnalysisGroupList queryResult={this.state.queryResults} />
                 }

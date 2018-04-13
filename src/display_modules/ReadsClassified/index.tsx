@@ -7,9 +7,13 @@ import { getReadsClassified } from '../../services/api';
 
 import ReadsClassifiedContainer from './components/ReadsClassifiedContainer';
 
-export class ReadsClassifiedModule extends HighchartsDisplayContainer<ReadsClassifiedType> {
+interface ReadsClassifiedProps extends DisplayContainerProps {
+  isSingleton?: boolean;
+}
 
-  constructor(props: DisplayContainerProps) {
+export class ReadsClassifiedModule extends HighchartsDisplayContainer<ReadsClassifiedType, ReadsClassifiedProps> {
+
+  constructor(props: ReadsClassifiedProps) {
     super(props);
 
     this.title = 'Reads Classified';
@@ -26,6 +30,8 @@ export class ReadsClassifiedModule extends HighchartsDisplayContainer<ReadsClass
 
   /** @inheritdoc */
   plotContainer(data: ReadsClassifiedType): JSX.Element {
-    return <ReadsClassifiedContainer data={data} chartRef={el => this.chart = el} />;
+    return (
+      <ReadsClassifiedContainer data={data} chartRef={el => this.chart = el} isSingleton={this.props.isSingleton} />
+    );
   }
 }
