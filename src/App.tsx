@@ -10,6 +10,7 @@ import Home from './screens/Home';
 import About from './screens/About';
 import Organizations from './screens/Organizations';
 import SampleGroups from './screens/SampleGroups';
+import Samples from './screens/Samples';
 import Dashboard from './screens/Dashboard';
 import Docs from './screens/Docs';
 
@@ -110,6 +111,14 @@ class App extends React.Component<{}, AppState> {
             path="/sample-groups"
             render={() => (
               <SampleGroups
+                isAuthenticated={this.state.isAuthenticated}
+              />
+            )}
+          />
+          <Route
+            path="/samples"
+            render={() => (
+              <Samples
                 isAuthenticated={this.state.isAuthenticated}
               />
             )}

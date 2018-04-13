@@ -161,6 +161,28 @@ export const getSampleGroupSamples = function(uuid: string) {
     });
 };
 
+export const getSample = function(uuid: string) {
+  const options = {
+    url: `${API_BASE_URL}/samples/${uuid}`,
+    method: 'get',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${window.localStorage.authToken}`
+    },
+  };
+
+  return axios(options)
+    .then((res) => {
+      const sample: SampleType = {
+        uuid: res.data.data.sample.uuid,
+        name: res.data.data.sample.name,
+        analysisResultUuid: res.data.data.sample.analysis_result_uuid,
+        metadata: res.data.data.meta,
+      };
+      return sample;
+    });
+};
+
 export const getAnalysisResults = function(uuid: string) {
   const options = {
     url: `${API_BASE_URL}/analysis_results/${uuid}`,
