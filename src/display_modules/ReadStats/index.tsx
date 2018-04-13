@@ -14,8 +14,8 @@ export class ReadStatsModule extends HighchartsDisplayContainer<ReadStatsType> {
 
     this.title = 'Read Statistics';
     this.description = (
-      <p>This chart shows the proportion of reads in each sample {' '}
-        assigned to different groups.</p>
+      <p>This chart shows various statistsics {' '}
+        about the reads in each sample</p>
     );
   }
 
