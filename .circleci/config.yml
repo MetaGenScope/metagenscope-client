@@ -40,7 +40,6 @@ jobs:
 
     environment:
       TAG: test
-      REACT_APP_METAGENSCOPE_SERVICE_URL: https://www.metagenscope.com
 
     steps:
       - checkout
@@ -66,7 +65,6 @@ jobs:
     environment:
       TAG: staging
       DOCKER_ORG: metagenscope
-      REACT_APP_METAGENSCOPE_SERVICE_URL: https://www.emptyfish.net
 
     steps:
       - checkout
