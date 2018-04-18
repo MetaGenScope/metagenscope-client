@@ -2,13 +2,15 @@ function getHost(): string {
   // Use environment variable if present
   const envUrl = process.env.REACT_APP_METAGENSCOPE_SERVICE_URL;
   if (typeof(envUrl) !== 'undefined' && envUrl) {
-      return envUrl;
+    return envUrl;
   }
 
   // Otherwise, use web host
   const protocol = window.location.protocol;
   const host = window.location.hostname;
-  return `${protocol}//${host}`;
+  let port = window.location.port;
+  port = port === '' ? '' : `:${port}`;
+  return `${protocol}//${host}${port}`;
 }
 
 export const API_BASE_URL = `${getHost()}/api/v1`;
@@ -38,15 +40,15 @@ declare global {
 if (!Array.prototype.shuffled) {
   Array.prototype.shuffled = function<T>(): Array<T> {
     let counter = this.length;
-    
+
     // While there are elements in the array
     while (counter > 0) {
       // Pick a random index
       let index = Math.floor(Math.random() * counter);
-  
+
       // Decrease counter by 1
       counter--;
-  
+
       // And swap the last element with it
       let temp = this[counter];
       this[counter] = this[index];
