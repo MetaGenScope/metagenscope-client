@@ -19,6 +19,7 @@ interface AppState {
   email: string;
   title: string;
   isAuthenticated: boolean;
+  theme?: string;
 }
 
 class App extends React.Component<{}, AppState> {
@@ -30,8 +31,11 @@ class App extends React.Component<{}, AppState> {
       username: '',
       email: '',
       title: 'MetaGenScope',
-      isAuthenticated: false
+      isAuthenticated: false,
+      theme: undefined,
     };
+
+    this.updateTheme = this.updateTheme.bind(this);
   }
 
   componentWillMount() {
@@ -48,6 +52,10 @@ class App extends React.Component<{}, AppState> {
   logoutUser() {
     window.localStorage.clear();
     this.setState({ isAuthenticated: false });
+  }
+
+  updateTheme(theme?: string) {
+    this.setState({theme});
   }
 
   render() {
@@ -112,6 +120,7 @@ class App extends React.Component<{}, AppState> {
             render={() => (
               <SampleGroups
                 isAuthenticated={this.state.isAuthenticated}
+                updateTheme={this.updateTheme}
               />
             )}
           />

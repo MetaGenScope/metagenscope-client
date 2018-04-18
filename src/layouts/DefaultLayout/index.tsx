@@ -4,21 +4,36 @@ import { Grid } from 'react-bootstrap';
 import Header from './components/Header';
 import Footer from  './components/Footer';
 
+// Themes
+import { WorldQuantHeader, WorldQuantFooter } from './themes/WorldQuant';
+
 interface LayoutProps {
   title: string;
   isAuthenticated: boolean;
+  theme?: string;
 }
 
-class DefaultLayout extends React.Component<LayoutProps, {}> {
-  render() {
-    return (
-      <Grid>
-        <Header title={this.props.title} isAuthenticated={this.props.isAuthenticated} />
-        {this.props.children}
-        <Footer />
-      </Grid>
-    );
+const DefaultLayout: React.SFC<LayoutProps> = (props) => {
+  let header = <Header title={props.title} isAuthenticated={props.isAuthenticated} />;
+  let footer = <Footer />;
+  if (props.theme !== undefined) {
+    if (props.theme === 'world-quant') {
+      header = (
+        <div>
+          <WorldQuantHeader />
+          {header}
+        </div>
+      );
+      footer = <WorldQuantFooter />;
+    }
   }
-}
+  return (
+    <Grid>
+      {header}
+      {props.children}
+      {footer}
+    </Grid>
+  );
+};
 
 export default DefaultLayout;

@@ -5,6 +5,7 @@ import AnalysisGroupDetail from './scenes/GroupDetail';
 
 interface PersonRowProps {
   isAuthenticated: boolean;
+  updateTheme?(theme?: string): void;
 }
 
 const SampleGroups: React.SFC<PersonRowProps> = (props) => {
@@ -15,6 +16,7 @@ const SampleGroups: React.SFC<PersonRowProps> = (props) => {
         render={(routeProps) => (
           <AnalysisGroupDetail
             groupUUID={routeProps.match.params.uuid}
+            updateTheme={props.updateTheme}
           />
         )}
       />
