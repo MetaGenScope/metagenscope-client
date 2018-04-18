@@ -3,4 +3,5 @@ export interface SampleGroupType {
   name: string;
   analysisResultId: string;
   description: string;
+  theme?: string;
 }

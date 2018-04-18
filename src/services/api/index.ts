@@ -83,8 +83,10 @@ export const getOrganization = function(uuid: string) {
       const rawOrganization = res.data.data.organization as JsonOrganizationType;
       for (let i = 0; i < rawOrganization.sample_groups.sample_groups.length; i++) {
         const analysisUUID = res.data.data.organization.sample_groups.sample_groups[i].analysis_result_id;
+        let description = res.data.data.organization.sample_groups.sample_groups[i].description;
+        description = description !== '' ? description : 'Lorem ipsum description.';
         rawOrganization.sample_groups.sample_groups[i].analysisResultId = analysisUUID;
-        rawOrganization.sample_groups.sample_groups[i].description = 'Lorem ipsum description.';
+        rawOrganization.sample_groups.sample_groups[i].description = description;
       }
       const organization = {
         uuid: rawOrganization.uuid,
@@ -125,11 +127,13 @@ export const getSampleGroup = function(uuid: string) {
 
   return axios(options)
     .then((res) => {
+      const rawDescription = res.data.data.sample_group.description;
       const sampleGroup: SampleGroupType = {
         uuid: res.data.data.sample_group.uuid,
         name: res.data.data.sample_group.name,
         analysisResultId: res.data.data.sample_group.analysis_result_uuid,
-        description: '[description not supported yet]',
+        description: rawDescription !== undefined ? rawDescription : '[description not supported yet]',
+        theme: res.data.data.sample_group.theme,
       };
       return sampleGroup;
     });
