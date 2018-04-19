@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Row, Col, Button, Modal } from 'react-bootstrap';
+import { Grid, Row, Col, Button, Modal } from 'react-bootstrap';
 
 interface FooterModelState {
   showModal: boolean;
@@ -25,7 +25,7 @@ class Footer extends React.Component<{}, FooterModelState> {
 
   render() {
     return (
-      <div>
+      <Grid>
         <Row>
           <Col lg={12}>
             <hr />
@@ -48,7 +48,7 @@ class Footer extends React.Component<{}, FooterModelState> {
               evaluation of any kind.</p>
           </Modal.Body>
         </Modal>
-      </div>
+      </Grid>
     );
   }
 }

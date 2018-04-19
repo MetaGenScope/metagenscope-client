@@ -18,21 +18,18 @@ const DefaultLayout: React.SFC<LayoutProps> = (props) => {
   let footer = <Footer />;
   if (props.theme !== undefined) {
     if (props.theme === 'world-quant') {
-      header = (
-        <div>
-          <WorldQuantHeader />
-          {header}
-        </div>
-      );
+      header = <WorldQuantHeader />;
       footer = <WorldQuantFooter />;
     }
   }
   return (
-    <Grid>
+    <div>
       {header}
-      {props.children}
+      <Grid>
+        {props.children}
+      </Grid>
       {footer}
-    </Grid>
+    </div>
   );
 };
 
