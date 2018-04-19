@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Row, Col } from 'react-bootstrap';
+import { Grid, Row, Col } from 'react-bootstrap';
 
 import './style.css';
 
@@ -12,7 +12,7 @@ const rowStyle: React.CSSProperties = {
 
 export const WorldQuantHeader: React.SFC<{}> = (props) => {
   return (
-    <div>
+    <Grid fluid={true}>
       <Row>
         <div className="top-header" style={rowStyle}>
           <img src={wordMark} />
@@ -34,19 +34,21 @@ export const WorldQuantHeader: React.SFC<{}> = (props) => {
             Anonymized results will be available after the conference.</p>
         </Col>
       </Row>
-    </div>
+    </Grid>
   );
 };
 
 export const WorldQuantFooter: React.SFC<{}> = (props) => {
   return (
-    <Row className="world-quant-footer">
-      <Col>
-        <div className="footer-wrapper">
-          <img src={wordMark} />
-          <p>&copy; Copyright 2018</p>
-        </div>
-      </Col>
-    </Row>
+    <Grid fluid={true}>
+      <Row className="world-quant-footer">
+        <Col>
+          <div className="footer-wrapper">
+            <img src={wordMark} />
+            <p>&copy; Copyright 2018</p>
+          </div>
+        </Col>
+      </Row>
+    </Grid>
   );
 };
