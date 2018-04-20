@@ -24,6 +24,7 @@ const AnalysisGroupList: React.SFC<AnalysisGroupList> = (props) => {
 
 interface AnalysisGroupDetailProps {
   sampleUuid: string;
+  updateTheme?(theme?: string): void;
 }
 
 interface AnalysisGroupDetailState {
@@ -48,6 +49,9 @@ class AnalysisGroupDetail extends React.Component<AnalysisGroupDetailProps, Anal
     getSample(this.props.sampleUuid)
       .then((sample) => {
         this.setState({ sample });
+        if (this.props.updateTheme !== undefined) {
+          this.props.updateTheme(sample.theme);
+        }
         return sample;
       })
       .then((group) => {
@@ -59,6 +63,12 @@ class AnalysisGroupDetail extends React.Component<AnalysisGroupDetailProps, Anal
       .catch((error) => {
         this.setState({ error });
       });
+  }
+
+  componentWillUnmount() {
+    if (this.props.updateTheme !== undefined) {
+      this.props.updateTheme(undefined);
+    }
   }
 
   render() {

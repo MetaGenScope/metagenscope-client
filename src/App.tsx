@@ -129,6 +129,7 @@ class App extends React.Component<{}, AppState> {
             render={() => (
               <Samples
                 isAuthenticated={this.state.isAuthenticated}
+                updateTheme={this.updateTheme}
               />
             )}
           />
