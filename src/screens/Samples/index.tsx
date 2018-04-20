@@ -5,6 +5,7 @@ import AnalysisGroupDetail from './scenes/SampleDetail';
 
 interface SamplesProps {
   isAuthenticated: boolean;
+  updateTheme?(theme?: string): void;
 }
 
 const Samples: React.SFC<SamplesProps> = (props) => {
@@ -15,6 +16,7 @@ const Samples: React.SFC<SamplesProps> = (props) => {
         render={(routeProps) => (
           <AnalysisGroupDetail
             sampleUuid={routeProps.match.params.uuid}
+            updateTheme={props.updateTheme}
           />
         )}
       />

@@ -3,4 +3,5 @@ export interface SampleType {
   name: string;
   analysisResultUuid: string;
   metadata: any;  // tslint:disable-line no-any
+  theme?: string;
 }

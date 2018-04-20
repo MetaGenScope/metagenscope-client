@@ -181,7 +181,8 @@ export const getSample = function(uuid: string) {
         uuid: res.data.data.sample.uuid,
         name: res.data.data.sample.name,
         analysisResultUuid: res.data.data.sample.analysis_result_uuid,
-        metadata: res.data.data.meta,
+        metadata: res.data.data.sample.meta,
+        theme: res.data.data.sample.theme,
       };
       return sample;
     });
