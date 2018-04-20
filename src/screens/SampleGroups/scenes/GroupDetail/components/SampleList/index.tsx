@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { Panel, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Panel } from 'react-bootstrap';
 
 import { getSampleGroupSamples } from '../../../../../../services/api';
 import { SampleType } from '../../../../../../services/api/models/sample';
 
-const SAMPLE_COUNT_THRESHOLD = 10;
+import SampleReducer from './components/SampleReducer';
 
 interface SampleListProps {
   sampleGroupUuid: string;
@@ -13,10 +13,9 @@ interface SampleListProps {
 interface SampleListState {
   error?: string;
   samples?: SampleType[];
-  isExpanded: boolean;
 }
 
-class CollapsingSampleList extends React.Component<SampleListProps, SampleListState> {
+class SampleList extends React.Component<SampleListProps, SampleListState> {
 
   constructor(props: SampleListProps) {
     super(props);
@@ -24,15 +23,13 @@ class CollapsingSampleList extends React.Component<SampleListProps, SampleListSt
     this.state = {
       error: undefined,
       samples: undefined,
-      isExpanded: false,
     };
   }
 
   componentDidMount() {
     getSampleGroupSamples(this.props.sampleGroupUuid)
       .then((samples) => {
-        const isExpanded = samples.length <= SAMPLE_COUNT_THRESHOLD;
-        this.setState({ samples, isExpanded });
+        this.setState({ samples });
       })
       .catch((error) => {
         this.setState({ error });
@@ -41,10 +38,8 @@ class CollapsingSampleList extends React.Component<SampleListProps, SampleListSt
 
   render() {
     return (
-      <Panel id="collapsible-panel-example-1" expanded={this.state.isExpanded}>
-        <Panel.Heading onClick={() => this.setState({ isExpanded: !this.state.isExpanded })}>
-          <b>Samples</b> <span style={{fontSize: '0.8em'}}>Click to expand</span>
-        </Panel.Heading>
+      <Panel id="sample-list">
+        <Panel.Heading>Samples</Panel.Heading>
         {this.state.samples === undefined && this.state.error === undefined &&
           <Panel.Body>
             <h3>Loading...</h3>
@@ -57,18 +52,18 @@ class CollapsingSampleList extends React.Component<SampleListProps, SampleListSt
           </Panel.Body>
         }
         {this.state.samples !== undefined &&
-          <Panel.Collapse>
-            <ListGroup>
-              {this.state.samples.map((sample, index) => {
-                const url = `/samples/${sample.uuid}`;
-                return <ListGroupItem key={index} href={url}>{sample.name}</ListGroupItem>;
-              })}
-            </ListGroup>
-          </Panel.Collapse>
+          <Panel.Body>
+            {this.state.samples.length > 0 &&
+              <SampleReducer samples={this.state.samples} />
+            }
+            {this.state.samples.length <= 0 &&
+              <p>No samples found for this Sample Group.</p>
+            }
+          </Panel.Body>
         }
       </Panel>
     );
   }
 }
 
-export default CollapsingSampleList;
+export default SampleList;
