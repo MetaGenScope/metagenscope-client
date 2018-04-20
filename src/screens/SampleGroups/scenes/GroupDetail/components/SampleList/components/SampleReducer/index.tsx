@@ -30,17 +30,18 @@ class SampleReducer extends React.Component<SampleReducerProps, SampleReducerSta
   }
 
   render() {
-    const regex = this.state.sampleSearchString;
+    const regex = this.state.sampleSearchString.toLowerCase();
     let matchingSamples = this.props.samples;
     if (regex.length > 0) {
       matchingSamples = this.props.samples.filter(sample => {
-        return sample.name.search(regex) > -1;
+        const targetString = sample.name.toLowerCase();
+        return targetString.search(regex) > -1;
       });
     }
 
     return (
       <div>
-        <form>
+        <form onSubmit={event => event.preventDefault()}>
           <FormGroup controlId="formBasicText">
             <ControlLabel>Search samples</ControlLabel>
             <input
