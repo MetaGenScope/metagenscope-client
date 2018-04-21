@@ -9,6 +9,7 @@ import { AnalysisResultType } from '../../../../services/api/models/queryResult'
 import { SampleSimilarityModule } from '../../../../display_modules/SampleSimilarity';
 import { TaxonAbundanceModule } from '../../../../display_modules/TaxonAbundance';
 import { ReadsClassifiedModule } from '../../../../display_modules/ReadsClassified';
+import { SampleTaxonomyModule } from '../../../../display_modules/SampleTaxonomy';
 import HMPModule from '../../../../display_modules/HMP';
 import AGSModule from '../../../../display_modules/AverageGenomeSize';
 import BetaDiversityModule from '../../../../display_modules/BetaDiversity';
@@ -22,6 +23,7 @@ interface AnalysisGroupList {
 const AnalysisGroupList: React.SFC<AnalysisGroupList> = (props) => {
   return (
     <div>
+      <SampleTaxonomyModule uuid={props.queryResult.uuid} />
       {props.queryResult.result_types.indexOf('beta_diversity') > -1 &&
         <BetaDiversityModule uuid={props.queryResult.uuid} />
       }
@@ -83,7 +85,7 @@ class AnalysisGroupDetail extends React.Component<AnalysisGroupDetailProps, Anal
         this.setState({ queryResults });
       })
       .catch((error) => {
-        this.setState({ error });
+        this.setState({ error: '' + error });
       });
   }
 
