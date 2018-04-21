@@ -5,6 +5,7 @@ import { JsonOrganizationType, OrganizationType } from './models/organization';
 import { SampleGroupType } from './models/analysisGroup';
 import { SampleType } from './models/sample';
 import {
+  QueryResultStatus,
   AnalysisResultType,
   QueryResultWrapper,
   SampleSimilarityResultType,
@@ -13,7 +14,10 @@ import {
   HMPResultType,
   AGSResultType,
   BetaDiversityType,
+  SampleTaxonomyType,
 } from './models/queryResult';
+
+import { sampleTaxonomyData } from './seed/sampleTaxonomy';
 
 type LoginType = {
   email: string;
@@ -307,4 +311,12 @@ export const getBetaDiversity = function(uuid: string) {
     .then((res) => {
       return res.data.data as QueryResultWrapper<BetaDiversityType>;
     });
+};
+
+export const getSampleTaxonomy = function(uuid: string) {
+  const data: QueryResultWrapper<SampleTaxonomyType> = {
+    status: QueryResultStatus.Success,
+    data: sampleTaxonomyData,
+  };
+  return Promise.resolve(data);
 };

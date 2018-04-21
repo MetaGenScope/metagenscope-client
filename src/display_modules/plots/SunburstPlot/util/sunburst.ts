@@ -2,6 +2,13 @@ import * as d3 from 'd3';
 
 import { microbeDatabase } from './microbeDatabase';
 
+export interface SunburstDataType {
+  name: string;
+  parent?: string;
+  size: number;
+  children: SunburstDataType[];
+}
+
 type Node = d3.HierarchyRectangularNode<SunburstDataType>;
 
 function displayTaxaName(rawName: string) {
@@ -45,13 +52,6 @@ function getAncestors(node: Node) {
     current = current.parent;
   }
   return ancestorPath;
-}
-
-export interface SunburstDataType {
-  name: string;
-  parent?: string;
-  size: number;
-  children: SunburstDataType[];
 }
 
 export interface SunburstOptionsType {

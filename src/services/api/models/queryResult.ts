@@ -1,3 +1,5 @@
+import { SunburstDataType } from '../../../display_modules/plots/SunburstPlot/util/sunburst';
+
 export enum QueryResultStatus {
   Error = 'E',
   Pending = 'P',
@@ -90,6 +92,10 @@ export interface BetaDiversityType {
       [key: string]: BetaDiversityEntryType;
     };
   };
+}
+
+export interface SampleTaxonomyType {
+  [key: string]: SunburstDataType;
 }
 
 export interface QueryResultWrapper<T> {
