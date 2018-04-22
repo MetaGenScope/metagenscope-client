@@ -2,12 +2,12 @@ import * as React from 'react';
 
 import HighchartsDisplayContainer from '../components/DisplayContainer/highcharts';
 import { DisplayContainerProps } from '../components/DisplayContainer';
-import { ReadStatsType } from '../../services/api/models/queryResult';
+import { ReadStatsResultType } from '../../services/api/models/queryResult';
 import { getReadStats } from '../../services/api';
 
 import ReadStatsContainer from './components/ReadStatsContainer';
 
-export class ReadStatsModule extends HighchartsDisplayContainer<ReadStatsType> {
+export class ReadStatsModule extends HighchartsDisplayContainer<ReadStatsResultType> {
 
   constructor(props: DisplayContainerProps) {
     super(props);
@@ -25,7 +25,7 @@ export class ReadStatsModule extends HighchartsDisplayContainer<ReadStatsType> {
   }
 
   /** @inheritdoc */
-  plotContainer(data: ReadStatsType): JSX.Element {
+  plotContainer(data: ReadStatsResultType): JSX.Element {
     return <ReadStatsContainer data={data} chartRef={el => this.chart = el} />;
   }
 }
