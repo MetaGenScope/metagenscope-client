@@ -13,6 +13,7 @@ import {
   HMPResultType,
   AGSResultType,
   BetaDiversityType,
+  SampleTaxonomyType,
 } from './models/queryResult';
 
 type LoginType = {
@@ -306,5 +307,21 @@ export const getBetaDiversity = function(uuid: string) {
   return axios(options)
     .then((res) => {
       return res.data.data as QueryResultWrapper<BetaDiversityType>;
+    });
+};
+
+export const getSampleTaxonomy = function(uuid: string) {
+  const options = {
+    url: `${API_BASE_URL}/analysis_results/${uuid}/taxa_tree`,
+    method: 'get',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${window.localStorage.authToken}`
+    },
+  };
+
+  return axios(options)
+    .then((res) => {
+      return res.data.data as QueryResultWrapper<SampleTaxonomyType>;
     });
 };
