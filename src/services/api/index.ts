@@ -362,7 +362,7 @@ export const getMethyl = function(uuid: string) {
 
 export const getCARD = function(uuid: string) {
   const options = {
-    url: `${API_BASE_URL}/analysis_results/${uuid}/methyltransferases`,
+    url: `${API_BASE_URL}/analysis_results/${uuid}/card_amr_genes`,
     method: 'get',
     headers: {
       'Content-Type': 'application/json',
@@ -394,7 +394,7 @@ export const getVFDB = function(uuid: string) {
 
 export const getHumann2Normalize = function(uuid: string) {
   const options = {
-    url: `${API_BASE_URL}/analysis_results/${uuid}/methyltransferases`,
+    url: `${API_BASE_URL}/analysis_results/${uuid}/normalized_genes`,
     method: 'get',
     headers: {
       'Content-Type': 'application/json',

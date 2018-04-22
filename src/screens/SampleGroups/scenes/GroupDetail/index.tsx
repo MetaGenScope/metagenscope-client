@@ -8,7 +8,11 @@ import { AnalysisResultType } from '../../../../services/api/models/queryResult'
 
 import AGSModule from '../../../../display_modules/AverageGenomeSize';
 import BetaDiversityModule from '../../../../display_modules/BetaDiversity';
+import CARDModule from '../../../../display_modules/CARD';
 import HMPModule from '../../../../display_modules/HMP';
+import Humann2NormalizeModule from '../../../../display_modules/Humann2Normalize';
+import MethylModule from '../../../../display_modules/Methyl';
+import VFDBModule from '../../../../display_modules/VFDB';
 import { ReadsClassifiedModule } from '../../../../display_modules/ReadsClassified';
 import { ReadStatsModule } from '../../../../display_modules/ReadStats';
 import { SampleSimilarityModule } from '../../../../display_modules/SampleSimilarity';
@@ -28,12 +32,16 @@ export type ModuleEntry = {
 const mapping: {[key: string]: ModuleClassType} = {
   average_genome_size: AGSModule,
   beta_diversity: BetaDiversityModule,
+  card_amr_genes: CARDModule,
   hmp: HMPModule,
   read_stats: ReadStatsModule,
+  methyltransferases: MethylModule,
+  normalized_genes: Humann2NormalizeModule,
   reads_classified: ReadsClassifiedModule,
   sample_similarity: SampleSimilarityModule,
   taxa_tree: SampleTaxonomyModule,
   taxon_abundance: TaxonAbundanceModule,
+  virulence_factors: VFDBModule,
 };
 
 interface AnalysisGroupList {
