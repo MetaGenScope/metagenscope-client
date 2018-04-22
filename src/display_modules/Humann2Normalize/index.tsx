@@ -2,12 +2,12 @@ import * as React from 'react';
 
 import D3DisplayContainer from '../components/DisplayContainer/d3';
 import { DisplayContainerProps } from '../components/DisplayContainer';
-import { Humann2NormalizeType } from '../../services/api/models/queryResult';
+import { Humann2NormalizeResultType } from '../../services/api/models/queryResult';
 import { getHumann2Normalize } from '../../services/api';
 
 import Humann2NormalizeContainer from './components/Humann2NormalizeContainer';
 
-export default class Humann2NormalizeModule extends D3DisplayContainer<Humann2NormalizeType> {
+export default class Humann2NormalizeModule extends D3DisplayContainer<Humann2NormalizeResultType> {
 
   constructor(props: DisplayContainerProps) {
     super(props);
@@ -24,7 +24,7 @@ export default class Humann2NormalizeModule extends D3DisplayContainer<Humann2No
   }
 
   /** @inheritdoc */
-  plotContainer(data: Humann2NormalizeType): JSX.Element {
+  plotContainer(data: Humann2NormalizeResultType): JSX.Element {
     return <Humann2NormalizeContainer data={data} svgRef={el => this.svgCanvas = el} />;
   }
 }

@@ -2,12 +2,12 @@ import * as React from 'react';
 
 import D3DisplayContainer from '../components/DisplayContainer/d3';
 import { DisplayContainerProps } from '../components/DisplayContainer';
-import { CARDType } from '../../services/api/models/queryResult';
+import { CARDResultType } from '../../services/api/models/queryResult';
 import { getCARD } from '../../services/api';
 
 import CARDContainer from './components/CARDContainer';
 
-export default class CARDModule extends D3DisplayContainer<CARDType> {
+export default class CARDModule extends D3DisplayContainer<CARDResultType> {
 
   constructor(props: DisplayContainerProps) {
     super(props);
@@ -24,7 +24,7 @@ export default class CARDModule extends D3DisplayContainer<CARDType> {
   }
 
   /** @inheritdoc */
-  plotContainer(data: CARDType): JSX.Element {
+  plotContainer(data: CARDResultType): JSX.Element {
     return <CARDContainer data={data} svgRef={el => this.svgCanvas = el} />;
   }
 }

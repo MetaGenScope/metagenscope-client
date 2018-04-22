@@ -94,5 +94,4 @@ export default class CARDContainer extends React.Component<CARDProps, CARDState>
       </Row>
     );
   }
-
 }
