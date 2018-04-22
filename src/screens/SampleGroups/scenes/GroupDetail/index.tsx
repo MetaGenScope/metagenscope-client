@@ -7,6 +7,7 @@ import { SampleGroupType } from '../../../../services/api/models/analysisGroup';
 import { AnalysisResultType } from '../../../../services/api/models/queryResult';
 
 import AGSModule from '../../../../display_modules/AverageGenomeSize';
+import AlphaDiversityModule from '../../../../display_modules/AlphaDiversity';
 import BetaDiversityModule from '../../../../display_modules/BetaDiversity';
 import CARDModule from '../../../../display_modules/CARD';
 import HMPModule from '../../../../display_modules/HMP';
@@ -29,6 +30,7 @@ export type ModuleEntry = {
 };
 
 const mapping: {[key: string]: ModuleClassType} = {
+  average_diversity: AlphaDiversityModule,
   average_genome_size: AGSModule,
   beta_diversity: BetaDiversityModule,
   card_amr_genes: CARDModule,

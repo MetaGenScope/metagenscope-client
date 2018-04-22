@@ -7,7 +7,7 @@ import { getAlphaDiv } from '../../services/api';
 
 import AlphaDiversityContainer from './components/AlphaDiversityContainer';
 
-export default class HMPModule extends HighchartsDisplayContainer<AlphaDivResultType> {
+export default class AlphaDiversityModule extends HighchartsDisplayContainer<AlphaDivResultType> {
 
   constructor(props: DisplayContainerProps) {
     super(props);
