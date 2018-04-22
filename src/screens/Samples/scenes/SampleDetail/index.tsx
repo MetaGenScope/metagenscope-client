@@ -7,10 +7,12 @@ import { SampleType } from '../../../../services/api/models/sample';
 import { AnalysisResultType } from '../../../../services/api/models/queryResult';
 import { ModuleClassType, ModuleEntry } from '../../../SampleGroups/scenes/GroupDetail';
 
+import HMPModule from '../../../../display_modules/HMP';
 import { ReadsClassifiedModule } from '../../../../display_modules/ReadsClassified';
 
 const mapping: {[key: string]: ModuleClassType} = {
   reads_classified: ReadsClassifiedModule,
+  hmp: HMPModule,
 };
 
 interface AnalysisGroupList {
