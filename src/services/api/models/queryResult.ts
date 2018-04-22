@@ -73,6 +73,25 @@ export interface ReadsClassifiedType {
   }[];
 }
 
+export interface BetaDiversityEntryType {
+  // SampleID
+  [key: string]: {
+    // SampleID
+    [key: string]: number;
+  };
+}
+
+export interface BetaDiversityType {
+  // Rank name
+  [key: string]: {
+    // Metric name
+    [key: string]: {
+      // Tool name
+      [key: string]: BetaDiversityEntryType;
+    };
+  };
+}
+
 export interface QueryResultWrapper<T> {
   status: QueryResultStatus;
   data?: T;

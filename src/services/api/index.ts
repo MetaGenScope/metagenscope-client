@@ -12,6 +12,7 @@ import {
   ReadsClassifiedType,
   HMPResultType,
   AGSResultType,
+  BetaDiversityType,
 } from './models/queryResult';
 
 type LoginType = {
@@ -289,5 +290,21 @@ export const getAGS = function(uuid: string) {
   return axios(options)
     .then((res) => {
       return res.data.data as QueryResultWrapper<AGSResultType>;
+    });
+};
+
+export const getBetaDiversity = function(uuid: string) {
+  const options = {
+    url: `${API_BASE_URL}/analysis_results/${uuid}/beta_diversity`,
+    method: 'get',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${window.localStorage.authToken}`
+    },
+  };
+
+  return axios(options)
+    .then((res) => {
+      return res.data.data as QueryResultWrapper<BetaDiversityType>;
     });
 };

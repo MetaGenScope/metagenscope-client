@@ -11,6 +11,7 @@ import { TaxonAbundanceModule } from '../../../../display_modules/TaxonAbundance
 import { ReadsClassifiedModule } from '../../../../display_modules/ReadsClassified';
 import HMPModule from '../../../../display_modules/HMP';
 import AGSModule from '../../../../display_modules/AverageGenomeSize';
+import BetaDiversityModule from '../../../../display_modules/BetaDiversity';
 
 import SampleList from './components/SampleList';
 
@@ -21,6 +22,9 @@ interface AnalysisGroupList {
 const AnalysisGroupList: React.SFC<AnalysisGroupList> = (props) => {
   return (
     <div>
+      {props.queryResult.result_types.indexOf('beta_diversity') > -1 &&
+        <BetaDiversityModule uuid={props.queryResult.uuid} />
+      }
       {props.queryResult.result_types.indexOf('sample_similarity') > -1 &&
         <SampleSimilarityModule uuid={props.queryResult.uuid} />
       }
