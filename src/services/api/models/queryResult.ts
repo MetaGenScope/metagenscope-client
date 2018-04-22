@@ -100,7 +100,12 @@ export interface SampleTaxonomyType {
 
 export interface ReadStatsResultType {
   samples: {
-    [key: string]: any;  // tslint:disable-line
+    [key: string]: {
+      gc_content: number,
+      num_reads: number,
+      codons: {[key: string]: number},
+      tetramers: {[key: string]: number},
+    };
   };
 }
 
