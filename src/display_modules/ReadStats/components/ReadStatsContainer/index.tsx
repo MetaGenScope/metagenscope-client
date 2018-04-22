@@ -38,22 +38,22 @@ export class ReadStatsContainer extends React.Component<ReadStatsProps, ReadStat
   }
 
   chartOptions(activeSource: string): Highcharts.Options {
-
-    let valList: Array<[string, number]> = [];
-    for (let sname in this.props.data.samples) {
-      val = this.props.data.samples[sname][activeSource];
-      valList.push([sname, val]);
-    }
-    let sortedVals: Array<[string, number]> = valList.sort((el0, el1) => el0[1] - el1[1]);
+    let valueList: Array<[string, number]> = [];
+    const samples = this.props.data.samples;
+    Object.keys(samples).forEach(sampleName => {
+      const value = samples[sampleName][activeSource];
+      valueList.push([sampleName, value]);
+    });
+    let sortedVals: Array<[string, number]> = valueList.sort((el0, el1) => el0[1] - el1[1]);
     const sampleNames = sortedVals.map(el => el[0]);
     const dataPoints = sortedVals.map(el => el[1]);
 
-    if (activeSource == 'num_reads') {
-      const yAxisTitle = 'Num. Reads';
-    } else if (activeSource == 'gc_content'){
-      const yAxisTitle = 'GC Percentage';
+    let yAxisTitle = '[unnamed]';
+    if (activeSource === 'num_reads') {
+      yAxisTitle = 'Num. Reads';
+    } else if (activeSource === 'gc_content') {
+      yAxisTitle = 'GC Percentage';
     }
-
 
     const chartOptions: Highcharts.Options = {
       chart: {

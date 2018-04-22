@@ -1,5 +1,4 @@
 import * as React from 'react';
-import * as d3 from 'd3';
 import { Well, Row, Col } from 'react-bootstrap';
 
 import SelectSource from '../../../../../controls/SelectSource';

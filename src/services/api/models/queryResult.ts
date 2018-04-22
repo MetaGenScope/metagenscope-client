@@ -99,7 +99,9 @@ export interface SampleTaxonomyType {
 }
 
 export interface ReadStatsResultType {
-  samples: {};
+  samples: {
+    [key: string]: any;  // tslint:disable-line
+  };
 }
 
 export interface QueryResultWrapper<T> {
