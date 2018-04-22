@@ -98,6 +98,17 @@ export interface SampleTaxonomyType {
   [key: string]: SunburstDataType;
 }
 
+export interface ReadStatsResultType {
+  samples: {
+    [key: string]: {
+      gc_content: number,
+      num_reads: number,
+      codons: {[key: string]: number},
+      tetramers: {[key: string]: number},
+    };
+  };
+}
+
 export interface QueryResultWrapper<T> {
   status: QueryResultStatus;
   data?: T;

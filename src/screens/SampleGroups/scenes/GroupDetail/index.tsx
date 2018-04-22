@@ -10,6 +10,7 @@ import AGSModule from '../../../../display_modules/AverageGenomeSize';
 import BetaDiversityModule from '../../../../display_modules/BetaDiversity';
 import HMPModule from '../../../../display_modules/HMP';
 import { ReadsClassifiedModule } from '../../../../display_modules/ReadsClassified';
+import { ReadStatsModule } from '../../../../display_modules/ReadStats';
 import { SampleSimilarityModule } from '../../../../display_modules/SampleSimilarity';
 import { SampleTaxonomyModule } from '../../../../display_modules/SampleTaxonomy';
 import { TaxonAbundanceModule } from '../../../../display_modules/TaxonAbundance';
@@ -28,6 +29,7 @@ const mapping: {[key: string]: ModuleClassType} = {
   average_genome_size: AGSModule,
   beta_diversity: BetaDiversityModule,
   hmp: HMPModule,
+  read_stats: ReadStatsModule,
   reads_classified: ReadsClassifiedModule,
   sample_similarity: SampleSimilarityModule,
   taxa_tree: SampleTaxonomyModule,

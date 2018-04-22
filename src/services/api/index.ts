@@ -14,6 +14,7 @@ import {
   AGSResultType,
   BetaDiversityType,
   SampleTaxonomyType,
+  ReadStatsResultType,
 } from './models/queryResult';
 
 type LoginType = {
@@ -307,6 +308,22 @@ export const getBetaDiversity = function(uuid: string) {
   return axios(options)
     .then((res) => {
       return res.data.data as QueryResultWrapper<BetaDiversityType>;
+    });
+};
+
+export const getReadStats = function(uuid: string) {
+  const options = {
+    url: `${API_BASE_URL}/analysis_results/${uuid}/read_stats`,
+    method: 'get',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${window.localStorage.authToken}`
+    },
+  };
+
+  return axios(options)
+    .then((res) => {
+      return res.data.data as QueryResultWrapper<ReadStatsResultType>;
     });
 };
 
