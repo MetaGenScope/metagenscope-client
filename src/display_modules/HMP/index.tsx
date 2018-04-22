@@ -7,7 +7,11 @@ import { getHMP } from '../../services/api';
 
 import HMPContainer from './components/HMPContainer';
 
-export default class HMPModule extends HighchartsDisplayContainer<HMPResultType> {
+interface HMPProps extends DisplayContainerProps {
+  isSingleton?: boolean;
+}
+
+export default class HMPModule extends HighchartsDisplayContainer<HMPResultType, HMPProps> {
 
   constructor(props: DisplayContainerProps) {
     super(props);
@@ -26,6 +30,12 @@ export default class HMPModule extends HighchartsDisplayContainer<HMPResultType>
 
   /** @inheritdoc */
   plotContainer(data: HMPResultType): JSX.Element {
-    return <HMPContainer data={data} chartRef={el => this.chart = el} />;
+    return (
+      <HMPContainer
+        data={data}
+        chartRef={el => this.chart = el}
+        isSingleton={this.props.isSingleton}
+      />
+    );
   }
 }

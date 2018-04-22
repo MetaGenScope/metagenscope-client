@@ -9,8 +9,57 @@ import { ChartRefProps } from '../../../components/DisplayContainer/highcharts';
 
 import HMPControls from './components/HMPControls';
 
+type DatumType = {name: string, data: number[][]};
+type ColorChoice = d3.ScaleOrdinal<string, string>;
+
+const createOptions = function(data: DatumType[], categories: string[], color: ColorChoice): Highcharts.Options {
+  const series: Highcharts.IndividualSeriesOptions[] = data.map(source => {
+    const dataPoints: Highcharts.DataPoint[] = source.data.map(datum => {
+      return {
+        low: datum[0],
+        q1: datum[1],
+        median: datum[2],
+        q3: datum[3],
+        high: datum[4],
+      };
+    });
+    return {
+      name: source.name,
+      data: dataPoints,
+      color: color(source.name),
+    };
+  });
+
+  const chartOptions: Highcharts.Options = {
+    chart: {
+      type: 'boxplot',
+    },
+    title: {
+      text: null,
+    },
+    legend: {
+      enabled: true,
+    },
+    xAxis: {
+      categories,
+    },
+    yAxis: {
+      title: {
+        text: 'Cosine Similarity',
+      },
+    },
+    exporting: {
+      enabled: false,
+    },
+    series,
+  };
+
+  return chartOptions;
+};
+
 export interface HMPProps extends ChartRefProps {
   data: HMPResultType;
+  isSingleton?: boolean;
 }
 
 export interface HMPState {
@@ -46,77 +95,34 @@ export class HMPContainer extends React.Component<HMPProps, HMPState> {
     });
   }
 
-  chartOptions(activeCategory: string): Highcharts.Options {
-    const datums = this.props.data.data[activeCategory];
-
-    const series: Highcharts.IndividualSeriesOptions[] = datums.map(source => {
-      const dataPoints: Highcharts.DataPoint[] = source.data.map(datum => {
-        return {
-          low: datum[0],
-          q1: datum[1],
-          median: datum[2],
-          q3: datum[3],
-          high: datum[4],
-        };
-      });
-      return {
-        name: source.name,
-        data: dataPoints,
-        color: this.color(source.name),
-      };
-    });
-
-    const chartOptions: Highcharts.Options = {
-      chart: {
-        type: 'boxplot',
-      },
-      title: {
-        text: null,
-      },
-      legend: {
-        enabled: true,
-      },
-      xAxis: {
-        categories: this.props.data.sites,
-      },
-      yAxis: {
-        title: {
-          text: 'Cosine Similarity',
-        },
-      },
-      exporting: {
-        enabled: false,
-      },
-      series,
-    };
-
-    return chartOptions;
-  }
-
   render() {
     const activeCategory = this.state.activeCategory,
-          activeCategoryValues = this.props.data.categories[activeCategory];
-    const chartOptions = this.chartOptions(activeCategory);
+          data = this.props.data.data[activeCategory],
+          chartOptions = createOptions(data, this.props.data.sites, this.color),
+          activeCategoryValues = this.props.data.categories[activeCategory],
+          isSingleton = this.props.isSingleton || false;
 
     return (
       <Row>
-        <Col lg={9}>
+        <Col lg={isSingleton ? 12 : 9}>
           <HighChartsPlot
             chartId="human-body-sites"
             options={chartOptions}
             chartRef={this.props.chartRef}
           />
         </Col>
-        <Col lg={3}>
-          <HMPControls
-            categories={Object.keys(this.props.data.categories)}
-            activeCategory={activeCategory}
-            activeCategoryValues={activeCategoryValues}
-            activeCategoryColor={this.color}
-            handleCategoryChange={this.handleCategoryChange}
-            handleColorByCategoryChanged={this.handleColorByCategoryChanged}
-          />
-        </Col>
+        {!isSingleton &&
+          <Col lg={3}>
+            <HMPControls
+              categories={Object.keys(this.props.data.categories)}
+              activeCategory={activeCategory}
+              activeCategoryValues={activeCategoryValues}
+              activeCategoryColor={this.color}
+              handleCategoryChange={this.handleCategoryChange}
+              handleColorByCategoryChanged={this.handleColorByCategoryChanged}
+            />
+          </Col>
+        }
       </Row>
     );
   }
