@@ -9,8 +9,6 @@ import { SvgRefProps } from '../../../components/DisplayContainer/d3';
 
 import BetaDiversityControls from './components/BetaDiversityControls';
 
-import { values } from '../../../plots/HeatmapPlot/util/data';
-
 export interface BetaDiversityProps extends SvgRefProps {
   data: BetaDiversityType;
 }
@@ -51,7 +49,7 @@ export default class BetaDiversityContainer extends React.Component<BetaDiversit
     const columnNames = Object.keys(data);
     const rowNames = Object.keys(data[columnNames[0]]);
 
-    let newValues: HeatMapDatum[] = [];
+    const newValues: HeatMapDatum[] = [];
     columnNames.forEach((columnName, column) => {
       rowNames.forEach((rowName, row) => {
         newValues.push({
@@ -62,20 +60,18 @@ export default class BetaDiversityContainer extends React.Component<BetaDiversit
       });
     });
 
-    let result = {
+    const result = {
       axis: {
         x: columnNames.map(name => ({name})),
         y: rowNames,
       },
-      data: values.map(datum => ({x: datum.x - 1, y: datum.y - 1, value: datum.value})),
+      data: newValues,
       buckets: 10,
       legend: {
         precision: 3,
       },
       svgRef: this.props.svgRef,
     };
-
-    result.data = newValues;
 
     return result;
   }

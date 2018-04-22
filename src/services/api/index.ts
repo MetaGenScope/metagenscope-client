@@ -5,7 +5,6 @@ import { JsonOrganizationType, OrganizationType } from './models/organization';
 import { SampleGroupType } from './models/analysisGroup';
 import { SampleType } from './models/sample';
 import {
-  QueryResultStatus,
   AnalysisResultType,
   QueryResultWrapper,
   SampleSimilarityResultType,
@@ -15,8 +14,6 @@ import {
   AGSResultType,
   BetaDiversityType,
 } from './models/queryResult';
-
-import { betaDiversity } from './seed/beta_diversity';
 
 type LoginType = {
   email: string;
@@ -296,9 +293,18 @@ export const getAGS = function(uuid: string) {
     });
 };
 
-export const getBetaDiversity = function(uuid: string): Promise<QueryResultWrapper<BetaDiversityType>> {
-  return Promise.resolve({
-    status: QueryResultStatus.Success,
-    data: betaDiversity,
-  });
+export const getBetaDiversity = function(uuid: string) {
+  const options = {
+    url: `${API_BASE_URL}/analysis_results/${uuid}/beta_diversity`,
+    method: 'get',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${window.localStorage.authToken}`
+    },
+  };
+
+  return axios(options)
+    .then((res) => {
+      return res.data.data as QueryResultWrapper<BetaDiversityType>;
+    });
 };

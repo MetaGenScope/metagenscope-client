@@ -22,7 +22,9 @@ interface AnalysisGroupList {
 const AnalysisGroupList: React.SFC<AnalysisGroupList> = (props) => {
   return (
     <div>
-      <BetaDiversityModule uuid="000-000-0000" />
+      {props.queryResult.result_types.indexOf('beta_diversity') > -1 &&
+        <BetaDiversityModule uuid={props.queryResult.uuid} />
+      }
       {props.queryResult.result_types.indexOf('sample_similarity') > -1 &&
         <SampleSimilarityModule uuid={props.queryResult.uuid} />
       }
