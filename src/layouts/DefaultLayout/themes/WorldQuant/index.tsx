@@ -33,15 +33,14 @@ export const WorldQuantHeader: React.SFC<{}> = (props) => {
           <Grid>
             <Row className="bottom-header">
               <Col lg={6} md={12} sm={12}>
-                <p style={{fontSize: '28px'}}>Your participation is accelerating our work on one of
+                <p>Your participation is accelerating our work on one of
                   humanity’s greatest health risks and the development of new treatments for
                   antibiotic-resistant bacteria.</p>
               </Col>
               <Col lg={6} md={12} sm={12}>
                 <p>Our scientists analyzed the bacterial and viral DNA present on your cell phone that
-                  was gathered on-site.
-                  <br /><br />
-                  Anonymized results will be available after the conference.</p>
+                  was gathered on-site.</p>
+                <p>Anonymized results will be available after the conference.</p>
               </Col>
             </Row>
           </Grid>
