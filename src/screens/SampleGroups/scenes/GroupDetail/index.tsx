@@ -6,44 +6,54 @@ import { getSampleGroup, getAnalysisResults } from '../../../../services/api';
 import { SampleGroupType } from '../../../../services/api/models/analysisGroup';
 import { AnalysisResultType } from '../../../../services/api/models/queryResult';
 
-import { SampleSimilarityModule } from '../../../../display_modules/SampleSimilarity';
-import { TaxonAbundanceModule } from '../../../../display_modules/TaxonAbundance';
-import { ReadsClassifiedModule } from '../../../../display_modules/ReadsClassified';
-import { SampleTaxonomyModule } from '../../../../display_modules/SampleTaxonomy';
-import HMPModule from '../../../../display_modules/HMP';
 import AGSModule from '../../../../display_modules/AverageGenomeSize';
 import BetaDiversityModule from '../../../../display_modules/BetaDiversity';
+import HMPModule from '../../../../display_modules/HMP';
+import { ReadsClassifiedModule } from '../../../../display_modules/ReadsClassified';
+import { SampleSimilarityModule } from '../../../../display_modules/SampleSimilarity';
+import { SampleTaxonomyModule } from '../../../../display_modules/SampleTaxonomy';
+import { TaxonAbundanceModule } from '../../../../display_modules/TaxonAbundance';
 
 import SampleList from './components/SampleList';
+
+export type ModuleClassTypeProps = {uuid: string, isSingleton?: boolean};
+export type ModuleClassType = React.ComponentClass<ModuleClassTypeProps>;
+
+export type ModuleEntry = {
+  name: string;
+  ModuleClass: ModuleClassType;
+};
+
+const mapping: {[key: string]: ModuleClassType} = {
+  average_genome_size: AGSModule,
+  beta_diversity: BetaDiversityModule,
+  hmp: HMPModule,
+  reads_classified: ReadsClassifiedModule,
+  sample_similarity: SampleSimilarityModule,
+  taxa_tree: SampleTaxonomyModule,
+  taxon_abundance: TaxonAbundanceModule,
+};
 
 interface AnalysisGroupList {
   queryResult: AnalysisResultType;
 }
 
 const AnalysisGroupList: React.SFC<AnalysisGroupList> = (props) => {
+  const modules: ModuleEntry[] = [];
+  props.queryResult.result_types.forEach(moduleName => {
+    const displayModule = mapping[moduleName];
+    if (displayModule !== undefined) {
+      modules.push({
+        name: moduleName,
+        ModuleClass: displayModule,
+      });
+    }
+  });
   return (
     <div>
-      {props.queryResult.result_types.indexOf('taxa_tree') > -1 &&
-        <SampleTaxonomyModule uuid={props.queryResult.uuid} />
-      }
-      {props.queryResult.result_types.indexOf('beta_diversity') > -1 &&
-        <BetaDiversityModule uuid={props.queryResult.uuid} />
-      }
-      {props.queryResult.result_types.indexOf('sample_similarity') > -1 &&
-        <SampleSimilarityModule uuid={props.queryResult.uuid} />
-      }
-      {props.queryResult.result_types.indexOf('taxon_abundance') > -1 &&
-        <TaxonAbundanceModule uuid={props.queryResult.uuid} />
-      }
-      {props.queryResult.result_types.indexOf('reads_classified') > -1 &&
-        <ReadsClassifiedModule uuid={props.queryResult.uuid} />
-      }
-      {props.queryResult.result_types.indexOf('hmp') > -1 &&
-        <HMPModule uuid={props.queryResult.uuid} />
-      }
-      {props.queryResult.result_types.indexOf('average_genome_size') > -1 &&
-        <AGSModule uuid={props.queryResult.uuid} />
-      }
+      {modules.map(Entry => {
+        return <Entry.ModuleClass key={Entry.name} uuid={props.queryResult.uuid} />;
+      })}
     </div>
   );
 };
