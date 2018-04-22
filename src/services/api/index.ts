@@ -5,7 +5,6 @@ import { JsonOrganizationType, OrganizationType } from './models/organization';
 import { SampleGroupType } from './models/analysisGroup';
 import { SampleType } from './models/sample';
 import {
-  QueryResultStatus,
   AnalysisResultType,
   QueryResultWrapper,
   SampleSimilarityResultType,
@@ -16,8 +15,6 @@ import {
   BetaDiversityType,
   SampleTaxonomyType,
 } from './models/queryResult';
-
-import { sampleTaxonomyData } from './seed/sampleTaxonomy';
 
 type LoginType = {
   email: string;
@@ -314,9 +311,17 @@ export const getBetaDiversity = function(uuid: string) {
 };
 
 export const getSampleTaxonomy = function(uuid: string) {
-  const data: QueryResultWrapper<SampleTaxonomyType> = {
-    status: QueryResultStatus.Success,
-    data: sampleTaxonomyData,
+  const options = {
+    url: `${API_BASE_URL}/analysis_results/${uuid}/taxa_tree`,
+    method: 'get',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${window.localStorage.authToken}`
+    },
   };
-  return Promise.resolve(data);
+
+  return axios(options)
+    .then((res) => {
+      return res.data.data as QueryResultWrapper<SampleTaxonomyType>;
+    });
 };

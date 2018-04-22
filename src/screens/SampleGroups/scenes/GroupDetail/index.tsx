@@ -23,7 +23,9 @@ interface AnalysisGroupList {
 const AnalysisGroupList: React.SFC<AnalysisGroupList> = (props) => {
   return (
     <div>
-      <SampleTaxonomyModule uuid={props.queryResult.uuid} />
+      {props.queryResult.result_types.indexOf('taxa_tree') > -1 &&
+        <SampleTaxonomyModule uuid={props.queryResult.uuid} />
+      }
       {props.queryResult.result_types.indexOf('beta_diversity') > -1 &&
         <BetaDiversityModule uuid={props.queryResult.uuid} />
       }
