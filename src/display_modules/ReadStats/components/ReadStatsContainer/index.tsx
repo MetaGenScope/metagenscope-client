@@ -9,6 +9,8 @@ import { ChartRefProps } from '../../../components/DisplayContainer/highcharts';
 
 import ReadStatsControls from './components/ReadStatsControls';
 
+const READ_STATS_SOURCES = ['num_reads', 'gc_content'];
+
 export interface ReadStatsProps extends ChartRefProps {
   data: ReadStatsResultType;
 }
@@ -27,7 +29,7 @@ export class ReadStatsContainer extends React.Component<ReadStatsProps, ReadStat
     this.handleSourceChange = this.handleSourceChange.bind(this);
 
     this.state = {
-      activeSource: 'num_reads',
+      activeSource: READ_STATS_SOURCES[0],
     };
   }
 
@@ -40,7 +42,7 @@ export class ReadStatsContainer extends React.Component<ReadStatsProps, ReadStat
   chartOptions(activeSource: string): Highcharts.Options {
     let valueList: Array<[string, number]> = [];
     const samples = this.props.data.samples;
-    Object.keys(samples).forEach(sampleName => {
+    READ_STATS_SOURCES.forEach(sampleName => {
       const value = samples[sampleName][activeSource];
       valueList.push([sampleName, value]);
     });
@@ -100,7 +102,7 @@ export class ReadStatsContainer extends React.Component<ReadStatsProps, ReadStat
         </Col>
         <Col lg={3}>
           <ReadStatsControls
-            sources={['num_reads', 'gc_content']}
+            sources={READ_STATS_SOURCES}
             activeSource={activeSource}
             handleSourceChange={this.handleSourceChange}
           />
