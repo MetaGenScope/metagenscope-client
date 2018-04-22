@@ -5,19 +5,40 @@ import { Helmet } from 'react-helmet';
 import { getSample, getAnalysisResults } from '../../../../services/api';
 import { SampleType } from '../../../../services/api/models/sample';
 import { AnalysisResultType } from '../../../../services/api/models/queryResult';
+import { ModuleClassType, ModuleEntry } from '../../../SampleGroups/scenes/GroupDetail';
 
 import { ReadsClassifiedModule } from '../../../../display_modules/ReadsClassified';
+
+const mapping: {[key: string]: ModuleClassType} = {
+  reads_classified: ReadsClassifiedModule,
+};
 
 interface AnalysisGroupList {
   queryResult: AnalysisResultType;
 }
 
 const AnalysisGroupList: React.SFC<AnalysisGroupList> = (props) => {
+  const modules: ModuleEntry[] = [];
+  props.queryResult.result_types.forEach(moduleName => {
+    const displayModule = mapping[moduleName];
+    if (displayModule !== undefined) {
+      modules.push({
+        name: moduleName,
+        ModuleClass: displayModule,
+      });
+    }
+  });
   return (
     <div>
-      {props.queryResult.result_types.indexOf('reads_classified') > -1 &&
-        <ReadsClassifiedModule uuid={props.queryResult.uuid} isSingleton={true} />
-      }
+      {modules.map(Entry => {
+        return (
+          <Entry.ModuleClass
+            key={Entry.name}
+            uuid={props.queryResult.uuid}
+            isSingleton={true}
+          />
+        );
+      })}
     </div>
   );
 };
