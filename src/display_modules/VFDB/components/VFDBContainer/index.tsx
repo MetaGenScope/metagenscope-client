@@ -4,15 +4,13 @@ import { Row, Col } from 'react-bootstrap';
 
 import HeatmapPlot, { HeatMapProps } from '../../../../display_modules/plots/HeatmapPlot';
 import { HeatMapDatum } from '../../../../display_modules/plots/HeatmapPlot/util/heatmap';
-import { VFDBType } from '../../../../services/api/models/queryResult';
+import { VFDBResultType } from '../../../../services/api/models/queryResult';
 import { SvgRefProps } from '../../../components/DisplayContainer/d3';
 
 import VFDBControls from './components/VFDBControls';
 
-import { values } from '../../../plots/HeatmapPlot/util/data';
-
 export interface VFDBProps extends SvgRefProps {
-  data: VFDBType;
+  data: VFDBResultType;
 }
 
 export interface VFDBState {
@@ -37,7 +35,7 @@ export default class VFDBContainer extends React.Component<VFDBProps, VFDBState>
 
   chartOptions(): HeatMapProps {
     const metric = this.state.activeMetric,
-          data = this.props.data['samples'];
+          data = this.props.data.samples;
 
     const columnNames = Object.keys(data);
     const rowNames = Object.keys(data[columnNames[0]]);
@@ -58,7 +56,7 @@ export default class VFDBContainer extends React.Component<VFDBProps, VFDBState>
         x: columnNames.map(name => ({name})),
         y: rowNames,
       },
-      data: values.map(datum => ({x: datum.x - 1, y: datum.y - 1, value: datum.value})),
+      data: newValues,
       buckets: 10,
       legend: {
         precision: 3,
@@ -66,13 +64,10 @@ export default class VFDBContainer extends React.Component<VFDBProps, VFDBState>
       svgRef: this.props.svgRef,
     };
 
-    result.data = newValues;
-
     return result;
   }
 
   controlProps() {
-    const metadata = this.metaDataFromProps(this.props);
     return {
       metrics: ['rpkm', 'rpkmg'],
       activeMetric: this.state.activeMetric,
@@ -99,5 +94,4 @@ export default class VFDBContainer extends React.Component<VFDBProps, VFDBState>
       </Row>
     );
   }
-
 }

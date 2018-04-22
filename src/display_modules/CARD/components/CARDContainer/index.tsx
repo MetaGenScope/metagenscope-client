@@ -4,15 +4,13 @@ import { Row, Col } from 'react-bootstrap';
 
 import HeatmapPlot, { HeatMapProps } from '../../../../display_modules/plots/HeatmapPlot';
 import { HeatMapDatum } from '../../../../display_modules/plots/HeatmapPlot/util/heatmap';
-import { CARDType } from '../../../../services/api/models/queryResult';
+import { CARDResultType } from '../../../../services/api/models/queryResult';
 import { SvgRefProps } from '../../../components/DisplayContainer/d3';
 
 import CARDControls from './components/CARDControls';
 
-import { values } from '../../../plots/HeatmapPlot/util/data';
-
 export interface CARDProps extends SvgRefProps {
-  data: CARDType;
+  data: CARDResultType;
 }
 
 export interface CARDState {
@@ -37,7 +35,7 @@ export default class CARDContainer extends React.Component<CARDProps, CARDState>
 
   chartOptions(): HeatMapProps {
     const metric = this.state.activeMetric,
-          data = this.props.data['samples'];
+          data = this.props.data.samples;
 
     const columnNames = Object.keys(data);
     const rowNames = Object.keys(data[columnNames[0]]);
@@ -58,7 +56,7 @@ export default class CARDContainer extends React.Component<CARDProps, CARDState>
         x: columnNames.map(name => ({name})),
         y: rowNames,
       },
-      data: values.map(datum => ({x: datum.x - 1, y: datum.y - 1, value: datum.value})),
+      data: newValues,
       buckets: 10,
       legend: {
         precision: 3,
@@ -66,13 +64,10 @@ export default class CARDContainer extends React.Component<CARDProps, CARDState>
       svgRef: this.props.svgRef,
     };
 
-    result.data = newValues;
-
     return result;
   }
 
   controlProps() {
-    const metadata = this.metaDataFromProps(this.props);
     return {
       metrics: ['rpkm', 'rpkmg'],
       activeMetric: this.state.activeMetric,
