@@ -109,6 +109,50 @@ export interface ReadStatsResultType {
   };
 }
 
+export interface MethylResultType {
+  samples: {
+    [key: string]: {
+      [key: string]: {
+        rpkm: number;
+        rpkmg: number;
+      }
+    }
+  };
+}
+
+export interface CARDResultType {
+  samples: {
+    [key: string]: {
+      [key: string]: {
+        rpkm: number;
+        rpkmg: number;
+      }
+    }
+  };
+}
+
+export interface VFDBResultType {
+  samples: {
+    [key: string]: {
+      [key: string]: {
+        rpkm: number;
+        rpkmg: number;
+      }
+    }
+  };
+}
+
+export interface Humann2NormalizeResultType {
+  samples: {
+    [key: string]: {
+      [key: string]: {
+        rpkm: number;
+        rpkmg: number;
+      }
+    }
+  };
+}
+
 export interface QueryResultWrapper<T> {
   status: QueryResultStatus;
   data?: T;
