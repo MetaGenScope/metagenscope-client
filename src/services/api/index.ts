@@ -394,7 +394,7 @@ export const getVFDB = function(uuid: string) {
 
 export const getHumann2Normalize = function(uuid: string) {
   const options = {
-    url: `${API_BASE_URL}/analysis_results/${uuid}/normalized_genes`,
+    url: `${API_BASE_URL}/analysis_results/${uuid}/functional_genes`,
     method: 'get',
     headers: {
       'Content-Type': 'application/json',

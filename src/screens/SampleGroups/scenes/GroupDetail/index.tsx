@@ -36,7 +36,7 @@ const mapping: {[key: string]: ModuleClassType} = {
   hmp: HMPModule,
   read_stats: ReadStatsModule,
   methyltransferases: MethylModule,
-  normalized_genes: Humann2NormalizeModule,
+  functional_genes: Humann2NormalizeModule,
   reads_classified: ReadsClassifiedModule,
   sample_similarity: SampleSimilarityModule,
   taxa_tree: SampleTaxonomyModule,
