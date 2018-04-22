@@ -109,7 +109,7 @@ export class HMPContainer extends React.Component<HMPProps, HMPState> {
           />
         </Col>
         <Col lg={3}>
-          <AGSControls
+          <AlphaDiversityControls
             categories={Object.keys(this.props.data.categories)}
             activeCategory={activeCategory}
             activeCategoryValues={activeCategoryValues}
