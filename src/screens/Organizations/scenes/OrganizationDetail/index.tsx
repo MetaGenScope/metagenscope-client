@@ -55,7 +55,7 @@ class OrganizationDetail extends React.Component<OrganizationsProps, Organizatio
         </Helmet>
         {!this.state.organization &&
           <Row>
-            <Col>
+            <Col lg={12}>
               <h1>Not Found</h1>
               Go back to the <Link to="/organizations">organizations list</Link>.
             </Col>
@@ -64,7 +64,7 @@ class OrganizationDetail extends React.Component<OrganizationsProps, Organizatio
         {this.state.organization &&
           <div>
             <Row>
-              <Col>
+              <Col lg={12}>
                 <h1>{this.state.organization.name}</h1>
                 <p>This is a lab. It would have a description at some point. Maybe?</p>
                 <p>Admin email: <Link to={`mailto:${this.state.organization.adminEmail}`}>

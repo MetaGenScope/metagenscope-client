@@ -175,12 +175,14 @@ export class DisplayContainer<D, P = {}> extends React.Component<DisplayContaine
           </Col>
         </Row>
         <Row>
-          {this.state.data &&
-            this.plotContainer(this.state.data)
-          }
-          {!this.state.data &&
-            <StatusMonitor state={this.state.status} />
-          }
+          <Col lg={12}>
+            {this.state.data &&
+              this.plotContainer(this.state.data)
+            }
+            {!this.state.data &&
+              <StatusMonitor state={this.state.status} />
+            }
+          </Col>
         </Row>
       </div>
     );

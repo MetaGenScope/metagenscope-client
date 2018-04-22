@@ -38,7 +38,7 @@ class OrganizationsList extends React.Component<{}, OrganizationsState> {
         <Helmet>
           <title>MetaGenScope :: Organizations</title>
         </Helmet>
-        <Col>
+        <Col lg={12}>
           <h1>Organizations</h1>
           <Table striped={true} hover={true}>
             <thead>
