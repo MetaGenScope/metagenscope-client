@@ -11,10 +11,30 @@ interface ReadsClassifiedProps extends ChartRefProps {
 }
 
 const sampleGroupOptions = function(data: ReadsClassifiedType): Highcharts.Options {
-  const series: Highcharts.IndividualSeriesOptions[] = data.data.map(source => {
+  const seriesMap: {[key: string]: number[]} = {
+    viral: [],
+    archaea: [],
+    bacteria: [],
+    host: [],
+    unknown: [],
+  };
+
+  const sampleNames = Object.keys(data.samples);
+  sampleNames.map(sampleName => {
+    const sample = data.samples[sampleName];
+    seriesMap.viral.push(sample.viral);
+    seriesMap.archaea.push(sample.archaea);
+    seriesMap.bacteria.push(sample.bacteria);
+    seriesMap.host.push(sample.host);
+    seriesMap.unknown.push(sample.unknown);
+  });
+
+  const seriesNames = Object.keys(seriesMap);
+  const series: Highcharts.IndividualSeriesOptions[] = seriesNames.map(seriesName => {
+    const seriesData = seriesMap[seriesName];
     return {
-      name: source.category,
-      data: source.values,
+      name: seriesName,
+      data: seriesData,
     };
   });
 
@@ -26,7 +46,7 @@ const sampleGroupOptions = function(data: ReadsClassifiedType): Highcharts.Optio
       text: null,
     },
     xAxis: {
-      categories: data.sample_names,
+      categories: sampleNames,
     },
     yAxis: {
       min: 0,
@@ -65,11 +85,14 @@ const sampleGroupOptions = function(data: ReadsClassifiedType): Highcharts.Optio
 };
 
 const sampleOptions = function(data: ReadsClassifiedType): Highcharts.Options {
-  const seriesData: Highcharts.DataPoint[] = data.categories.map((categoryName, index) => {
-    const categoryData = data.data.find(datum => datum.category === categoryName)!;
+  const sampleName = Object.keys(data.samples)[0];
+  const sample = data.samples[sampleName];
+
+  const seriesNames = Object.keys(sample);
+  const seriesData: Highcharts.DataPoint[] = seriesNames.map(seriesName => {
     return {
-      name: categoryName,
-      y: categoryData.values[0],
+      name: seriesName,
+      y: sample[seriesName],
     };
   });
 
@@ -84,7 +107,7 @@ const sampleOptions = function(data: ReadsClassifiedType): Highcharts.Options {
       size: '80%',
     },
     xAxis: {
-      categories: data.categories,
+      categories: seriesNames,
       tickmarkPlacement: 'on',
       lineWidth: 0,
     },

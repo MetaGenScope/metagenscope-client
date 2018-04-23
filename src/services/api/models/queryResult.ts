@@ -67,12 +67,15 @@ export interface AGSResultType {
 }
 
 export interface ReadsClassifiedType {
-  categories: string[];
-  sample_names: string[];
-  data: {
-    category: string;
-    values: number[];
-  }[];
+  samples: {
+    [key: string]: {
+      viral: number;
+      archaea: number;
+      bacteria: number;
+      host: number;
+      unknown: number;
+    };
+  };
 }
 
 export interface BetaDiversityEntryType {
