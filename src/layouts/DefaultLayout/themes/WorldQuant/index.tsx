@@ -3,15 +3,14 @@ import { Grid, Row, Col } from 'react-bootstrap';
 
 import './style.css';
 
-const miniBackground = require('./images/inter-hero.jpg');
 const wordMark = require('./images/word_mark.svg');
 
-const paddingStyle: React.CSSProperties = {
-  paddingTop: '155px',
-  paddingBottom: '155px',
-};
-
 export const WorldQuantHeader: React.SFC<{}> = (props) => {
+  const paddingStyle: React.CSSProperties = {
+    paddingTop: '155px',
+    paddingBottom: '155px',
+  };
+
   return (
     <Grid fluid={true}>
       <Row className="top-header">
@@ -51,8 +50,12 @@ export const WorldQuantHeader: React.SFC<{}> = (props) => {
 };
 
 export const WorldQuantSampleHeader: React.SFC<{}> = (props) => {
+  const miniBackground = require('./images/inter-hero.jpg');
   const miniStyle: React.CSSProperties = {
     backgroundImage: `url( ${miniBackground} )`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'auto',
+    backgroundRepeat: 'no-repeat',
   };
   return (
     <Grid fluid={true}>
