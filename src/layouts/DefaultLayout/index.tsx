@@ -5,7 +5,7 @@ import Header from './components/Header';
 import Footer from  './components/Footer';
 
 // Themes
-import { WorldQuantHeader, WorldQuantFooter } from './themes/WorldQuant';
+import { WorldQuantHeader, WorldQuantSampleHeader, WorldQuantFooter } from './themes/WorldQuant';
 
 interface LayoutProps {
   title: string;
@@ -16,14 +16,18 @@ interface LayoutProps {
 const DefaultLayout: React.SFC<LayoutProps> = (props) => {
   let header = <Header title={props.title} isAuthenticated={props.isAuthenticated} />;
   let footer = <Footer />;
-  if (props.theme !== undefined) {
-    if (props.theme === 'world-quant') {
-      header = <WorldQuantHeader />;
-      footer = <WorldQuantFooter />;
-    }
+  const theme = props.theme !== undefined ? props.theme : '';
+  const bodyClass = theme !== '' ? `${theme}-body` : '';
+  if (theme === 'world-quant') {
+    header = <WorldQuantHeader />;
+    footer = <WorldQuantFooter />;
+  }
+  if (theme === 'world-quant-sample') {
+    header = <WorldQuantSampleHeader />;
+    footer = <WorldQuantFooter />;
   }
   return (
-    <div>
+    <div className={bodyClass}>
       {header}
       <Grid>
         {props.children}
