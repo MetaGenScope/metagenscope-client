@@ -31,8 +31,10 @@
 }
 
 .top-header {
-  padding-top: 155px;
-  padding-bottom: 155px;
+  background-image: url('./images/globe-trimmed.png'), url('./images/background-gradient.jpg');
+  background-size: auto 100%, cover;
+  background-position: center center, top center;
+  background-repeat: no-repeat, no-repeat;
 }
 
 .top-header p {
