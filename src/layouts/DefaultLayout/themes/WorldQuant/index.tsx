@@ -3,21 +3,21 @@ import { Grid, Row, Col } from 'react-bootstrap';
 
 import './style.css';
 
-const heroBackground = require('./images/background.png');
-const wordMark = require('./images/word_mark.png');
+const miniBackground = require('./images/inter-hero.jpg');
+const wordMark = require('./images/word_mark.svg');
 
-const rowStyle: React.CSSProperties = {
-  backgroundImage: `url( ${heroBackground} )`,
-  backgroundSize: 'cover',
+const paddingStyle: React.CSSProperties = {
+  paddingTop: '155px',
+  paddingBottom: '155px',
 };
 
 export const WorldQuantHeader: React.SFC<{}> = (props) => {
   return (
     <Grid fluid={true}>
-      <Row style={rowStyle} className="top-header">
+      <Row className="top-header">
         <Col lg={12}>
           <Grid>
-            <Row>
+            <Row style={paddingStyle}>
               <Col lg={8} md={12} sm={12}>
                 <img src={wordMark} className="worldquant-logo" />
                 <p>The WorldQuant Initiative for Quantitative Prediction at Weill Cornell Medicine would
@@ -51,9 +51,12 @@ export const WorldQuantHeader: React.SFC<{}> = (props) => {
 };
 
 export const WorldQuantSampleHeader: React.SFC<{}> = (props) => {
+  const miniStyle: React.CSSProperties = {
+    backgroundImage: `url( ${miniBackground} )`,
+  };
   return (
     <Grid fluid={true}>
-      <Row style={{marginBottom: '60px', ...rowStyle}} className="top-header">
+      <Row style={{marginBottom: '60px', ...miniStyle}} className="top-header">
         <Col lg={12}>
           <Grid>
             <Row>
