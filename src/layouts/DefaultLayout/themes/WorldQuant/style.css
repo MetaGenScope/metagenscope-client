@@ -30,13 +30,13 @@
   font-weight: bold;
 }
 
-.top-header img {
-  margin-top: 155px;
-  margin-bottom: 55px;
+.top-header {
+  padding-top: 155px;
+  padding-bottom: 155px;
 }
 
 .top-header p {
-  margin-bottom: 155px;
+  margin-top: 55px;
   font-size: 42px;
   line-height: 50px;
 }

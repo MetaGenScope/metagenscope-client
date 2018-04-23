@@ -50,6 +50,24 @@ export const WorldQuantHeader: React.SFC<{}> = (props) => {
   );
 };
 
+export const WorldQuantSampleHeader: React.SFC<{}> = (props) => {
+  return (
+    <Grid fluid={true}>
+      <Row style={{marginBottom: '60px', ...rowStyle}} className="top-header">
+        <Col lg={12}>
+          <Grid>
+            <Row>
+              <Col lg={8} md={12} sm={12}>
+                <img src={wordMark} className="worldquant-logo" />
+              </Col>
+            </Row>
+          </Grid>
+        </Col>
+      </Row>
+    </Grid>
+  );
+};
+
 export const WorldQuantFooter: React.SFC<{}> = (props) => {
   return (
     <Grid fluid={true}>

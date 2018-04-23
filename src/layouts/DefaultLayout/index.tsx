@@ -5,7 +5,7 @@ import Header from './components/Header';
 import Footer from  './components/Footer';
 
 // Themes
-import { WorldQuantHeader, WorldQuantFooter } from './themes/WorldQuant';
+import { WorldQuantHeader, WorldQuantSampleHeader, WorldQuantFooter } from './themes/WorldQuant';
 
 interface LayoutProps {
   title: string;
@@ -23,7 +23,7 @@ const DefaultLayout: React.SFC<LayoutProps> = (props) => {
     footer = <WorldQuantFooter />;
   }
   if (theme === 'world-quant-sample') {
-    header = <WorldQuantHeader />;
+    header = <WorldQuantSampleHeader />;
     footer = <WorldQuantFooter />;
   }
   return (
