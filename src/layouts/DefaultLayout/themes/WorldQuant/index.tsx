@@ -28,7 +28,7 @@ export const WorldQuantHeader: React.SFC<{}> = (props) => {
           </Grid>
         </Col>
       </Row>
-      <Row style={{backgroundColor: '#000000'}}>
+      <Row style={{backgroundColor: '#000000', marginBottom: '60px'}}>
         <Col lg={12}>
           <Grid>
             <Row className="bottom-header">
