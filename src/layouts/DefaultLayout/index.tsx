@@ -16,14 +16,18 @@ interface LayoutProps {
 const DefaultLayout: React.SFC<LayoutProps> = (props) => {
   let header = <Header title={props.title} isAuthenticated={props.isAuthenticated} />;
   let footer = <Footer />;
-  if (props.theme !== undefined) {
-    if (props.theme === 'world-quant') {
-      header = <WorldQuantHeader />;
-      footer = <WorldQuantFooter />;
-    }
+  const theme = props.theme !== undefined ? props.theme : '';
+  const bodyClass = theme !== '' ? `${theme}-body` : '';
+  if (theme === 'world-quant') {
+    header = <WorldQuantHeader />;
+    footer = <WorldQuantFooter />;
+  }
+  if (theme === 'world-quant-sample') {
+    header = <WorldQuantHeader />;
+    footer = <WorldQuantFooter />;
   }
   return (
-    <div>
+    <div className={bodyClass}>
       {header}
       <Grid>
         {props.children}
