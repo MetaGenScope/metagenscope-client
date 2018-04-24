@@ -37,8 +37,9 @@ export default class Humann2NormalizeContainer extends React.Component<Humann2No
     const metric = this.state.activeMetric,
           data = this.props.data.samples;
 
-    const columnNames = Object.keys(data);
-    const rowNames = Object.keys(data[columnNames[0]]);
+    const columnNames = Object.keys(data),
+          firstMetric = Object.keys(data[columnNames[0]])[0],
+          rowNames = Object.keys(data[columnNames[0]][firstMetric]);
 
     let newValues: HeatMapDatum[] = [];
     columnNames.forEach((columnName, column) => {
@@ -46,7 +47,7 @@ export default class Humann2NormalizeContainer extends React.Component<Humann2No
         newValues.push({
           x: column,
           y: row,
-          value: data[columnName][rowName][metric],
+          value: data[columnName][metric][rowName],
         });
       });
     });
@@ -58,6 +59,8 @@ export default class Humann2NormalizeContainer extends React.Component<Humann2No
       },
       data: newValues,
       buckets: 10,
+      maxAxisNameLength: 100,
+      axisNameSize: 12,
       legend: {
         precision: 3,
       },

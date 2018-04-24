@@ -13,6 +13,7 @@ export interface HeatMapDatum {
 export interface HeatMapPlotOptions {
   buckets?: number;
   maxAxisNameLength?: number;
+  axisNameSize?: number;
   legend?: {
     precision?: number;
   };
@@ -73,6 +74,7 @@ export default class HeatMap {
     let result = {
       buckets: DEFAULT_BUCKETS,
       maxAxisNameLength: DEFAULT_MAX_AXIS_NAME_LENGTH,
+      axisNameSize: -1, // Unset
       legend: {
         precision: DEFAULT_LEGEND_PRECISION,
       }
@@ -80,6 +82,14 @@ export default class HeatMap {
 
     if (options.buckets !== undefined) {
       result.buckets = options.buckets;
+    }
+
+    if (options.maxAxisNameLength !== undefined) {
+      result.maxAxisNameLength = options.maxAxisNameLength;
+    }
+
+    if (options.axisNameSize !== undefined) {
+      result.axisNameSize = options.axisNameSize;
     }
 
     if (options.legend !== undefined) {
@@ -113,6 +123,7 @@ export default class HeatMap {
     gridSize = Math.floor((canvasWidth - rowNameWidth) / (xMax + 1));
     gridSize = (canvasWidth - rowNameWidth) / (xMax + 1);
     let canvasHeight = 0;
+    const axisNameSize = options.axisNameSize >= 0 ? options.axisNameSize : gridSize;
 
     // Column names
     const columnNames = this.xAxis.selectAll('.column-name')
@@ -123,8 +134,10 @@ export default class HeatMap {
       .attr('class', 'column-name')
       .merge(columnNames)
           .text(d => d.name)
-          .attr('font-size', gridSize)
-          .attr('transform', (d, i) => `translate(${(gridSize * (i + 1)) + rowNameWidth}, ${itemHeight}) rotate(-75)`);
+          .attr('font-size', axisNameSize)
+          .attr('transform', (d, i) => {
+            return `translate(${(gridSize * (i + 0.5)) + rowNameWidth}, ${itemHeight}) rotate(-90)`;
+          });
 
     columnNames.exit().remove();
 
@@ -132,14 +145,14 @@ export default class HeatMap {
 
     // Row names
     const rowNames = this.yAxis.selectAll('.row-name')
-        .data(data.axis.x, (d: {name: string, category?: string}) => d.name);
+        .data(data.axis.y, (d: {name: string, category?: string}) => d.name);
     rowNames.enter().append('text')
       .attr('class', 'row-name')
       .attr('text-anchor', 'end')
       .merge(rowNames)
-          .text(d => d.name)
-          .attr('font-size', gridSize)
-          .attr('transform', (d, i) => `translate(${rowNameWidth - 1}, ${canvasHeight + (gridSize * (i + 1))})`);
+          .text(d => d)
+          .attr('font-size', axisNameSize)
+          .attr('transform', (d, i) => `translate(${rowNameWidth - 1}, ${canvasHeight + (gridSize * (i + 0.5))})`);
 
     rowNames.exit().remove();
 
