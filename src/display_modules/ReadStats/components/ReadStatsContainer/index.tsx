@@ -40,12 +40,15 @@ export class ReadStatsContainer extends React.Component<ReadStatsProps, ReadStat
   }
 
   chartOptions(activeSource: string): Highcharts.Options {
+    // Keep sample name and value together so we can sort without losing the name
     let valueList: Array<[string, number]> = [];
     const samples = this.props.data.samples;
-    READ_STATS_SOURCES.forEach(sampleName => {
+
+    Object.keys(samples).forEach(sampleName => {
       const value = samples[sampleName][activeSource];
       valueList.push([sampleName, value]);
     });
+
     let sortedVals: Array<[string, number]> = valueList.sort((el0, el1) => el0[1] - el1[1]);
     const sampleNames = sortedVals.map(el => el[0]);
     const dataPoints = sortedVals.map(el => el[1]);
