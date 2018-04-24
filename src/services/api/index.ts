@@ -220,7 +220,7 @@ export const getSampleSimilarity = function(id: string) {
 
   return axios(options)
     .then((res) => {
-      return res.data as QueryResultWrapper<SampleSimilarityResultType>;
+      return res.data.data as QueryResultWrapper<SampleSimilarityResultType>;
     });
 };
 
@@ -252,7 +252,7 @@ export const getReadsClassified = function(id: string) {
 
   return axios(options)
     .then((res) => {
-      return res.data as QueryResultWrapper<ReadsClassifiedType>;
+      return res.data.data as QueryResultWrapper<ReadsClassifiedType>;
     });
 };
 
@@ -269,7 +269,7 @@ export const getHMP = function(id: string) {
   return axios(options)
     .then((res) => {
       // Convert to Map types
-      return res.data as QueryResultWrapper<HMPResultType>;
+      return res.data.data as QueryResultWrapper<HMPResultType>;
     });
 };
 
@@ -285,7 +285,7 @@ export const getAGS = function(uuid: string) {
 
   return axios(options)
     .then((res) => {
-      return res.data as QueryResultWrapper<AGSResultType>;
+      return res.data.data as QueryResultWrapper<AGSResultType>;
     });
 };
 
@@ -317,7 +317,7 @@ export const getReadStats = function(uuid: string) {
 
   return axios(options)
     .then((res) => {
-      return res.data as QueryResultWrapper<ReadStatsResultType>;
+      return res.data.data as QueryResultWrapper<ReadStatsResultType>;
     });
 };
 
@@ -349,7 +349,7 @@ export const getMethyl = function(uuid: string) {
 
   return axios(options)
     .then((res) => {
-      return res.data as QueryResultWrapper<MethylResultType>;
+      return res.data.data as QueryResultWrapper<MethylResultType>;
     });
 };
 
@@ -365,7 +365,7 @@ export const getCARD = function(uuid: string) {
 
   return axios(options)
     .then((res) => {
-      return res.data as QueryResultWrapper<MethylResultType>;
+      return res.data.data as QueryResultWrapper<MethylResultType>;
     });
 };
 
@@ -381,7 +381,7 @@ export const getVFDB = function(uuid: string) {
 
   return axios(options)
     .then((res) => {
-      return res.data as QueryResultWrapper<MethylResultType>;
+      return res.data.data as QueryResultWrapper<MethylResultType>;
     });
 };
 
@@ -397,6 +397,6 @@ export const getHumann2Normalize = function(uuid: string) {
 
   return axios(options)
     .then((res) => {
-      return res.data as QueryResultWrapper<MethylResultType>;
+      return res.data.data as QueryResultWrapper<MethylResultType>;
     });
 };
