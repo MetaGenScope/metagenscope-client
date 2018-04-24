@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { ListGroup, ListGroupItem } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 
 import { SampleType } from '../../../../../../../../../../services/api/models/sample';
 
@@ -48,7 +49,11 @@ class ExpandingSampleList extends React.Component<ExpandingListProps, ExpandingL
       <ListGroup>
         {displaySamples.map((sample, index) => {
           const url = `/samples/${sample.uuid}`;
-          return <ListGroupItem key={index} href={url}>{sample.name}</ListGroupItem>;
+          return (
+            <LinkContainer key={index} to={url}>
+              <ListGroupItem>{sample.name}</ListGroupItem>
+            </LinkContainer>
+          );
         })}
         {!this.state.showAll && moreCount > 0 &&
           <ListGroupItem style={{textAlign: 'center'}} onClick={this.toggleShowAll}>
