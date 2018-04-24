@@ -14,7 +14,7 @@ const headerBottomMargin = '40px';
 
 export const WorldQuantHeader: React.SFC<{}> = (props) => {
   return (
-    <Grid fluid={true}>
+    <Grid fluid={true} style={{marginBottom: headerBottomMargin}}>
       <Row className="top-header">
         <Col lg={12}>
           <Grid>
@@ -30,7 +30,7 @@ export const WorldQuantHeader: React.SFC<{}> = (props) => {
           </Grid>
         </Col>
       </Row>
-      <Row style={{backgroundColor: '#000000', marginBottom: headerBottomMargin}}>
+      <Row style={{backgroundColor: '#000000'}}>
         <Col lg={12}>
           <Grid>
             <Row className="bottom-header">
@@ -61,13 +61,33 @@ export const WorldQuantSampleHeader: React.SFC<{}> = (props) => {
     backgroundRepeat: 'no-repeat',
   };
   return (
-    <Grid fluid={true}>
-      <Row style={{marginBottom: headerBottomMargin, ...miniStyle}} className="top-header">
+    <Grid fluid={true} style={{marginBottom: headerBottomMargin}}>
+      <Row style={miniStyle} className="top-header">
         <Col lg={12}>
           <Grid>
             <Row style={paddingStyle}>
               <Col lg={8} md={12} sm={12}>
                 <img src={wordMark} className="worldquant-logo" />
+              </Col>
+            </Row>
+          </Grid>
+        </Col>
+      </Row>
+      <Row style={{marginTop: '60px'}}>
+        <Col lg={12}>
+          <Grid>
+            <Row>
+              <Col lg={12}>
+                <a
+                  className="back-link"
+                  href="#"
+                  onClick={event => {
+                    event.preventDefault();
+                    window.history.back();
+                  }}
+                >
+                  &lt; Back to home page
+                </a>
               </Col>
             </Row>
           </Grid>
