@@ -9,19 +9,22 @@ import { ChartRefProps } from '../../../components/DisplayContainer/highcharts';
 
 import AlphaDiversityControls from './components/AlphaDiversityControls';
 
-export interface HMPProps extends ChartRefProps {
+export interface AlphaDivProps extends ChartRefProps {
   data: AlphaDivResultType;
 }
 
-export interface HMPState {
+export interface AlphaDivState {
+  activeTool: string;
+  activeTaxaRank: string;
+  activeMetric: string;
   activeCategory: string;
 }
 
-export class HMPContainer extends React.Component<HMPProps, HMPState> {
+export default class AlphaDivContainer extends React.Component<AlphaDivProps, AlphaDivState> {
 
   protected color: d3.ScaleOrdinal<string, string>;
 
-  constructor(props: HMPProps) {
+  constructor(props: AlphaDivProps) {
     super(props);
 
     this.color = d3.scaleOrdinal(d3.schemeCategory20);
@@ -32,6 +35,24 @@ export class HMPContainer extends React.Component<HMPProps, HMPState> {
     this.state = {
       activeCategory: Object.keys(this.props.data.categories)[0],
     };
+  }
+
+  handleToolChange(tool: string) {
+    this.setState({
+      activeTool: tool,
+    });
+  }
+
+  handleTaxaRankChange(taxaRank: string) {
+    this.setState({
+      activeTaxaRank: taxaRank,
+    });
+  }
+
+  handleMetricChange(metric: string) {
+    this.setState({
+      activeMetric: metric,
+    });
   }
 
   handleCategoryChange(category: string) {
@@ -47,7 +68,10 @@ export class HMPContainer extends React.Component<HMPProps, HMPState> {
   }
 
   chartOptions(activeCategory: string): Highcharts.Options {
-    const data = this.props.data.distributions[activeCategory];
+    const data = this.props.data.by_tool[activeTool]
+                  .by_taxa_rank[activeRank]
+                  .by_category_name[activeCategory]
+                  .by_metric[activeMetric];
     const categoryValues = Object.keys(data);
 
     const dataPoints: Highcharts.DataPoint[] = categoryValues.map(categoryValue => {
@@ -123,5 +147,3 @@ export class HMPContainer extends React.Component<HMPProps, HMPState> {
   }
 
 }
-
-export default HMPContainer;

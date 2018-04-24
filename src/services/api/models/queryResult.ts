@@ -71,20 +71,28 @@ export interface AGSResultType {
 }
 
 export interface AlphaDivResultType {
+  tools: string[];
   categories: {
     [key: string]: string[];
   };
-  distributions: {
+  by_tool: {
     [key: string]: {
-      [key: string]: {
-        min_val: number;
-        q1_val: number;
-        mean_val: number;
-        q3_val: number;
-        max_val: number;
-      };
-    }[];
-  };  
+      taxa_ranks: string[];
+      by_taxa_rank: {
+        [key: string]: {
+          by_category_name: {
+            [key: string]: [{
+              metrics: string[];
+              category_value: string;
+              by_metric: {
+                [key: string]: number[];
+              }
+            }]
+          }
+        }
+      }
+    }
+  };
 }
 
 export interface ReadsClassifiedType {
