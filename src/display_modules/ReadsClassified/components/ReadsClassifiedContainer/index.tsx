@@ -49,8 +49,6 @@ const sampleGroupOptions = function(data: ReadsClassifiedType): Highcharts.Optio
       categories: sampleNames,
     },
     yAxis: {
-      min: 0,
-      max: 100,
       title: {
         text: 'Proportion of Reads Classified',
       },
