@@ -1,14 +1,13 @@
 import * as React from 'react';
 
-import { Data, createTaxonAbundance } from './util/taxon';
+import { createTaxonAbundance } from './util/taxon';
 import { SvgRefProps } from '../../../components/DisplayContainer/d3';
+import { TaxonAbundanceResultType } from '../../../../services/api/models/queryResult';
 
 import './style.css';
 
-export type TaxonAbundanceData = Data;
-
 export interface TaxonAbundancePlotProps extends SvgRefProps {
-  data: TaxonAbundanceData;
+  data: TaxonAbundanceResultType;
 }
 
 export default class TaxonAbundancePlot extends React.Component<TaxonAbundancePlotProps, {}> {
@@ -28,7 +27,9 @@ export default class TaxonAbundancePlot extends React.Component<TaxonAbundancePl
 
   renderScatter(props: TaxonAbundancePlotProps) {
     if (this.rootDiv !== null && this.scatterSVG !== null) {
-      createTaxonAbundance(this.rootDiv, this.scatterSVG, props.data);
+      const firstTool = Object.keys(props.data.by_tool)[0];
+      const data = props.data.by_tool[firstTool];
+      createTaxonAbundance(this.rootDiv, this.scatterSVG, data);
     }
   }
 

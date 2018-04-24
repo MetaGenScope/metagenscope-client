@@ -8,16 +8,20 @@ export enum QueryResultStatus {
 }
 
 export interface TaxonAbundanceResultType {
-  nodes: {
-    id: string;
-    name: string;
-    value: number;
-  }[];
-  edges: {
-    source: string;
-    target: string;
-    value: number;
-  }[];
+  by_tool: {
+    [key: string]: {
+      nodes: {
+        id: string;
+        name: string;
+        value: number;
+      }[];
+      edges: {
+        source: string;
+        target: string;
+        value: number;
+      }[];
+    };
+  };
 }
 
 export interface SampleSimilarityResultType {
