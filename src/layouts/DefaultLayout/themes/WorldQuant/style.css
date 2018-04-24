@@ -21,11 +21,11 @@
 }
 
 .worldquant-logo {
-  width: 378px;
+  width: 504px;
   max-width: 100%;
 }
 
-.top-header, .bottom-header, .world-quant-footer {
+.top-header, .bottom-header, .worldquant-footer {
   color: #FFFFFF;
   font-weight: bold;
 }
@@ -38,7 +38,6 @@
 }
 
 .top-header p {
-  margin-top: 55px;
   font-size: 42px;
   line-height: 50px;
 }
@@ -53,18 +52,21 @@
   line-height: 42px;
 }
 
-.world-quant-footer {
+.worldquant-footer {
   margin-top: 2em;
   background-color: #000000;
 }
 
 .footer-wrapper {
-  padding-top: 80px;
-  padding-bottom: 20px;
+  padding-top: 75px;
+  padding-bottom: 75px;
 }
 
-.world-quant-footer p {
-  margin-top: 20px;
+.worldquant-footer p {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin: 0;
   text-align: right;
   text-transform: uppercase;
 }
