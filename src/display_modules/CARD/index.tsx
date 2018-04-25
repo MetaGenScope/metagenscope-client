@@ -8,7 +8,7 @@ export default class CARDModule extends GenericGeneModule {
   constructor(props: GenericGeneProps) {
     super(props);
 
-    this.title = 'CARDTransferase Abundance';
+    this.title = 'Antimicrobial Resistance (AMR) Abundance';
     this.description = (
       <p>The abundance of CARDtransferase genes.</p>
     );

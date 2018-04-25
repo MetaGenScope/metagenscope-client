@@ -8,7 +8,7 @@ export default class VFDBModule extends GenericGeneModule {
   constructor(props: GenericGeneProps) {
     super(props);
 
-    this.title = 'VFDBTransferase Abundance';
+    this.title = 'Virulence Factor Abundance';
     this.description = (
       <p>The abundance of VFDBtransferase genes.</p>
     );
