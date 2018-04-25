@@ -141,7 +141,8 @@ export default class HeatMap {
 
     columnNames.exit().remove();
 
-    canvasHeight += itemHeight;
+    const axisLabelMargin = 3;
+    canvasHeight += itemHeight + axisLabelMargin;
 
     // Row names
     const rowNames = this.yAxis.selectAll('.row-name')
@@ -152,14 +153,15 @@ export default class HeatMap {
       .merge(rowNames)
           .text(d => d)
           .attr('font-size', axisNameSize)
-          .attr('transform', (d, i) => `translate(${rowNameWidth - 1}, ${canvasHeight + (gridSize * (i + 0.5))})`);
+          .attr('transform', (d, i) => `translate(${rowNameWidth - 3}, ${canvasHeight + (gridSize * (i + 0.5))})`);
 
     rowNames.exit().remove();
 
     // Heatmap color mapping
+    const colorSet = ['#ffffd9', '#7fcdbb', '#081d58'];
     const colorGenerator = d3.scaleLinear<string>()
           .domain([0, (options.buckets - 1) / 2, options.buckets - 1])
-          .range(['green', 'yellow', 'red']);
+          .range(colorSet);
     const colors = d3.range(options.buckets).map(colorGenerator);
     const colorScale = d3.scaleQuantile<string>()
         .domain([0, valMax])
@@ -192,6 +194,8 @@ export default class HeatMap {
             .attr('y', (d: HeatMapDatum) => canvasHeight + (d.y * gridSize))
             .attr('width', gridSize)
             .attr('height', gridSize)
+            .attr('rx', (d: HeatMapDatum) => Math.min(4, gridSize / 5))
+            .attr('ry', (d: HeatMapDatum) => Math.min(4, gridSize / 5))
             .style('fill', (d: HeatMapDatum) => {
               return colorScale(d.value);
             });
@@ -202,7 +206,7 @@ export default class HeatMap {
     canvasHeight += gridSize * (yMax + 1);
 
     // Add padding
-    canvasHeight += gridSize;
+    canvasHeight += gridSize / 2;
 
     // Draw legend
     const legendElementWidth = canvasWidth / options.buckets,
