@@ -116,47 +116,16 @@ export interface ReadStatsResultType {
   };
 }
 
-export interface MethylResultType {
+export interface GenericGeneType {
   samples: {
+    // Sample name
     [key: string]: {
+      // Metric
       [key: string]: {
-        rpkm: number;
-        rpkmg: number;
-      }
-    }
-  };
-}
-
-export interface CARDResultType {
-  samples: {
-    [key: string]: {
-      [key: string]: {
-        rpkm: number;
-        rpkmg: number;
-      }
-    }
-  };
-}
-
-export interface VFDBResultType {
-  samples: {
-    [key: string]: {
-      [key: string]: {
-        rpkm: number;
-        rpkmg: number;
-      }
-    }
-  };
-}
-
-export interface Humann2NormalizeResultType {
-  samples: {
-    [key: string]: {
-      [key: string]: {
-        rpkm: number;
-        rpkmg: number;
-      }
-    }
+        // Gene
+        [key: string]: number;
+      };
+    };
   };
 }
 

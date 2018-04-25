@@ -1,21 +1,20 @@
 import * as React from 'react';
 
-import D3DisplayContainer from '../components/DisplayContainer/d3';
-import { DisplayContainerProps } from '../components/DisplayContainer';
-import { MethylResultType } from '../../services/api/models/queryResult';
+import GenericGeneModule, { GenericGeneProps } from '../components/GenericGeneModule';
 import { getMethyl } from '../../services/api';
 
-import MethylContainer from './components/MethylContainer';
+export default class MethylModule extends GenericGeneModule {
 
-export default class MethylModule extends D3DisplayContainer<MethylResultType> {
-
-  constructor(props: DisplayContainerProps) {
+  constructor(props: GenericGeneProps) {
     super(props);
 
     this.title = 'MethylTransferase Abundance';
     this.description = (
       <p>The abundance of methyltransferase genes.</p>
     );
+
+    this.chartId = 'methyl-chart';
+    this.yAxisTitle = 'Abundance';
   }
 
   /** @inheritdoc */
@@ -23,8 +22,4 @@ export default class MethylModule extends D3DisplayContainer<MethylResultType> {
     return getMethyl(this.props.uuid);
   }
 
-  /** @inheritdoc */
-  plotContainer(data: MethylResultType): JSX.Element {
-    return <MethylContainer data={data} svgRef={el => this.svgCanvas = el} />;
-  }
 }

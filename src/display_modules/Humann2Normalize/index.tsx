@@ -1,21 +1,20 @@
 import * as React from 'react';
 
-import D3DisplayContainer from '../components/DisplayContainer/d3';
-import { DisplayContainerProps } from '../components/DisplayContainer';
-import { Humann2NormalizeResultType } from '../../services/api/models/queryResult';
+import GenericGeneModule, { GenericGeneProps } from '../components/GenericGeneModule';
 import { getHumann2Normalize } from '../../services/api';
 
-import Humann2NormalizeContainer from './components/Humann2NormalizeContainer';
+export default class Humann2NormalizeModule extends GenericGeneModule {
 
-export default class Humann2NormalizeModule extends D3DisplayContainer<Humann2NormalizeResultType> {
-
-  constructor(props: DisplayContainerProps) {
+  constructor(props: GenericGeneProps) {
     super(props);
 
     this.title = 'Humann2NormalizeTransferase Abundance';
     this.description = (
       <p>The abundance of Humann2Normalizetransferase genes.</p>
     );
+
+    this.chartId = 'humann2-normalize-chart';
+    this.yAxisTitle = 'Abundance';
   }
 
   /** @inheritdoc */
@@ -23,8 +22,4 @@ export default class Humann2NormalizeModule extends D3DisplayContainer<Humann2No
     return getHumann2Normalize(this.props.uuid);
   }
 
-  /** @inheritdoc */
-  plotContainer(data: Humann2NormalizeResultType): JSX.Element {
-    return <Humann2NormalizeContainer data={data} svgRef={el => this.svgCanvas = el} />;
-  }
 }

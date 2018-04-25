@@ -16,7 +16,6 @@ import VFDBModule from '../../../../display_modules/VFDB';
 import { ReadsClassifiedModule } from '../../../../display_modules/ReadsClassified';
 import { ReadStatsModule } from '../../../../display_modules/ReadStats';
 import { SampleSimilarityModule } from '../../../../display_modules/SampleSimilarity';
-import { SampleTaxonomyModule } from '../../../../display_modules/SampleTaxonomy';
 import { TaxonAbundanceModule } from '../../../../display_modules/TaxonAbundance';
 
 import SampleList from './components/SampleList';
@@ -39,7 +38,6 @@ const mapping: {[key: string]: ModuleClassType} = {
   functional_genes: Humann2NormalizeModule,
   reads_classified: ReadsClassifiedModule,
   sample_similarity: SampleSimilarityModule,
-  taxa_tree: SampleTaxonomyModule,
   taxon_abundance: TaxonAbundanceModule,
   virulence_factors: VFDBModule,
 };
