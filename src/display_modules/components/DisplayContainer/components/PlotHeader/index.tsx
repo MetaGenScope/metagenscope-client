@@ -36,6 +36,7 @@ export const PlotHeader: React.StatelessComponent<PlotHeaderProps> = (props) => 
       {props.title}
       <OverlayTrigger
         trigger="click"
+        rootClose={true}
         placement="bottom"
         overlay={popoverDescription(props.description)}
       >
