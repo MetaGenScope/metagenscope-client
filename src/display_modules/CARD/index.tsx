@@ -1,21 +1,20 @@
 import * as React from 'react';
 
-import D3DisplayContainer from '../components/DisplayContainer/d3';
-import { DisplayContainerProps } from '../components/DisplayContainer';
-import { CARDResultType } from '../../services/api/models/queryResult';
+import GenericGeneModule, { GenericGeneProps } from '../components/GenericGeneModule';
 import { getCARD } from '../../services/api';
 
-import CARDContainer from './components/CARDContainer';
+export default class CARDModule extends GenericGeneModule {
 
-export default class CARDModule extends D3DisplayContainer<CARDResultType> {
-
-  constructor(props: DisplayContainerProps) {
+  constructor(props: GenericGeneProps) {
     super(props);
 
     this.title = 'CARDTransferase Abundance';
     this.description = (
       <p>The abundance of CARDtransferase genes.</p>
     );
+
+    this.chartId = 'card-amr-chart';
+    this.yAxisTitle = 'Abundance';
   }
 
   /** @inheritdoc */
@@ -23,8 +22,4 @@ export default class CARDModule extends D3DisplayContainer<CARDResultType> {
     return getCARD(this.props.uuid);
   }
 
-  /** @inheritdoc */
-  plotContainer(data: CARDResultType): JSX.Element {
-    return <CARDContainer data={data} svgRef={el => this.svgCanvas = el} />;
-  }
 }

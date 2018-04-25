@@ -6,16 +6,16 @@ import { SampleGroupType } from './models/analysisGroup';
 import { SampleType } from './models/sample';
 import {
   AnalysisResultType,
-  QueryResultWrapper,
-  SampleSimilarityResultType,
-  TaxonAbundanceResultType,
-  ReadsClassifiedType,
-  HMPResultType,
   AGSResultType,
   BetaDiversityType,
-  SampleTaxonomyType,
+  GenericGeneType,
+  HMPResultType,
+  QueryResultWrapper,
+  ReadsClassifiedType,
   ReadStatsResultType,
-  MethylResultType,
+  SampleSimilarityResultType,
+  SampleTaxonomyType,
+  TaxonAbundanceResultType,
 } from './models/queryResult';
 
 type LoginType = {
@@ -349,7 +349,7 @@ export const getMethyl = function(uuid: string) {
 
   return axios(options)
     .then((res) => {
-      return res.data.data as QueryResultWrapper<MethylResultType>;
+      return res.data.data as QueryResultWrapper<GenericGeneType>;
     });
 };
 
@@ -365,7 +365,7 @@ export const getCARD = function(uuid: string) {
 
   return axios(options)
     .then((res) => {
-      return res.data.data as QueryResultWrapper<MethylResultType>;
+      return res.data.data as QueryResultWrapper<GenericGeneType>;
     });
 };
 
@@ -381,7 +381,7 @@ export const getVFDB = function(uuid: string) {
 
   return axios(options)
     .then((res) => {
-      return res.data.data as QueryResultWrapper<MethylResultType>;
+      return res.data.data as QueryResultWrapper<GenericGeneType>;
     });
 };
 
@@ -397,6 +397,6 @@ export const getHumann2Normalize = function(uuid: string) {
 
   return axios(options)
     .then((res) => {
-      return res.data.data as QueryResultWrapper<MethylResultType>;
+      return res.data.data as QueryResultWrapper<GenericGeneType>;
     });
 };

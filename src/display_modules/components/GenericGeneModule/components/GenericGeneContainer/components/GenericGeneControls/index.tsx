@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Well } from 'react-bootstrap';
 
-import DropdownSelect from '../../../../../controls/DropdownSelect';
+import DropdownSelect from '../../../../../../controls/DropdownSelect';
 
 type ControlsProps = {
   metrics: string[];
@@ -9,7 +9,7 @@ type ControlsProps = {
   handleMetricChange(metric?: string): void;
 };
 
-const CARDControls: React.SFC<ControlsProps> = (props) => {
+const GenericGeneControls: React.SFC<ControlsProps> = (props) => {
   return (
     <Well>
       <DropdownSelect
@@ -22,4 +22,4 @@ const CARDControls: React.SFC<ControlsProps> = (props) => {
   );
 };
 
-export default CARDControls;
+export default GenericGeneControls;
