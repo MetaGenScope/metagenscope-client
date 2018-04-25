@@ -8,7 +8,7 @@ export default class Humann2NormalizeModule extends GenericGeneModule {
   constructor(props: GenericGeneProps) {
     super(props);
 
-    this.title = 'Humann2NormalizeTransferase Abundance';
+    this.title = 'Biochemical Pathway Abundance';
     this.description = (
       <p>The abundance of Humann2Normalizetransferase genes.</p>
     );

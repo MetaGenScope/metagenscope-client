@@ -21,7 +21,7 @@ export interface GenericGeneState {
   activeMetric: string;
 }
 
-export default class Humann2NormalizeContainer extends React.Component<GenericGeneProps, GenericGeneState> {
+export default class GenericGeneContainer extends React.Component<GenericGeneProps, GenericGeneState> {
 
   protected color: d3.ScaleOrdinal<string, string>;
 
