@@ -74,6 +74,9 @@ export default class GenericGeneContainer extends React.Component<GenericGenePro
           borderWidth: 0,
         },
       },
+      exporting: {
+        enabled: false,
+      },
       series,
     };
     return chartOptions;

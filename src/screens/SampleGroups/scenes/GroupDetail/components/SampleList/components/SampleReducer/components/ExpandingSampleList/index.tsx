@@ -47,6 +47,11 @@ class ExpandingSampleList extends React.Component<ExpandingListProps, ExpandingL
     }
     return (
       <ListGroup>
+        {this.state.showAll &&
+          <ListGroupItem style={{textAlign: 'center'}} onClick={this.toggleShowAll}>
+            Hide additional samples
+          </ListGroupItem>
+        }
         {displaySamples.map((sample, index) => {
           const url = `/samples/${sample.uuid}`;
           return (
