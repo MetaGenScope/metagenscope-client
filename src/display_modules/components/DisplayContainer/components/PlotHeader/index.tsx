@@ -29,7 +29,7 @@ export const PlotHeader: React.StatelessComponent<PlotHeaderProps> = (props) => 
   ];
 
   return (
-    <h2>
+    <h2 style={{marginTop: '50px'}}>
       <div className="pull-right">
         <DownloadButton actions={actions} />
       </div>
