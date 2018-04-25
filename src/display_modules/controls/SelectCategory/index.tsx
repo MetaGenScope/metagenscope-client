@@ -55,7 +55,7 @@ class SelectCategory extends React.Component<CategoryProps, {}> {
           </select>
         </FormGroup>
         <FormGroup>
-        <ul className="scatter-controls-categories" onMouseLeave={this.focusLost}>
+        <ul className="categories-control" onMouseLeave={this.focusLost}>
           {this.props.categoryValues.map((categoryValue, index) => {
             return (
               <CategoryItem
