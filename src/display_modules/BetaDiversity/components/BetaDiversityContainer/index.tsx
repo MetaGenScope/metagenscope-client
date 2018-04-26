@@ -44,7 +44,7 @@ export default class BetaDiversityContainer extends React.Component<BetaDiversit
     const rank = this.state.activeRank,
           metric = this.state.activeMetric,
           tool = this.state.activeTool,
-          data = this.props.data[rank][metric][tool];
+          data = this.props.data.data[rank][metric][tool];
 
     const columnNames = Object.keys(data);
     const rowNames = Object.keys(data[columnNames[0]]);
@@ -67,6 +67,8 @@ export default class BetaDiversityContainer extends React.Component<BetaDiversit
       },
       data: newValues,
       buckets: 10,
+      maxAxisNameLength: 100,
+      axisNameSize: 12,
       legend: {
         precision: 3,
       },
@@ -77,9 +79,10 @@ export default class BetaDiversityContainer extends React.Component<BetaDiversit
   }
 
   metaDataFromProps(props: BetaDiversityProps) {
-    const ranks = Object.keys(props.data);
-    const metrics = Object.keys(props.data[ranks[0]]);
-    const tools = Object.keys(props.data[ranks[0]][metrics[0]]);
+    const trueData = props.data.data;
+    const ranks = Object.keys(trueData);
+    const metrics = Object.keys(trueData[ranks[0]]);
+    const tools = Object.keys(trueData[ranks[0]][metrics[0]]);
     return {ranks, metrics, tools};
   }
 
