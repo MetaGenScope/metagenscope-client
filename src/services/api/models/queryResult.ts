@@ -91,12 +91,14 @@ export interface BetaDiversityEntryType {
 }
 
 export interface BetaDiversityType {
-  // Rank name
-  [key: string]: {
-    // Metric name
+  data: {
+    // Rank name
     [key: string]: {
-      // Tool name
-      [key: string]: BetaDiversityEntryType;
+      // Metric name
+      [key: string]: {
+        // Tool name
+        [key: string]: BetaDiversityEntryType;
+      };
     };
   };
 }
