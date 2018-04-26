@@ -211,6 +211,19 @@ export interface AncestryType {
   };
 }
 
+export interface MicrobeDirectoryType {
+  samples: {
+    // Sample name
+    [key: string]: {
+      // Property name
+      [key: string]: {
+        // Proerty Value
+        [key: string]: number;
+      },
+    };
+  };
+}
+
 export interface QueryResultWrapper<T> {
   status: QueryResultStatus;
   data?: T;
