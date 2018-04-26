@@ -30,7 +30,7 @@ export type ModuleEntry = {
 };
 
 const mapping: {[key: string]: ModuleClassType} = {
-  average_diversity: AlphaDiversityModule,
+  alpha_diversity: AlphaDiversityModule,
   average_genome_size: AGSModule,
   beta_diversity: BetaDiversityModule,
   card_amr_genes: CARDModule,

@@ -20,6 +20,12 @@ export interface AlphaDivState {
   activeCategory: string;
 }
 
+type CategoryDatum = {
+  by_metric: {
+    [key: string]: number[];
+  };
+};
+
 export default class AlphaDivContainer extends React.Component<AlphaDivProps, AlphaDivState> {
 
   protected color: d3.ScaleOrdinal<string, string>;
@@ -32,8 +38,19 @@ export default class AlphaDivContainer extends React.Component<AlphaDivProps, Al
     this.handleCategoryChange = this.handleCategoryChange.bind(this);
     this.handleColorByCategoryChanged = this.handleColorByCategoryChanged.bind(this);
 
+    const categories = Object.keys(this.props.data.categories),
+          activeCategory = categories[0],
+          tools = this.props.data.tool_names,
+          activeTool = tools[0],
+          activeTaxaRank = this.props.data.by_tool[activeTool].taxa_ranks[0],
+          rankData = this.props.data.by_tool[activeTool].by_taxa_rank[activeTaxaRank],
+          metrics = rankData.by_category_name[activeCategory][0].metrics,
+          activeMetric = metrics[0];
     this.state = {
-      activeCategory: Object.keys(this.props.data.categories)[0],
+      activeTool,
+      activeTaxaRank,
+      activeMetric,
+      activeCategory,
     };
   }
 
@@ -67,22 +84,18 @@ export default class AlphaDivContainer extends React.Component<AlphaDivProps, Al
     });
   }
 
-  chartOptions(activeCategory: string): Highcharts.Options {
-    const data = this.props.data.by_tool[activeTool]
-                  .by_taxa_rank[activeRank]
-                  .by_category_name[activeCategory]
-                  .by_metric[activeMetric];
-    const categoryValues = Object.keys(data);
+  chartOptions(activeCategory: string, activeMetric: string, categoryData: CategoryDatum[]): Highcharts.Options {
+    const categoryValues = this.props.data.categories[activeCategory];
 
-    const dataPoints: Highcharts.DataPoint[] = categoryValues.map(categoryValue => {
-      const datum = data[categoryValue];
+    const dataPoints: Highcharts.DataPoint[] = categoryData.map((categoryDatum, index) => {
+      const datum = categoryDatum.by_metric[activeMetric];
       return {
-        low: datum.min_val,
-        q1: datum.q1_val,
-        median: datum.mean_val,
-        q3: datum.q3_val,
-        high: datum.max_val,
-        color: this.color(categoryValue),
+        low: datum[0],
+        q1: datum[1],
+        median: datum[2],
+        q3: datum[3],
+        high: datum[4],
+        color: this.color(categoryValues[index]),
       };
     });
     const categorySeries = {
@@ -119,9 +132,12 @@ export default class AlphaDivContainer extends React.Component<AlphaDivProps, Al
   }
 
   render() {
-    const activeCategory = this.state.activeCategory,
-          activeCategoryValues = this.props.data.categories[activeCategory];
-    const chartOptions = this.chartOptions(activeCategory);
+    const {activeTool, activeTaxaRank, activeMetric, activeCategory} = this.state,
+          activeCategoryValues = this.props.data.categories[activeCategory],
+          rankData = this.props.data.by_tool[activeTool].by_taxa_rank[activeTaxaRank],
+          categoryData = rankData.by_category_name[activeCategory];
+
+    const chartOptions = this.chartOptions(activeCategory, activeMetric, categoryData);
 
     return (
       <Row>

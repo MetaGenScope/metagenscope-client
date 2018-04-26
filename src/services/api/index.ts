@@ -292,7 +292,7 @@ export const getAGS = function(uuid: string) {
 
 export const getAlphaDiv = function(uuid: string) {
   const options = {
-    url: `${API_BASE_URL}/analysis_results/${uuid}/average_diversity`,
+    url: `${API_BASE_URL}/analysis_results/${uuid}/alpha_diversity`,
     method: 'get',
     headers: {
       'Content-Type': 'application/json',

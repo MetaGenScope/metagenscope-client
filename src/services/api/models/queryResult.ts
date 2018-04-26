@@ -71,7 +71,7 @@ export interface AGSResultType {
 }
 
 export interface AlphaDivResultType {
-  tools: string[];
+  tool_names: string[];
   categories: {
     [key: string]: string[];
   };
@@ -81,17 +81,17 @@ export interface AlphaDivResultType {
       by_taxa_rank: {
         [key: string]: {
           by_category_name: {
-            [key: string]: [{
+            [key: string]: {
               metrics: string[];
               category_value: string;
               by_metric: {
                 [key: string]: number[];
-              }
-            }]
-          }
-        }
-      }
-    }
+              };
+            }[];
+          };
+        };
+      };
+    };
   };
 }
 
