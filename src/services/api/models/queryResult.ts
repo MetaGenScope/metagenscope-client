@@ -165,6 +165,34 @@ export interface PathwaysType {
   };
 }
 
+export interface XYZPoint {
+  xval: number;
+  yval: number;
+  zval: number;
+  name: string;
+}
+
+export interface VolcanoType {
+  categories: {
+    [key: string]: string[];
+  };
+  tools: {
+    // tool name
+    [key: string]: {
+      tool_categories: {
+        // category
+        [key: string]: {
+          // category value
+          [key: string]: {
+            pval_histogram: XYZPoint[],
+            scatter_plot: XYZPoint[],
+          }
+        }
+      }
+    }
+  };
+}
+
 export interface QueryResultWrapper<T> {
   status: QueryResultStatus;
   data?: T;
