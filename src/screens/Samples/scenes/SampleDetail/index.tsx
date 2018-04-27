@@ -16,6 +16,7 @@ import MacrobesModule from '../../../../display_modules/Macrobes';
 import MethylModule from '../../../../display_modules/Methyl';
 import PathwaysModule from '../../../../display_modules/Pathways';
 import VFDBModule from '../../../../display_modules/VFDB';
+import { MicrobeDirectoryModule } from '../../../../display_modules/MicrobeDirectory';
 import { ReadsClassifiedModule } from '../../../../display_modules/ReadsClassified';
 import { SampleTaxonomyModule } from '../../../../display_modules/SampleTaxonomy';
 
@@ -25,6 +26,7 @@ const mapping: {[key: string]: ModuleClassType} = {
   hmp: HMPModule,
   macrobe_abundance: MacrobesModule,
   methyltransferases: MethylModule,
+  microbe_directory: MicrobeDirectoryModule,
   pathways: PathwaysModule,
   putative_ancestry: AncestryModule,
   reads_classified: ReadsClassifiedModule,

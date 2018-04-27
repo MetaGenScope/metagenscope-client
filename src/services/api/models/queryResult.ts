@@ -219,7 +219,7 @@ export interface MicrobeDirectoryType {
       [key: string]: {
         // Proerty Value
         [key: string]: number;
-      },
+      };
     };
   };
 }

@@ -1,92 +1,131 @@
 import * as React from 'react';
+import * as d3 from 'd3';
 import * as Highcharts from 'highcharts';
+
+import { Row, Col } from 'react-bootstrap';
 
 import { ChartRefProps } from '../../../components/DisplayContainer/highcharts';
 import HighChartsPlot from '../../../plots/HighChartsPlot';
 import { MicrobeDirectoryType } from '../../../../services/api/models/queryResult';
 
+import MicrobeDirectoryControls from './components/MicrobeDirectoryControls';
 
-const sampleGroupOptions = function(data: MicrobeDirectoryType, activeProperty: string): Highcharts.Options {
+const toTitleCase = (str: string) => {
+  return str.replace(/\w\S*/g, txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
+};
 
-  const sampleNames = Object.keys(data.samples);
-  const propertyNames = Object.keys(data.samples[sampleNames[0]]);
+const formatText = (text: string) => {
+  let toReturn = text;
+  toReturn = toReturn.replace('_', ' ');
+  toReturn = toTitleCase(toReturn);
+  return toReturn;
+};
 
-  const propertyMap: {
-    [key: string]: {
-        [key: string]: number[]
-    }
-  } = {}
-  propertyNames.map(propertyName => {
-    propertyMap[propertyName] = {}
-    const propertyValues = Object.keys(data.samples[sampleNames[0]][propertyName]);
-    propertyValues.map(propertyValue => {
-      propertyMap[propertyName][propertyValue] = []
-    });
-  });
+// Property name --> propert value --> data
+// type PropertyMapType = {
+//   [key: string]: {
+//     [key: string]: number[];
+//   };
+// };
 
-  
-  sampleNames.map(sampleName => {
-    propertyNames.map(propertyName => {
-      const property = data.samples[sampleName][propertyName];
-      Object.keys(property).map(propertyValue => {
-        propertyMap[propertyName][propertyValue].push(property[propertyValue]);
+const baseOptions: Highcharts.Options = {
+  chart: {
+    type: 'column',
+  },
+  title: {
+    text: null,
+  },
+  yAxis: {
+    title: {
+      text: 'Microbe Directory Annotations',
+    },
+    stackLabels: {
+      enabled: false,
+      style: {
+        fontWeight: 'bold',
+        color: 'gray',
+      },
+    },
+  },
+  tooltip: {
+    headerFormat: '<b>{point.x}</b><br/>',
+    pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}',
+  },
+  plotOptions: {
+    column: {
+      stacking: 'percent',
+      dataLabels: {
+        enabled: false,
+        color: 'white',
+      },
+    },
+  },
+  exporting: {
+    enabled: false,
+  },
+};
+
+const sampleOptions = (data: MicrobeDirectoryType): Highcharts.Options => {
+  const sampleName = Object.keys(data.samples)[0],
+        sample = data.samples[sampleName],
+        columns = Object.keys(sample),
+        series: Highcharts.IndividualSeriesOptions[] = [];
+
+  columns.forEach((column, index) => {
+    const columnData = sample[column],
+          columnBuckets = Object.keys(columnData); // of which each "bucket" is a percentage
+    columnBuckets.forEach(bucket => {
+      const percentage = columnData[bucket];
+
+      const seriesData: number[] = Array(columns.length);
+      seriesData.fill(0); // everything is "0" except for the item of interest
+      seriesData[index] = percentage; // this it the item of interest
+
+      series.push({
+        name: bucket,
+        data: seriesData,
       });
     });
   });
 
-  const seriesNames = Object.keys(propertyMap[activePropertyName]);
-  const series: Highcharts.IndividualSeriesOptions[] = seriesNames.map(seriesName => {
-    const seriesData = seriesMap[seriesName];
-    return {
-      name: seriesName,
-      data: seriesData,
-    };
-  });
-
-  const chartOptions: Highcharts.Options = {
-    chart: {
-      type: 'column',
-    },
-    title: {
-      text: null,
-    },
+  const columnsFormatted = columns.map(column => formatText(column));
+  const seriesOptions: Highcharts.Options = {
     xAxis: {
-      categories: sampleNames,
+      categories: columnsFormatted,
     },
-    yAxis: {
-      title: {
-        text: 'Microbe Directory Annotations',
-      },
-      stackLabels: {
-        enabled: false,
-        style: {
-          fontWeight: 'bold',
-          color: 'gray',
-        },
-      },
-    },
-    tooltip: {
-      headerFormat: '<b>{point.x}</b><br/>',
-      pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}',
-    },
-    plotOptions: {
-      column: {
-        stacking: 'normal',
-        dataLabels: {
-          enabled: false,
-          color: 'white',
-        },
-      },
-    },
-    exporting: {
+    legend: {
       enabled: false,
     },
     series,
   };
 
-  return chartOptions;
+  return seriesOptions;
 };
 
+const groupOptions = function(data: MicrobeDirectoryType, activeProperty: string): Highcharts.Options {
+  const sampleNames = Object.keys(data.samples),
+        propertyValues = Object.keys(data.samples[sampleNames[0]][activeProperty]);
+
+  const series = propertyValues.map(propertyValue => {
+    const seriesData = sampleNames.map(sampleName => {
+      return data.samples[sampleName][activeProperty][propertyValue];
+    });
+    const seriesItem: Highcharts.IndividualSeriesOptions = {
+      name: propertyValue,
+      data: seriesData,
+    };
+    return seriesItem;
+  });
+
+  const seriesOptions: Highcharts.Options = {
+    xAxis: {
+      categories: sampleNames,
+    },
+    series,
+  };
+
+  return seriesOptions;
+};
 
 export interface MicrobeDirectoryProps extends ChartRefProps {
   data: MicrobeDirectoryType;
@@ -105,15 +144,16 @@ export class MicrobeDirectoryContainer extends React.Component<MicrobeDirectoryP
   constructor(props: MicrobeDirectoryProps) {
     super(props);
 
-    this.handleCategoryChange = this.handlePropertyChange.bind(this););
-
-    const sampleNames = Object.keys(data.samples);
-    const propertyNames = Object.keys(data.samples[sampleNames[0]]);
+    const sampleNames = Object.keys(this.props.data.samples);
+    const propertyNames = Object.keys(this.props.data.samples[sampleNames[0]]);
+    this.color = d3.scaleOrdinal(d3.schemeCategory20);
 
     this.state = {
       activeProperty: propertyNames[0],
       propertyValues: propertyNames,
     };
+
+    this.handlePropertyChange = this.handlePropertyChange.bind(this);
   }
 
   handlePropertyChange(property: string) {
@@ -122,15 +162,33 @@ export class MicrobeDirectoryContainer extends React.Component<MicrobeDirectoryP
     });
   }
 
-
   render() {
-    const activeProperty = this.state.activeProperty,
-          chartOptions = sampleGroupOptions(data, this.props.data.sites),
-          isSingleton = this.props.isSingleton || false;
+    const data = this.props.data,
+          isSingleton = this.props.isSingleton || false,
+          activeProperty = this.state.activeProperty,
+          seriesOptions = isSingleton ? sampleOptions(data) : groupOptions(data, activeProperty),
+          chartOptions = Object.assign(baseOptions, seriesOptions);
+
+    if (isSingleton) {
+      return (
+        <Row>
+          <Col lg={12}>
+            <HighChartsPlot
+              chartId="microbe-directory"
+              options={chartOptions}
+              chartRef={this.props.chartRef}
+            />
+          </Col>
+        </Row>
+      );
+    }
+
+    const sampleNames = Object.keys(data.samples),
+          propertyNames = Object.keys(data.samples[sampleNames[0]]);
 
     return (
       <Row>
-        <Col lg={isSingleton ? 12 : 9}>
+        <Col lg={9}>
           <HighChartsPlot
             chartId="microbe-directory"
             options={chartOptions}
@@ -139,7 +197,7 @@ export class MicrobeDirectoryContainer extends React.Component<MicrobeDirectoryP
         </Col>
         <Col lg={3}>
             <MicrobeDirectoryControls
-              propertyValues={this.state.propertyValues}
+              properties={propertyNames}
               activeProperty={activeProperty}
               handlePropertyChange={this.handlePropertyChange}
             />

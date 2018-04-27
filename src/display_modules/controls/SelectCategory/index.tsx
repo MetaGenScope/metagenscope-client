@@ -5,6 +5,7 @@ import CategoryItem from './components/CategoryItem';
 import './style.css';
 
 type CategoryProps = {
+  label?: string;
   categories: string[];
   selectedCategoryName: string;
   categoryValues: {
@@ -42,10 +43,15 @@ class SelectCategory extends React.Component<CategoryProps, {}> {
   }
 
   render() {
+    let label = 'Color by category:';
+    if (this.props.label !== undefined) {
+      label = this.props.label;
+    }
+
     return(
       <form>
         <FormGroup controlId="formControlsSelect">
-          <ControlLabel>Color by category:</ControlLabel>
+          <ControlLabel>{label}</ControlLabel>
           <select
             className="form-control"
             value={this.props.selectedCategoryName}
