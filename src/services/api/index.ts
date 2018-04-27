@@ -11,6 +11,7 @@ import {
   BetaDiversityType,
   GenericGeneType,
   HMPResultType,
+  PathwaysType,
   QueryResultWrapper,
   ReadsClassifiedType,
   ReadStatsResultType,
@@ -415,5 +416,21 @@ export const getHumann2Normalize = function(uuid: string) {
   return axios(options)
     .then((res) => {
       return res.data.data as QueryResultWrapper<GenericGeneType>;
+    });
+};
+
+export const getPathways = function(uuid: string) {
+  const options = {
+    url: `${API_BASE_URL}/analysis_results/${uuid}/pathways`,
+    method: 'get',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${window.localStorage.authToken}`
+    },
+  };
+
+  return axios(options)
+    .then((res) => {
+      return res.data.data as QueryResultWrapper<PathwaysType>;
     });
 };

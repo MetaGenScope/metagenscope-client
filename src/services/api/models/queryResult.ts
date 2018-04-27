@@ -156,6 +156,15 @@ export interface GenericGeneType {
   };
 }
 
+export interface PathwaysType {
+  samples: {
+    [key: string]: {
+      pathway_abundances: {[key: string]: number};
+      pathway_coverages: {[key: string]: number};
+    };
+  };
+}
+
 export interface QueryResultWrapper<T> {
   status: QueryResultStatus;
   data?: T;

@@ -12,6 +12,7 @@ import BetaDiversityModule from '../../../../display_modules/BetaDiversity';
 import CARDModule from '../../../../display_modules/CARD';
 import HMPModule from '../../../../display_modules/HMP';
 import Humann2NormalizeModule from '../../../../display_modules/Humann2Normalize';
+import PathwaysModule from '../../../../display_modules/Pathways';
 import MethylModule from '../../../../display_modules/Methyl';
 import VFDBModule from '../../../../display_modules/VFDB';
 import { ReadsClassifiedModule } from '../../../../display_modules/ReadsClassified';
@@ -38,6 +39,7 @@ const mapping: {[key: string]: ModuleClassType} = {
   read_stats: ReadStatsModule,
   methyltransferases: MethylModule,
   functional_genes: Humann2NormalizeModule,
+  pathways: PathwaysModule,
   reads_classified: ReadsClassifiedModule,
   sample_similarity: SampleSimilarityModule,
   taxon_abundance: TaxonAbundanceModule,
