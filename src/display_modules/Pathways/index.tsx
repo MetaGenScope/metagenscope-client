@@ -7,7 +7,11 @@ import { getPathways } from '../../services/api';
 
 import BetaDiversityContainer from './components/PathwaysContainer';
 
-export default class PathwaysModule extends D3DisplayContainer<PathwaysType> {
+interface PathwaysProps extends DisplayContainerProps {
+  isSingleton?: boolean;
+}
+
+export default class PathwaysModule extends D3DisplayContainer<PathwaysType, PathwaysProps> {
 
   constructor(props: DisplayContainerProps) {
     super(props);
@@ -28,6 +32,12 @@ export default class PathwaysModule extends D3DisplayContainer<PathwaysType> {
 
   /** @inheritdoc */
   plotContainer(data: PathwaysType): JSX.Element {
-    return <BetaDiversityContainer data={data} svgRef={el => this.svgCanvas = el} />;
+    return (
+      <BetaDiversityContainer
+        data={data}
+        svgRef={el => this.svgCanvas = el}
+        isSingleton={this.props.isSingleton}
+      />
+    );
   }
 }

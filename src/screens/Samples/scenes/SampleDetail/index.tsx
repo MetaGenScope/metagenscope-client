@@ -11,6 +11,7 @@ import CARDModule from '../../../../display_modules/CARD';
 import HMPModule from '../../../../display_modules/HMP';
 import Humann2NormalizeModule from '../../../../display_modules/Humann2Normalize';
 import MethylModule from '../../../../display_modules/Methyl';
+import PathwaysModule from '../../../../display_modules/Pathways';
 import VFDBModule from '../../../../display_modules/VFDB';
 import { ReadsClassifiedModule } from '../../../../display_modules/ReadsClassified';
 import { SampleTaxonomyModule } from '../../../../display_modules/SampleTaxonomy';
@@ -20,6 +21,7 @@ const mapping: {[key: string]: ModuleClassType} = {
   functional_genes: Humann2NormalizeModule,
   hmp: HMPModule,
   methyltransferases: MethylModule,
+  pathways: PathwaysModule,
   reads_classified: ReadsClassifiedModule,
   taxa_tree: SampleTaxonomyModule,
   virulence_factors: VFDBModule,

@@ -1,7 +1,9 @@
 import * as React from 'react';
+import * as Highcharts from 'highcharts';
 import { Row, Col } from 'react-bootstrap';
 
 import HeatmapPlot, { HeatMapProps } from '../../../../display_modules/plots/HeatmapPlot';
+import HighChartsPlot from '../../../plots/HighChartsPlot';
 import { HeatMapDatum } from '../../../../display_modules/plots/HeatmapPlot/util/heatmap';
 import { PathwaysType } from '../../../../services/api/models/queryResult';
 import { SvgRefProps } from '../../../components/DisplayContainer/d3';
@@ -10,6 +12,7 @@ import PathwaysControls from './components/PathwaysControls';
 
 export interface PathwaysProps extends SvgRefProps {
   data: PathwaysType;
+  isSingleton?: boolean;
 }
 
 export interface PathwaysState {
@@ -31,7 +34,45 @@ export default class BetaDiversityContainer extends React.Component<PathwaysProp
     this.handleMetricChange = this.handleMetricChange.bind(this);
   }
 
-  chartOptions(): HeatMapProps {
+  chartOptions(): Highcharts.Options {
+    const {sampleNames} = this.metaDataFromProps(this.props),
+          metric = this.state.activeMetric,
+          dataSet: {[key: string]: number} = this.props.data.samples[sampleNames[0]][metric],
+          pathways = Object.keys(dataSet);
+
+    const data = pathways.map(pathway => dataSet[pathway]);
+
+    const chartOptions: Highcharts.Options = {
+      chart: {
+        type: 'column',
+      },
+      title: {
+        text: null,
+      },
+      legend: {
+        enabled: true,
+      },
+      xAxis: {
+        categories: pathways,
+      },
+      yAxis: {
+        title: {
+          text: 'Relative Abundance',
+        },
+      },
+      exporting: {
+        enabled: false,
+      },
+      series: [{
+        name: metric,
+        data,
+      }],
+    };
+
+    return chartOptions;
+  }
+
+  heatmapOptions(): HeatMapProps {
     const {sampleNames, pathways} = this.metaDataFromProps(this.props),
           metric = this.state.activeMetric;
 
@@ -85,8 +126,25 @@ export default class BetaDiversityContainer extends React.Component<PathwaysProp
   }
 
   render() {
-    const chartProps = this.chartOptions();
-    const controlProps = this.controlProps();
+    const isSingleton = this.props.isSingleton || false;
+
+    if (isSingleton) {
+      const chartOptions = this.chartOptions();
+      return (
+        <Row>
+          <Col lg={12}>
+            <HighChartsPlot
+              chartId="pathways"
+              options={chartOptions}
+              chartRef={() => {}} // tslint:disable-line no-empty
+            />
+          </Col>
+        </Row>
+      );
+    }
+
+    const chartProps = this.heatmapOptions(),
+          controlProps = this.controlProps();
 
     return (
       <Row>
