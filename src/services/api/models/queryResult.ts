@@ -193,6 +193,16 @@ export interface VolcanoType {
   };
 }
 
+export interface AncestryType {
+  samples: {
+    [key: string]: {
+      populations: {
+        [key: string]: number
+      };
+    };
+  };
+}
+
 export interface QueryResultWrapper<T> {
   status: QueryResultStatus;
   data?: T;

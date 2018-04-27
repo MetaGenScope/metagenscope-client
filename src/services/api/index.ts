@@ -6,6 +6,7 @@ import { SampleGroupType } from './models/analysisGroup';
 import { SampleType } from './models/sample';
 import {
   AnalysisResultType,
+  AncestryType,
   AGSResultType,
   AlphaDivResultType,
   BetaDiversityType,
@@ -449,5 +450,21 @@ export const getVolcano = function(uuid: string) {
   return axios(options)
     .then((res) => {
       return res.data.data as QueryResultWrapper<VolcanoType>;
+    });
+};
+
+export const getAncestry = function(uuid: string) {
+  const options = {
+    url: `${API_BASE_URL}/analysis_results/${uuid}/putative_ancestry`,
+    method: 'get',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${window.localStorage.authToken}`
+    },
+  };
+
+  return axios(options)
+    .then((res) => {
+      return res.data.data as QueryResultWrapper<AncestryType>;
     });
 };
