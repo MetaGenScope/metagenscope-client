@@ -19,6 +19,7 @@ import { ReadsClassifiedModule } from '../../../../display_modules/ReadsClassifi
 import { ReadStatsModule } from '../../../../display_modules/ReadStats';
 import { SampleSimilarityModule } from '../../../../display_modules/SampleSimilarity';
 import { TaxonAbundanceModule } from '../../../../display_modules/TaxonAbundance';
+import { VolcanoModule } from '../../../../display_modules/Volcano';
 
 import SampleList from './components/SampleList';
 
@@ -44,6 +45,7 @@ const mapping: {[key: string]: ModuleClassType} = {
   sample_similarity: SampleSimilarityModule,
   taxon_abundance: TaxonAbundanceModule,
   virulence_factors: VFDBModule,
+  volcano: VolcanoModule,
 };
 
 interface AnalysisGroupList {
