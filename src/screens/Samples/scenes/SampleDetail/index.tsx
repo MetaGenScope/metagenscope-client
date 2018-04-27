@@ -7,6 +7,7 @@ import { SampleType } from '../../../../services/api/models/sample';
 import { AnalysisResultType } from '../../../../services/api/models/queryResult';
 import { ModuleClassType, ModuleEntry } from '../../../SampleGroups/scenes/GroupDetail';
 
+import AncestryModule from '../../../../display_modules/Ancestry';
 import CARDModule from '../../../../display_modules/CARD';
 import HMPModule from '../../../../display_modules/HMP';
 import Humann2NormalizeModule from '../../../../display_modules/Humann2Normalize';
@@ -22,6 +23,7 @@ const mapping: {[key: string]: ModuleClassType} = {
   hmp: HMPModule,
   methyltransferases: MethylModule,
   pathways: PathwaysModule,
+  putative_ancestry: AncestryModule,
   reads_classified: ReadsClassifiedModule,
   taxa_tree: SampleTaxonomyModule,
   virulence_factors: VFDBModule,
