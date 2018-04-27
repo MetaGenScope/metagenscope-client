@@ -35,7 +35,9 @@ export default class AlphaDivContainer extends React.Component<AlphaDivProps, Al
 
     this.color = d3.scaleOrdinal(d3.schemeCategory20);
 
-    this.handleCategoryChange = this.handleCategoryChange.bind(this);
+    this.handleToolChange = this.handleToolChange.bind(this);
+    this.handleMetricChange = this.handleMetricChange.bind(this);
+    this.handleTaxaRankChange = this.handleTaxaRankChange.bind(this);
     this.handleColorByCategoryChanged = this.handleColorByCategoryChanged.bind(this);
 
     const categories = Object.keys(this.props.data.categories),
@@ -55,15 +57,54 @@ export default class AlphaDivContainer extends React.Component<AlphaDivProps, Al
   }
 
   handleToolChange(tool: string) {
-    this.setState({
-      activeTool: tool,
-    });
+    let newState: AlphaDivState = Object.assign({}, this.state);
+    newState.activeTool = tool;
+
+    // Pass changes downward because we can't be sure that each branch of the
+    // options tree is the same and may need to reset an invalid value
+    newState = this.downstreamTaxaRank(newState);
+
+    this.setState(newState);
   }
 
   handleTaxaRankChange(taxaRank: string) {
-    this.setState({
-      activeTaxaRank: taxaRank,
-    });
+    let newState: AlphaDivState = Object.assign({}, this.state);
+    newState.activeTaxaRank = taxaRank;
+
+    // Pass changes downward because we can't be sure that each branch of the
+    // options tree is the same and may need to reset an invalid value
+    newState = this.downstreamCategory(newState);
+
+    this.setState(newState);
+  }
+
+  downstreamTaxaRank(upstreamState: AlphaDivState): AlphaDivState {
+    const {activeTool, activeTaxaRank} = upstreamState,
+          taxaRanks = this.props.data.by_tool[activeTool].taxa_ranks;
+
+    if (taxaRanks.indexOf(activeTaxaRank) < 0) {
+      upstreamState.activeTaxaRank = taxaRanks[0];
+    }
+
+    upstreamState = this.downstreamCategory(upstreamState);
+
+    return upstreamState;
+  }
+
+  handleColorByCategoryChanged(category: string) {
+    let newState: AlphaDivState = Object.assign({}, this.state);
+    newState.activeCategory = category;
+
+    // Pass changes downward because we can't be sure that each branch of the
+    // options tree is the same and may need to reset an invalid value
+    newState = this.downstreamMetrics(newState);
+
+    this.setState(newState);
+  }
+
+  downstreamCategory(upstreamState: AlphaDivState): AlphaDivState {
+    // Categories are defined at the top level and will always be valid, just pass this down
+    return this.downstreamMetrics(upstreamState);
   }
 
   handleMetricChange(metric: string) {
@@ -72,16 +113,16 @@ export default class AlphaDivContainer extends React.Component<AlphaDivProps, Al
     });
   }
 
-  handleCategoryChange(category: string) {
-    this.setState({
-      activeCategory: category,
-    });
-  }
+  downstreamMetrics(upstreamState: AlphaDivState): AlphaDivState {
+    const {activeTool, activeTaxaRank, activeMetric, activeCategory} = upstreamState,
+          rankData = this.props.data.by_tool[activeTool].by_taxa_rank[activeTaxaRank],
+          metrics = rankData.by_category_name[activeCategory][0].metrics;
 
-  handleColorByCategoryChanged(category: string) {
-    this.setState({
-      activeCategory: category,
-    });
+    if (metrics.indexOf(activeMetric) < 0) {
+      upstreamState.activeMetric = metrics[0];
+    }
+
+    return upstreamState;
   }
 
   chartOptions(activeCategory: string, activeMetric: string, categoryData: CategoryDatum[]): Highcharts.Options {
@@ -134,8 +175,10 @@ export default class AlphaDivContainer extends React.Component<AlphaDivProps, Al
   render() {
     const {activeTool, activeTaxaRank, activeMetric, activeCategory} = this.state,
           activeCategoryValues = this.props.data.categories[activeCategory],
-          rankData = this.props.data.by_tool[activeTool].by_taxa_rank[activeTaxaRank],
-          categoryData = rankData.by_category_name[activeCategory];
+          toolData = this.props.data.by_tool[activeTool],
+          taxaRanks = toolData.taxa_ranks,
+          categoryData = toolData.by_taxa_rank[activeTaxaRank].by_category_name[activeCategory],
+          metrics = categoryData[0].metrics;
 
     const chartOptions = this.chartOptions(activeCategory, activeMetric, categoryData);
 
@@ -154,8 +197,17 @@ export default class AlphaDivContainer extends React.Component<AlphaDivProps, Al
             activeCategory={activeCategory}
             activeCategoryValues={activeCategoryValues}
             activeCategoryColor={this.color}
-            handleCategoryChange={this.handleCategoryChange}
+            handleCategoryChange={() => {}}  // tslint:disable-line no-empty
             handleColorByCategoryChanged={this.handleColorByCategoryChanged}
+            metrics={metrics}
+            activeMetric={activeMetric}
+            handleMetricChange={this.handleMetricChange}
+            taxaRanks={taxaRanks}
+            activeTaxaRank={activeTaxaRank}
+            handleTaxaRankChange={this.handleTaxaRankChange}
+            tools={this.props.data.tool_names}
+            activeTool={activeTool}
+            handleToolChange={this.handleToolChange}
           />
         </Col>
       </Row>
