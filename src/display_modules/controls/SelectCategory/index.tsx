@@ -12,7 +12,7 @@ type CategoryProps = {
     color: string;
   }[];
   colorByCategoryChanged(name: string): void;
-  activeCategoryChanged(name?: string): void;
+  activeCategoryChanged?(name?: string): void;
 };
 
 class SelectCategory extends React.Component<CategoryProps, {}> {
@@ -25,11 +25,15 @@ class SelectCategory extends React.Component<CategoryProps, {}> {
   }
 
   focusLost() {
-    this.props.activeCategoryChanged(undefined);
+    if (this.props.activeCategoryChanged !== undefined) {
+      this.props.activeCategoryChanged(undefined);
+    }
   }
 
   focusChanged(category: string) {
-    this.props.activeCategoryChanged(category);
+    if (this.props.activeCategoryChanged !== undefined) {
+      this.props.activeCategoryChanged(category);
+    }
   }
 
   handleColorByCategoryChange(event: React.FormEvent<HTMLSelectElement>) {
