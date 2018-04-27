@@ -7,6 +7,7 @@ import { SampleType } from './models/sample';
 import {
   AnalysisResultType,
   AGSResultType,
+  AlphaDivResultType,
   BetaDiversityType,
   GenericGeneType,
   HMPResultType,
@@ -286,6 +287,22 @@ export const getAGS = function(uuid: string) {
   return axios(options)
     .then((res) => {
       return res.data.data as QueryResultWrapper<AGSResultType>;
+    });
+};
+
+export const getAlphaDiv = function(uuid: string) {
+  const options = {
+    url: `${API_BASE_URL}/analysis_results/${uuid}/alpha_diversity`,
+    method: 'get',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${window.localStorage.authToken}`
+    },
+  };
+
+  return axios(options)
+    .then((res) => {
+      return res.data.data as QueryResultWrapper<AlphaDivResultType>;
     });
 };
 
