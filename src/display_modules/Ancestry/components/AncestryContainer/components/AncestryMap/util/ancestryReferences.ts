@@ -1,5 +1,16 @@
 // tslint:disable max-line-length
 
+export interface RegionType {
+  ID: string;
+  Category: string;
+  Name: string;
+  ReferencePopulation: string;
+  Wikipedia: string;
+  Polygon: string;
+  Color: string;
+  Centroid: string;
+}
+
 const reference = [
   {
     ID: 'AMBIG_AFRICA',
