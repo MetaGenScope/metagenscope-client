@@ -1,33 +1,17 @@
 import * as React from 'react';
-import { withScriptjs, withGoogleMap, GoogleMap, Circle } from 'react-google-maps';
+import { withScriptjs, withGoogleMap, GoogleMap, Circle, InfoWindow } from 'react-google-maps';
 
 import { parseLatLng } from './util';
 import { default as regions, RegionType } from './util/ancestryReferences';
 
 const API_KEY = 'AIzaSyDA8yTgTogBwNBm_YCSNQOZq1IFBflxBtg';
 
-const circleFactory = function(key: number, region: RegionType, regionValue: number) {
-  const circleProps = {
-    options: {
-      strokeColor: '#333333',
-      strokeOpacity: 0.8,
-      strokeWeight: 2,
-      fillColor: region.Color,
-      fillOpacity: 0.4,
-    },
-    center: parseLatLng(region.Centroid),
-    radius: Math.sqrt(regionValue) * 2.7e6,
-  };
-
-  return <Circle key={key} {...circleProps} />;
-};
-
 export interface AncestryMapProps {
   ancestry: {[key: string]: number};
 }
 
 export interface AncestryMapState {
-  activeRegionId?: string;
+  activeRegion?: RegionType;
 }
 
 class StatefulAncestryMap extends React.Component<AncestryMapProps, AncestryMapState> {
@@ -35,8 +19,44 @@ class StatefulAncestryMap extends React.Component<AncestryMapProps, AncestryMapS
     super(props);
 
     this.state = {
-      activeRegionId: undefined,
+      activeRegion: undefined,
     };
+  }
+  circleFactory(key: number, region: RegionType, regionValue: number) {
+    const circleProps = {
+      options: {
+        strokeColor: '#333333',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: region.Color,
+        fillOpacity: 0.4,
+      },
+      center: parseLatLng(region.Centroid),
+      radius: Math.sqrt(regionValue) * 2.7e6,
+    };
+
+    const onMouseOver = () => { this.setState({activeRegion: region}); };
+    const onMouseOut = () => { this.setState({activeRegion: undefined}); };
+
+    return (
+      <Circle
+        key={key}
+        {...circleProps}
+        onMouseOver={onMouseOver}
+        onMouseOut={onMouseOut}
+      />
+    );
+  }
+
+  infoWindowFactory(region: RegionType) {
+    const value = this.props.ancestry[region.ID],
+          regionName = region.Name,
+          regionPosition = parseLatLng(region.Centroid);
+    return (
+      <InfoWindow position={regionPosition}>
+        <p style={{maxWidth: '100px'}}>{regionName}: {(value * 100).toFixed(2)}%</p>
+      </InfoWindow>
+    );
   }
 
   render() {
@@ -56,7 +76,7 @@ class StatefulAncestryMap extends React.Component<AncestryMapProps, AncestryMapS
       // Side effect:
       bounds.extend(center);
 
-      return circleFactory(index, region, value);
+      return this.circleFactory(index, region, value);
     });
 
     return (
@@ -65,6 +85,7 @@ class StatefulAncestryMap extends React.Component<AncestryMapProps, AncestryMapS
           defaultZoom={2}
           defaultCenter={bounds.getCenter()}
         >
+          {this.state.activeRegion !== undefined && this.infoWindowFactory(this.state.activeRegion)}
           {markers}
         </GoogleMap>
     );
