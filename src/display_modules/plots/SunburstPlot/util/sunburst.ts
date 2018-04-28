@@ -5,6 +5,7 @@ import { displayTaxaName } from './util';
 export interface SunburstDataType {
   name: string;
   parent?: string;
+  color?: string;
   size: number;
   children: SunburstDataType[];
 }
@@ -64,8 +65,9 @@ export default class Sunburst {
    * @param options - The Sunburst plot options.
    */
   update(options: SunburstOptionsType) {
-    const width = 500,
-          height = 400,
+    const boundingSize = this.rootDiv.node()!.getBoundingClientRect(),
+          width = Math.min(boundingSize.width, 350),
+          height = width,
           radius = (Math.min(width, height) / 2) - 10;
 
     this.svg.attr('width', width).attr('height', height);
@@ -173,7 +175,12 @@ export default class Sunburst {
         .on('click', click)
         .merge(nodeGroups)
             .attr('d', arc)
-            .style('fill', d => color((d.children ? d : d.parent!).data.name));
+            .style('fill', function(d: Node) {
+              if (d.data.color !== undefined) {
+                return d.data.color;
+              }
+              return color((d.children ? d : d.parent!).data.name);
+            });
     nodeGroups.exit().remove();
   }
 

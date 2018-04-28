@@ -31,32 +31,36 @@ export const zoomFromBounds = function(mapWidth: number, bounds: google.maps.Lat
   return Math.floor(Math.log(mapWidth * 360 / angle / GLOBE_WIDTH) / Math.LN2);
 };
 
-export const getAncestryId = function(populationId: string): string {
+export const getAncestry = function(populationId: string) {
   // Try to look up directly
   const referenceById = references.find(elem => elem.ID === populationId);
   if (referenceById !== undefined) {
-    return referenceById.ID;
+    return referenceById;
   }
 
   // Try ambiguous direct look up
   const ambigReferenceById = references.find(elem => elem.ID === `AMBIG_${populationId}`);
   if (ambigReferenceById !== undefined) {
-    return ambigReferenceById.ID;
+    return ambigReferenceById;
   }
 
   // Try by subcategory
   const subcategoryId = detailReferences[populationId][0],
         subcategory = references.find(elem => elem.ID === subcategoryId);
   if (subcategory !== undefined) {
-    return subcategory.ID;
+    return subcategory;
   }
 
   // Try by primary category
   const categoryId = detailReferences[populationId][1],
         category = references.find(elem => elem.ID === categoryId);
   if (category !== undefined) {
-    return category.ID;
+    return category;
   }
 
   throw new Error(`Could not find anything for ID: ${populationId}`);
+};
+
+export const getAncestryId = function(populationId: string) {
+  return getAncestry(populationId).ID;
 };
