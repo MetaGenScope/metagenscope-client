@@ -4,9 +4,17 @@ import { Row, Col } from 'react-bootstrap';
 import { SampleTaxonomyType } from '../../../../services/api/models/queryResult';
 
 import SunburstPlot, { SunburstProps } from '../../../plots/SunburstPlot';
+import { SunburstDataType } from '../../../plots/SunburstPlot/util/sunburst';
 import { SvgRefProps } from '../../../components/DisplayContainer/d3';
 
+import { displayTaxaName } from './util';
 import SampleTaxonomyControls from './components/SampleTaxonomyControls';
+
+const transformNode = function(node: SunburstDataType): SunburstDataType {
+  node.name = displayTaxaName(node.name);
+  node.children = node.children.map(child => transformNode(child));
+  return node;
+};
 
 export interface SampleTaxonomyProps extends SvgRefProps {
   data: SampleTaxonomyType;
@@ -36,7 +44,7 @@ export class SampleTaxonomyContainer extends React.Component<SampleTaxonomyProps
   render() {
     const activeTool = this.state.activeTool;
     const data: SunburstProps = {
-      data: this.props.data[activeTool],
+      data: transformNode(this.props.data[activeTool]),
       svgRef: this.props.svgRef,
     };
 
