@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { API_BASE_URL } from './utils';
+import { API_BASE_URL, makeCancelable } from './utils';
 import { JsonOrganizationType, OrganizationType } from './models/organization';
 import { SampleGroupType } from './models/analysisGroup';
 import { SampleType } from './models/sample';
@@ -467,4 +467,30 @@ export const getAncestry = function(uuid: string) {
     .then((res) => {
       return res.data.data as QueryResultWrapper<AncestryType>;
     });
+};
+
+// tslint:disable-next-line no-any
+export const defaultwrapResult = <T>(res: any): QueryResultWrapper<T> => {
+  return res.data.data as QueryResultWrapper<T>;
+};
+
+// tslint:disable-next-line no-any
+type ResultWrapperType = <T>(res: any) => QueryResultWrapper<T>;
+
+export const getAnalysisResult = <T>(uuid: string,
+                                     type: string,
+                                     wrapResult: ResultWrapperType = defaultwrapResult) => {
+  const options = {
+    url: `${API_BASE_URL}/analysis_results/${uuid}/${type}`,
+    method: 'get',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${window.localStorage.authToken}`
+    },
+  };
+
+  const networkPromise = axios(options)
+    .then((res) => wrapResult(res));
+
+  return makeCancelable(networkPromise);
 };

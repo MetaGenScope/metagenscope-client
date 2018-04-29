@@ -58,3 +58,31 @@ if (!Array.prototype.shuffled) {
     return this;
   };
 }
+
+/**
+ * Wrap a promise to allow it to be cancelled (as this is not part of Promises by default)
+ *
+ * The primary use case for this is network calls in componentDidMount that may not complete
+ * before the component is unmounted.
+ *
+ * Source: https://reactjs.org/blog/2015/12/16/ismounted-antipattern.html
+ *
+ * @param promise The promise to wrap
+ */
+export const makeCancelable = (promise) => {
+  let _hasCanceled = false;
+
+  const wrappedPromise = new Promise((resolve, reject) => {
+    promise.then(
+      val => _hasCanceled ? reject({isCanceled: true}) : resolve(val),
+      error => _hasCanceled ? reject({isCanceled: true}) : reject(error)
+    );
+  });
+
+  return {
+    promise: wrappedPromise,
+    cancel() {
+      _hasCanceled = true;
+    },
+  };
+};
