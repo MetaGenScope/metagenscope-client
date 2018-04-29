@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Row, Col } from 'react-bootstrap';
 
+import { CancelablePromise, makeCancelable } from '../../../services/api/utils';
 import { QueryResultWrapper, QueryResultStatus } from '../../../services/api/models/queryResult';
 
 import { DisplayModuleState, StatusMonitor } from './components/StatusMonitor';
@@ -26,6 +27,7 @@ export class DisplayContainer<D, P = {}> extends React.Component<DisplayContaine
   protected description: React.ReactNode;
 
   // Polling interval (ms)
+  protected wrappedPromise: CancelablePromise<QueryResultWrapper<D>>;
   protected intervalDuration: number;
   protected interval?: number;
   protected keepPolling: boolean;
@@ -87,7 +89,12 @@ export class DisplayContainer<D, P = {}> extends React.Component<DisplayContaine
     }
     this.keepPolling = true;
     this.asyncInterval(this.intervalDuration, () => {
-      return this.fetchData()
+      if (this.wrappedPromise) {
+        this.wrappedPromise.cancel();
+      }
+      this.wrappedPromise = makeCancelable(this.fetchData());
+      return this.wrappedPromise
+        .promise
         .then((result) => {
           this.updateStatusForQueryResultStatus(result.status);
           if (result.data) {
@@ -106,6 +113,9 @@ export class DisplayContainer<D, P = {}> extends React.Component<DisplayContaine
     this.keepPolling = false;
     if (this.interval) {
       clearTimeout(this.interval);
+    }
+    if (this.wrappedPromise) {
+      this.wrappedPromise.cancel();
     }
   }
 

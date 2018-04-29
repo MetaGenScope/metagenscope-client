@@ -59,6 +59,8 @@ if (!Array.prototype.shuffled) {
   };
 }
 
+export type CancelablePromise<T> = {promise: Promise<T>, cancel(): void};
+
 /**
  * Wrap a promise to allow it to be cancelled (as this is not part of Promises by default)
  *
@@ -69,10 +71,10 @@ if (!Array.prototype.shuffled) {
  *
  * @param promise The promise to wrap
  */
-export const makeCancelable = (promise) => {
+export const makeCancelable = <T>(promise: Promise<T>): CancelablePromise<T> => {
   let _hasCanceled = false;
 
-  const wrappedPromise = new Promise((resolve, reject) => {
+  const wrappedPromise = new Promise<T>((resolve, reject) => {
     promise.then(
       val => _hasCanceled ? reject({isCanceled: true}) : resolve(val),
       error => _hasCanceled ? reject({isCanceled: true}) : reject(error)
