@@ -17,6 +17,7 @@ import MacrobesModule from '../../../../display_modules/Macrobes';
 import PathwaysModule from '../../../../display_modules/Pathways';
 import MethylModule from '../../../../display_modules/Methyl';
 import VFDBModule from '../../../../display_modules/VFDB';
+import { MicrobeDirectoryModule } from '../../../../display_modules/MicrobeDirectory';
 import { ReadsClassifiedModule } from '../../../../display_modules/ReadsClassified';
 import { ReadStatsModule } from '../../../../display_modules/ReadStats';
 import { SampleSimilarityModule } from '../../../../display_modules/SampleSimilarity';
@@ -42,6 +43,7 @@ const mapping: {[key: string]: ModuleClassType} = {
   read_stats: ReadStatsModule,
   macrobe_abundance: MacrobesModule,
   methyltransferases: MethylModule,
+  microbe_directory: MicrobeDirectoryModule,
   functional_genes: Humann2NormalizeModule,
   pathways: PathwaysModule,
   reads_classified: ReadsClassifiedModule,
