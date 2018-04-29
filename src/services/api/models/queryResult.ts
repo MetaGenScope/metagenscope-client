@@ -165,6 +165,14 @@ export interface PathwaysType {
   };
 }
 
+export interface MacrobesType {
+  samples: {
+    [key: string]: {
+      [key: string]: number;
+    };
+  };
+}
+
 export interface XYZPoint {
   xval: number;
   yval: number;

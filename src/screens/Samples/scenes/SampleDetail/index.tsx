@@ -12,6 +12,7 @@ import AncestryModule from '../../../../display_modules/Ancestry';
 import CARDModule from '../../../../display_modules/CARD';
 import HMPModule from '../../../../display_modules/HMP';
 import Humann2NormalizeModule from '../../../../display_modules/Humann2Normalize';
+import MacrobesModule from '../../../../display_modules/Macrobes';
 import MethylModule from '../../../../display_modules/Methyl';
 import PathwaysModule from '../../../../display_modules/Pathways';
 import VFDBModule from '../../../../display_modules/VFDB';
@@ -22,6 +23,7 @@ const mapping: {[key: string]: ModuleClassType} = {
   card_amr_genes: CARDModule,
   functional_genes: Humann2NormalizeModule,
   hmp: HMPModule,
+  macrobe_abundance: MacrobesModule,
   methyltransferases: MethylModule,
   pathways: PathwaysModule,
   putative_ancestry: AncestryModule,
