@@ -1,3 +1,5 @@
+import { default as axios, AxiosRequestConfig, CancelTokenSource } from 'axios';
+
 function getHost(): string {
   // Use environment variable if present
   const envUrl = process.env.REACT_APP_METAGENSCOPE_SERVICE_URL;
@@ -58,6 +60,27 @@ if (!Array.prototype.shuffled) {
     return this;
   };
 }
+
+// tslint:disable-next-line no-any
+export type CancelableAxiosResult<T> = {promise: Promise<T>, source: CancelTokenSource};
+// tslint:disable-next-line no-any
+export type Transformation<TResult> = ((value: any) => TResult | PromiseLike<TResult>) | undefined | null;
+
+/**
+ * Similar to `makeCancelable` but uses axios' implementation:
+ * https://github.com/axios/axios#cancellation
+ * @param options axios request options
+ */
+export const cancelableAxios = <T = any>(options: AxiosRequestConfig,  // tslint:disable-line no-any
+                                         transformation: Transformation<T> = res => res,
+                                         source?: CancelTokenSource): CancelableAxiosResult<T> => {
+  source = (source !== undefined) ? source : axios.CancelToken.source();
+  options.cancelToken = source.token;
+  return {
+    promise: axios(options).then(transformation),
+    source,
+  };
+};
 
 export type CancelablePromise<T> = {promise: Promise<T>, cancel(): void};
 

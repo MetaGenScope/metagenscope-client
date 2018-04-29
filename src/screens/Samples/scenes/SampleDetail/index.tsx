@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { Helmet } from 'react-helmet';
+import { default as axios, CancelTokenSource } from 'axios';
 
 import { getSample, getAnalysisResults } from '../../../../services/api';
 import { SampleType } from '../../../../services/api/models/sample';
@@ -72,9 +73,12 @@ interface AnalysisGroupDetailState {
 
 class AnalysisGroupDetail extends React.Component<AnalysisGroupDetailProps, AnalysisGroupDetailState> {
 
+  protected sourceToken: CancelTokenSource;
+
   constructor(props: AnalysisGroupDetailProps) {
     super(props);
 
+    this.sourceToken = axios.CancelToken.source();
     this.state = {
       sample: undefined,
       analysisResults: undefined,
@@ -83,7 +87,8 @@ class AnalysisGroupDetail extends React.Component<AnalysisGroupDetailProps, Anal
   }
 
   componentDidMount() {
-    getSample(this.props.sampleUuid)
+    getSample(this.props.sampleUuid, this.sourceToken)
+      .promise
       .then((sample) => {
         this.setState({ sample });
         if (this.props.updateTheme !== undefined) {
@@ -92,17 +97,21 @@ class AnalysisGroupDetail extends React.Component<AnalysisGroupDetailProps, Anal
         return sample;
       })
       .then((group) => {
-        return getAnalysisResults(group.analysisResultUuid);
+        return getAnalysisResults(group.analysisResultUuid, this.sourceToken).promise;
       })
       .then((analysisResults) => {
         this.setState({ analysisResults });
       })
       .catch((error) => {
-        this.setState({ error });
+        if (!axios.isCancel(error)) {
+          this.setState({ error });
+        }
       });
   }
 
   componentWillUnmount() {
+    this.sourceToken.cancel();
+
     if (this.props.updateTheme !== undefined) {
       this.props.updateTheme(undefined);
     }

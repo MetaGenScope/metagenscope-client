@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Panel } from 'react-bootstrap';
+import { default as axios, CancelTokenSource } from 'axios';
 
 import { getSampleGroupSamples } from '../../../../../../services/api';
 import { SampleType } from '../../../../../../services/api/models/sample';
@@ -17,9 +18,12 @@ interface SampleListState {
 
 class SampleList extends React.Component<SampleListProps, SampleListState> {
 
+  protected sourceToken: CancelTokenSource;
+
   constructor(props: SampleListProps) {
     super(props);
 
+    this.sourceToken = axios.CancelToken.source();
     this.state = {
       error: undefined,
       samples: undefined,
@@ -27,12 +31,15 @@ class SampleList extends React.Component<SampleListProps, SampleListState> {
   }
 
   componentDidMount() {
-    getSampleGroupSamples(this.props.sampleGroupUuid)
+    getSampleGroupSamples(this.props.sampleGroupUuid, this.sourceToken)
+      .promise
       .then((samples) => {
         this.setState({ samples });
       })
       .catch((error) => {
-        this.setState({ error });
+        if (!axios.isCancel(error)) {
+          this.setState({ error });
+        }
       });
   }
 

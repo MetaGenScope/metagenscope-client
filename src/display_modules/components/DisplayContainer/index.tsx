@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { Row, Col } from 'react-bootstrap';
+import axios from 'axios';
 
-import { CancelablePromise, makeCancelable } from '../../../services/api/utils';
+import { CancelableAxiosResult } from '../../../services/api/utils';
 import { QueryResultWrapper, QueryResultStatus } from '../../../services/api/models/queryResult';
 
 import { DisplayModuleState, StatusMonitor } from './components/StatusMonitor';
@@ -27,7 +28,7 @@ export class DisplayContainer<D, P = {}> extends React.Component<DisplayContaine
   protected description: React.ReactNode;
 
   // Polling interval (ms)
-  protected wrappedPromise: CancelablePromise<QueryResultWrapper<D>>;
+  protected request: CancelableAxiosResult<QueryResultWrapper<D>>;
   protected intervalDuration: number;
   protected interval?: number;
   protected keepPolling: boolean;
@@ -70,7 +71,7 @@ export class DisplayContainer<D, P = {}> extends React.Component<DisplayContaine
   }
 
   /** Fetch the data required to render this display module. */
-  fetchData(): Promise<QueryResultWrapper<D>> {
+  fetchData(): CancelableAxiosResult<QueryResultWrapper<D>> {
     throw new Error('Subclass should override!');
   }
 
@@ -89,11 +90,11 @@ export class DisplayContainer<D, P = {}> extends React.Component<DisplayContaine
     }
     this.keepPolling = true;
     this.asyncInterval(this.intervalDuration, () => {
-      if (this.wrappedPromise) {
-        this.wrappedPromise.cancel();
+      if (this.request) {
+        this.request.source.cancel();
       }
-      this.wrappedPromise = makeCancelable(this.fetchData());
-      return this.wrappedPromise
+      this.request = this.fetchData();
+      return this.request
         .promise
         .then((result) => {
           this.updateStatusForQueryResultStatus(result.status);
@@ -102,7 +103,9 @@ export class DisplayContainer<D, P = {}> extends React.Component<DisplayContaine
             this.stopPolling();
           }
         }).catch((error) => {
-          this.setState({ status: DisplayModuleState.Error });
+          if (!axios.isCancel(error)) {
+            this.setState({ status: DisplayModuleState.Error });
+          }
           this.stopPolling();
         });
     });
@@ -114,8 +117,8 @@ export class DisplayContainer<D, P = {}> extends React.Component<DisplayContaine
     if (this.interval) {
       clearTimeout(this.interval);
     }
-    if (this.wrappedPromise) {
-      this.wrappedPromise.cancel();
+    if (this.request) {
+      this.request.source.cancel();
     }
   }
 
