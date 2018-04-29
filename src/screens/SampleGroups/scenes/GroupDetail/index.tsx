@@ -101,7 +101,6 @@ class AnalysisGroupDetail extends React.Component<AnalysisGroupDetailProps, Anal
 
   componentDidMount() {
     getSampleGroup(this.props.groupUUID, this.sourceToken)
-      .promise
       .then((group) => {
         this.setState({ group });
         if (this.props.updateTheme !== undefined) {
@@ -110,7 +109,7 @@ class AnalysisGroupDetail extends React.Component<AnalysisGroupDetailProps, Anal
         return group;
       })
       .then((group) => {
-        return getAnalysisResults(group.analysisResultId, this.sourceToken).promise;
+        return getAnalysisResults(group.analysisResultId, this.sourceToken);
       })
       .then((queryResults) => {
         this.setState({ queryResults });

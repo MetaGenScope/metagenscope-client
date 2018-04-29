@@ -88,7 +88,6 @@ class AnalysisGroupDetail extends React.Component<AnalysisGroupDetailProps, Anal
 
   componentDidMount() {
     getSample(this.props.sampleUuid, this.sourceToken)
-      .promise
       .then((sample) => {
         this.setState({ sample });
         if (this.props.updateTheme !== undefined) {
@@ -97,7 +96,7 @@ class AnalysisGroupDetail extends React.Component<AnalysisGroupDetailProps, Anal
         return sample;
       })
       .then((group) => {
-        return getAnalysisResults(group.analysisResultUuid, this.sourceToken).promise;
+        return getAnalysisResults(group.analysisResultUuid, this.sourceToken);
       })
       .then((analysisResults) => {
         this.setState({ analysisResults });

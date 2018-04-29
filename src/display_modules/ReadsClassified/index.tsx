@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { CancelTokenSource } from 'axios';
 
 import HighchartsDisplayContainer from '../components/DisplayContainer/highcharts';
 import { DisplayContainerProps } from '../components/DisplayContainer';
@@ -24,8 +25,8 @@ export class ReadsClassifiedModule extends HighchartsDisplayContainer<ReadsClass
   }
 
   /** @inheritdoc */
-  fetchData() {
-    return getAnalysisResult<ReadsClassifiedType>(this.props.uuid, 'reads_classified');
+  fetchData(sourceToken: CancelTokenSource) {
+    return getAnalysisResult<ReadsClassifiedType>(this.props.uuid, 'reads_classified', sourceToken);
   }
 
   /** @inheritdoc */

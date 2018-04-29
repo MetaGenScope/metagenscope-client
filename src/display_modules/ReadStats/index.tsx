@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { CancelTokenSource } from 'axios';
 
 import HighchartsDisplayContainer from '../components/DisplayContainer/highcharts';
 import { DisplayContainerProps } from '../components/DisplayContainer';
@@ -20,8 +21,8 @@ export class ReadStatsModule extends HighchartsDisplayContainer<ReadStatsResultT
   }
 
   /** @inheritdoc */
-  fetchData() {
-    return getAnalysisResult<ReadStatsResultType>(this.props.uuid, 'read_stats');
+  fetchData(sourceToken: CancelTokenSource) {
+    return getAnalysisResult<ReadStatsResultType>(this.props.uuid, 'read_stats', sourceToken);
   }
 
   /** @inheritdoc */

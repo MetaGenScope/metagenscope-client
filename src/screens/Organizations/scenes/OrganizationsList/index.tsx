@@ -28,7 +28,6 @@ class OrganizationsList extends React.Component<{}, OrganizationsState> {
   componentDidMount() {
     // Assume that we are authenticated because Dashboard catches that
     getOrganizations(this.sourceToken)
-      .promise
       .then((organizations) => {
         this.setState({ organizations });
       })

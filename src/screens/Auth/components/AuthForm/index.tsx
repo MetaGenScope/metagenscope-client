@@ -70,7 +70,7 @@ class AuthForm extends React.Component<FormProp, AuthFormState> {
         email: this.state.formData.email,
         password: this.state.formData.password,
       };
-      request = authenticate(formType, payload, this.sourceToken).promise;
+      request = authenticate(formType, payload, this.sourceToken);
     }
     if (formType === 'register') {
       const payload = {
@@ -78,7 +78,7 @@ class AuthForm extends React.Component<FormProp, AuthFormState> {
         email: this.state.formData.email,
         password: this.state.formData.password,
       };
-      request = authenticate(formType, payload, this.sourceToken).promise;
+      request = authenticate(formType, payload, this.sourceToken);
     }
     request!
       .then((res) => {

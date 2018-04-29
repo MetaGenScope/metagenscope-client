@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { CancelTokenSource } from 'axios';
 
 import D3DisplayContainer from '../components/DisplayContainer/d3';
 import { DisplayContainerProps } from '../components/DisplayContainer';
@@ -25,8 +26,8 @@ export class SampleSimilarityModule extends D3DisplayContainer<SampleSimilarityR
   }
 
   /** @inheritdoc */
-  fetchData() {
-    return getAnalysisResult<SampleSimilarityResultType>(this.props.uuid, 'sample_similarity');
+  fetchData(sourceToken: CancelTokenSource) {
+    return getAnalysisResult<SampleSimilarityResultType>(this.props.uuid, 'sample_similarity', sourceToken);
   }
 
   /** @inheritdoc */

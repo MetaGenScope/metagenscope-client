@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { Row, Col } from 'react-bootstrap';
-import axios from 'axios';
+import { default as axios, CancelTokenSource } from 'axios';
 
-import { CancelableAxiosResult } from '../../../services/api/utils';
 import { QueryResultWrapper, QueryResultStatus } from '../../../services/api/models/queryResult';
 
 import { DisplayModuleState, StatusMonitor } from './components/StatusMonitor';
@@ -28,7 +27,7 @@ export class DisplayContainer<D, P = {}> extends React.Component<DisplayContaine
   protected description: React.ReactNode;
 
   // Polling interval (ms)
-  protected request: CancelableAxiosResult<QueryResultWrapper<D>>;
+  protected sourceToken: CancelTokenSource;
   protected intervalDuration: number;
   protected interval?: number;
   protected keepPolling: boolean;
@@ -40,6 +39,7 @@ export class DisplayContainer<D, P = {}> extends React.Component<DisplayContaine
   constructor(props: DisplayContainerProps & P) {
     super(props);
 
+    this.sourceToken = axios.CancelToken.source();
     this.state = {
       status: DisplayModuleState.Loading,
       data: undefined,
@@ -71,7 +71,7 @@ export class DisplayContainer<D, P = {}> extends React.Component<DisplayContaine
   }
 
   /** Fetch the data required to render this display module. */
-  fetchData(): CancelableAxiosResult<QueryResultWrapper<D>> {
+  fetchData(sourceToken: CancelTokenSource): Promise<QueryResultWrapper<D>> {
     throw new Error('Subclass should override!');
   }
 
@@ -90,12 +90,9 @@ export class DisplayContainer<D, P = {}> extends React.Component<DisplayContaine
     }
     this.keepPolling = true;
     this.asyncInterval(this.intervalDuration, () => {
-      if (this.request) {
-        this.request.source.cancel();
-      }
-      this.request = this.fetchData();
-      return this.request
-        .promise
+      this.sourceToken.cancel();
+      this.sourceToken = axios.CancelToken.source();
+      return this.fetchData(this.sourceToken)
         .then((result) => {
           this.updateStatusForQueryResultStatus(result.status);
           if (result.data) {
@@ -114,11 +111,9 @@ export class DisplayContainer<D, P = {}> extends React.Component<DisplayContaine
   /** Stop polling the server for display module results. */
   stopPolling () {
     this.keepPolling = false;
+    this.sourceToken.cancel();
     if (this.interval) {
       clearTimeout(this.interval);
-    }
-    if (this.request) {
-      this.request.source.cancel();
     }
   }
 

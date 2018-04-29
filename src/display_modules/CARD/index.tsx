@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { CancelTokenSource } from 'axios';
 
 import GenericGeneModule, { GenericGeneProps } from '../components/GenericGeneModule';
 import { getAnalysisResult } from '../../services/api';
@@ -19,8 +20,8 @@ export default class CARDModule extends GenericGeneModule {
   }
 
   /** @inheritdoc */
-  fetchData() {
-    return getAnalysisResult<GenericGeneType>(this.props.uuid, 'card_amr_genes');
+  fetchData(sourceToken: CancelTokenSource) {
+    return getAnalysisResult<GenericGeneType>(this.props.uuid, 'card_amr_genes', sourceToken);
   }
 
 }

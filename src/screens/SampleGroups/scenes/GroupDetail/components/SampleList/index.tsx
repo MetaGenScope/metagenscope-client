@@ -32,7 +32,6 @@ class SampleList extends React.Component<SampleListProps, SampleListState> {
 
   componentDidMount() {
     getSampleGroupSamples(this.props.sampleGroupUuid, this.sourceToken)
-      .promise
       .then((samples) => {
         this.setState({ samples });
       })

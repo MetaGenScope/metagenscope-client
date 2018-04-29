@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { CancelTokenSource } from 'axios';
 
 import HighchartsDisplayContainer from '../components/DisplayContainer/highcharts';
 import { DisplayContainerProps } from '../components/DisplayContainer';
@@ -20,8 +21,8 @@ export default class AlphaDiversityModule extends HighchartsDisplayContainer<Alp
   }
 
   /** @inheritdoc */
-  fetchData() {
-    return getAnalysisResult<AlphaDivResultType>(this.props.uuid, 'alpha_diversity');
+  fetchData(sourceToken: CancelTokenSource) {
+    return getAnalysisResult<AlphaDivResultType>(this.props.uuid, 'alpha_diversity', sourceToken);
   }
 
   /** @inheritdoc */

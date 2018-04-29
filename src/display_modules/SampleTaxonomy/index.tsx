@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { CancelTokenSource } from 'axios';
 
 import D3DisplayContainer from '../components/DisplayContainer/d3';
 import { DisplayContainerProps } from '../components/DisplayContainer';
@@ -27,8 +28,8 @@ export class SampleTaxonomyModule extends D3DisplayContainer<SampleTaxonomyType>
   }
 
   /** @inheritdoc */
-  fetchData() {
-    return getAnalysisResult<SampleTaxonomyType>(this.props.uuid, 'taxa_tree');
+  fetchData(sourceToken: CancelTokenSource) {
+    return getAnalysisResult<SampleTaxonomyType>(this.props.uuid, 'taxa_tree', sourceToken);
   }
 
   /** @inheritdoc */

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { CancelTokenSource } from 'axios';
 
 import HighchartsDisplayContainer from '../components/DisplayContainer/highcharts';
 import { DisplayContainerProps } from '../components/DisplayContainer';
@@ -20,8 +21,8 @@ export default class HMPModule extends HighchartsDisplayContainer<AGSResultType>
   }
 
   /** @inheritdoc */
-  fetchData() {
-    return getAnalysisResult<AGSResultType>(this.props.uuid, 'average_genome_size');
+  fetchData(sourceToken: CancelTokenSource) {
+    return getAnalysisResult<AGSResultType>(this.props.uuid, 'average_genome_size', sourceToken);
   }
 
   /** @inheritdoc */

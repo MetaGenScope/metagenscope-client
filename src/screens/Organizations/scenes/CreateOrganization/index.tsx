@@ -57,7 +57,6 @@ class CreateOrganization extends React.Component<Props, CreateOrganizationState>
     const name = this.state.formData.name,
           adminEmail = this.state.formData.adminEmail;
     createOrganization(name, adminEmail, this.sourceToken)
-      .promise
       .then((res) => {
         this.setState({ didCreate: true });
       })

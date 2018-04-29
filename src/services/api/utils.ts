@@ -61,25 +61,14 @@ if (!Array.prototype.shuffled) {
   };
 }
 
-// tslint:disable-next-line no-any
-export type CancelableAxiosResult<T> = {promise: Promise<T>, source: CancelTokenSource};
-// tslint:disable-next-line no-any
-export type Transformation<TResult> = ((value: any) => TResult | PromiseLike<TResult>) | undefined | null;
-
 /**
  * Similar to `makeCancelable` but uses axios' implementation:
  * https://github.com/axios/axios#cancellation
  * @param options axios request options
  */
-export const cancelableAxios = <T = any>(options: AxiosRequestConfig,  // tslint:disable-line no-any
-                                         transformation: Transformation<T> = res => res,
-                                         source?: CancelTokenSource): CancelableAxiosResult<T> => {
-  source = (source !== undefined) ? source : axios.CancelToken.source();
+export const cancelableAxios = (options: AxiosRequestConfig, source: CancelTokenSource) => {
   options.cancelToken = source.token;
-  return {
-    promise: axios(options).then(transformation),
-    source,
-  };
+  return axios(options);
 };
 
 export type CancelablePromise<T> = {promise: Promise<T>, cancel(): void};

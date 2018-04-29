@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { CancelTokenSource } from 'axios';
 
 import D3DisplayContainer from '../components/DisplayContainer/d3';
 import { DisplayContainerProps } from '../components/DisplayContainer';
@@ -19,8 +20,8 @@ export default class BetaDiversityModule extends D3DisplayContainer<BetaDiversit
   }
 
   /** @inheritdoc */
-  fetchData() {
-    return getAnalysisResult<BetaDiversityType>(this.props.uuid, 'beta_diversity');
+  fetchData(sourceToken: CancelTokenSource) {
+    return getAnalysisResult<BetaDiversityType>(this.props.uuid, 'beta_diversity', sourceToken);
   }
 
   /** @inheritdoc */

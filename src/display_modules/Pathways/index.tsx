@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { CancelTokenSource } from 'axios';
 
 import D3DisplayContainer from '../components/DisplayContainer/d3';
 import { DisplayContainerProps } from '../components/DisplayContainer';
@@ -26,8 +27,8 @@ export default class PathwaysModule extends D3DisplayContainer<PathwaysType, Pat
   }
 
   /** @inheritdoc */
-  fetchData() {
-    return getAnalysisResult<PathwaysType>(this.props.uuid, 'pathways');
+  fetchData(sourceToken: CancelTokenSource) {
+    return getAnalysisResult<PathwaysType>(this.props.uuid, 'pathways', sourceToken);
   }
 
   /** @inheritdoc */

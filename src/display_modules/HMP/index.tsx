@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { CancelTokenSource } from 'axios';
 
 import HighchartsDisplayContainer from '../components/DisplayContainer/highcharts';
 import { DisplayContainerProps } from '../components/DisplayContainer';
@@ -24,8 +25,8 @@ export default class HMPModule extends HighchartsDisplayContainer<HMPResultType,
   }
 
   /** @inheritdoc */
-  fetchData() {
-    return getAnalysisResult<HMPResultType>(this.props.uuid, 'hmp');
+  fetchData(sourceToken: CancelTokenSource) {
+    return getAnalysisResult<HMPResultType>(this.props.uuid, 'hmp', sourceToken);
   }
 
   /** @inheritdoc */

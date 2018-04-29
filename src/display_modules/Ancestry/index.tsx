@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { CancelTokenSource } from 'axios';
 
 import D3DisplayContainer from '../components/DisplayContainer/d3';
 import { DisplayContainerProps } from '../components/DisplayContainer';
@@ -19,8 +20,8 @@ export default class AncestryModule extends D3DisplayContainer<AncestryType> {
   }
 
   /** @inheritdoc */
-  fetchData() {
-    return getAnalysisResult<AncestryType>(this.props.uuid, 'putative_ancestry');
+  fetchData(sourceToken: CancelTokenSource) {
+    return getAnalysisResult<AncestryType>(this.props.uuid, 'putative_ancestry', sourceToken);
   }
 
   /** @inheritdoc */

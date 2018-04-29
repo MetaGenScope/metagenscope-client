@@ -34,8 +34,7 @@ class UserStatus extends React.Component<UserProps, UserState> {
 
   componentDidMount() {
     if (this.props.isAuthenticated) {
-      getUserStatus()
-        .promise
+      getUserStatus(this.sourceToken)
         .then((userState) => {
           this.setState(userState);
         })

@@ -38,7 +38,6 @@ class OrganizationDetail extends React.Component<OrganizationsProps, Organizatio
   componentDidMount() {
     // Assume that we are authenticated because Dashboard catches that
     getOrganization(this.props.uuid, this.sourceToken)
-      .promise
       .then((organization) => {
         this.setState({ organization });
       })
