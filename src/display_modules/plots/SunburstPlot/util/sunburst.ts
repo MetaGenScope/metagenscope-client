@@ -1,7 +1,5 @@
 import * as d3 from 'd3';
 
-import { displayTaxaName } from './util';
-
 export interface SunburstDataType {
   name: string;
   parent?: string;
@@ -110,7 +108,7 @@ export default class Sunburst {
       safeTooltip.transition()
           .duration(200)
           .style('opacity', 0.9);
-      safeTooltip.html(`${percentageString} ${displayTaxaName(node.data.name)}`)
+      safeTooltip.html(`${percentageString} ${node.data.name}`)
           .style('left', `${(eventX + 15)}px`)
           .style('top', `${(eventY - 40)}px`);
 
