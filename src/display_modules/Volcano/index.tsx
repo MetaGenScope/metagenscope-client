@@ -1,9 +1,10 @@
 import * as React from 'react';
+import { CancelTokenSource } from 'axios';
 
 import HighchartsDisplayContainer from '../components/DisplayContainer/highcharts';
 import { DisplayContainerProps } from '../components/DisplayContainer';
 import { VolcanoType } from '../../services/api/models/queryResult';
-import { getVolcano } from '../../services/api';
+import { getAnalysisResult } from '../../services/api';
 
 import { VolcanoContainer } from './components/VolcanoContainer';
 
@@ -25,8 +26,8 @@ export class VolcanoModule extends HighchartsDisplayContainer<VolcanoType> {
   }
 
   /** @inheritdoc */
-  fetchData() {
-    return getVolcano(this.props.uuid);
+  fetchData(sourceToken: CancelTokenSource) {
+    return getAnalysisResult<VolcanoType>(this.props.uuid, 'volcano', sourceToken);
   }
 
   /** @inheritdoc */

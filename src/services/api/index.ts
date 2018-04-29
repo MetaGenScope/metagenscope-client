@@ -1,26 +1,10 @@
-import axios from 'axios';
+import { CancelTokenSource } from 'axios';
 
-import { API_BASE_URL } from './utils';
+import { API_BASE_URL, cancelableAxios } from './utils';
 import { JsonOrganizationType, OrganizationType } from './models/organization';
 import { SampleGroupType } from './models/analysisGroup';
 import { SampleType } from './models/sample';
-import {
-  AnalysisResultType,
-  AncestryType,
-  AGSResultType,
-  AlphaDivResultType,
-  BetaDiversityType,
-  GenericGeneType,
-  HMPResultType,
-  PathwaysType,
-  QueryResultWrapper,
-  ReadsClassifiedType,
-  ReadStatsResultType,
-  SampleSimilarityResultType,
-  SampleTaxonomyType,
-  TaxonAbundanceResultType,
-  VolcanoType,
-} from './models/queryResult';
+import { AnalysisResultType, QueryResultWrapper } from './models/queryResult';
 
 type LoginType = {
   email: string;
@@ -28,12 +12,17 @@ type LoginType = {
   username?: string;
 };
 
-export const authenticate = function(formType: string, data: LoginType) {
-  const url = `${API_BASE_URL}/auth/${formType}`;
-  return axios.post(url, data);
+export const authenticate = (formType: string, data: LoginType, source: CancelTokenSource) => {
+  const options = {
+    url: `${API_BASE_URL}/auth/${formType}`,
+    method: 'post',
+    data,
+  };
+
+  return cancelableAxios(options, source);
 };
 
-export const createOrganization = function(name: string, adminEmail: string) {
+export const createOrganization = (name: string, adminEmail: string, source: CancelTokenSource) => {
   const options = {
     url: `${API_BASE_URL}/organizations`,
     method: 'post',
@@ -47,10 +36,10 @@ export const createOrganization = function(name: string, adminEmail: string) {
     },
   };
 
-  return axios(options);
+  return cancelableAxios(options, source);
 };
 
-export const getOrganizations = function() {
+export const getOrganizations = (source: CancelTokenSource) => {
   const options = {
     url: `${API_BASE_URL}/organizations`,
     method: 'get',
@@ -60,8 +49,8 @@ export const getOrganizations = function() {
     }
   };
 
-  return axios(options)
-    .then((res) => {
+  return cancelableAxios(options, source)
+    .then(res => {
       const rawOrganizations = res.data.data.organizations as Array<JsonOrganizationType>;
       const organizations: Array<OrganizationType> = rawOrganizations.map((organization) => {
         return {
@@ -76,7 +65,7 @@ export const getOrganizations = function() {
     });
 };
 
-export const getOrganization = function(uuid: string) {
+export const getOrganization = (uuid: string, source: CancelTokenSource) => {
   const options = {
     url: `${API_BASE_URL}/organizations/${uuid}`,
     method: 'get',
@@ -86,8 +75,8 @@ export const getOrganization = function(uuid: string) {
     }
   };
 
-  return axios(options)
-    .then((res) => {
+  return cancelableAxios(options, source)
+    .then(res => {
       const rawOrganization = res.data.data.organization as JsonOrganizationType;
       for (let i = 0; i < rawOrganization.sample_groups.sample_groups.length; i++) {
         const analysisUUID = res.data.data.organization.sample_groups.sample_groups[i].analysis_result_id;
@@ -107,7 +96,7 @@ export const getOrganization = function(uuid: string) {
     });
 };
 
-export const getUserStatus = function() {
+export const getUserStatus = (source: CancelTokenSource) => {
   const options = {
     url: `${API_BASE_URL}/auth/status`,
     method: 'get',
@@ -117,13 +106,11 @@ export const getUserStatus = function() {
     },
   };
 
-  return axios(options)
-    .then((res) => {
-      return res.data.data;
-    });
+  return cancelableAxios(options, source)
+    .then(res => res.data.data);
 };
 
-export const getSampleGroup = function(uuid: string) {
+export const getSampleGroup = (uuid: string, source: CancelTokenSource) => {
   const options = {
     url: `${API_BASE_URL}/sample_groups/${uuid}`,
     method: 'get',
@@ -133,8 +120,8 @@ export const getSampleGroup = function(uuid: string) {
     },
   };
 
-  return axios(options)
-    .then((res) => {
+  return cancelableAxios(options, source)
+    .then(res => {
       const rawDescription = res.data.data.sample_group.description;
       const sampleGroup: SampleGroupType = {
         uuid: res.data.data.sample_group.uuid,
@@ -147,7 +134,7 @@ export const getSampleGroup = function(uuid: string) {
     });
 };
 
-export const getSampleGroupSamples = function(uuid: string) {
+export const getSampleGroupSamples = (uuid: string, source: CancelTokenSource) => {
   const options = {
     url: `${API_BASE_URL}/sample_groups/${uuid}/samples`,
     method: 'get',
@@ -157,8 +144,8 @@ export const getSampleGroupSamples = function(uuid: string) {
     },
   };
 
-  return axios(options)
-    .then((res) => {
+  return cancelableAxios(options, source)
+    .then(res => {
       const rawSamples = res.data.data.samples;
       // tslint:disable-next-line no-any
       const samples: SampleType[] = rawSamples.map((rawSample: any) => {
@@ -173,7 +160,7 @@ export const getSampleGroupSamples = function(uuid: string) {
     });
 };
 
-export const getSample = function(uuid: string) {
+export const getSample = (uuid: string, source: CancelTokenSource) => {
   const options = {
     url: `${API_BASE_URL}/samples/${uuid}`,
     method: 'get',
@@ -183,8 +170,8 @@ export const getSample = function(uuid: string) {
     },
   };
 
-  return axios(options)
-    .then((res) => {
+  return cancelableAxios(options, source)
+    .then(res => {
       const sample: SampleType = {
         uuid: res.data.data.sample.uuid,
         name: res.data.data.sample.name,
@@ -196,7 +183,7 @@ export const getSample = function(uuid: string) {
     });
 };
 
-export const getAnalysisResults = function(uuid: string) {
+export const getAnalysisResults = (uuid: string, source: CancelTokenSource) => {
   const options = {
     url: `${API_BASE_URL}/analysis_results/${uuid}`,
     method: 'get',
@@ -206,15 +193,19 @@ export const getAnalysisResults = function(uuid: string) {
     },
   };
 
-  return axios(options)
-    .then((res) => {
-      return res.data.data.analysis_result as AnalysisResultType;
-    });
+  return cancelableAxios(options, source)
+    .then(res => res.data.data.analysis_result as AnalysisResultType);
 };
 
-export const getSampleSimilarity = function(id: string) {
+// tslint:disable-next-line no-any
+type ResultWrapperType<T> = (res: any) => QueryResultWrapper<T>;
+
+export const getAnalysisResult = <T>(uuid: string,
+                                     type: string,
+                                     source: CancelTokenSource,
+                                     wrapResult?: ResultWrapperType<T>) => {
   const options = {
-    url: `${API_BASE_URL}/analysis_results/${id}/sample_similarity`,
+    url: `${API_BASE_URL}/analysis_results/${uuid}/${type}`,
     method: 'get',
     headers: {
       'Content-Type': 'application/json',
@@ -222,249 +213,8 @@ export const getSampleSimilarity = function(id: string) {
     },
   };
 
-  return axios(options)
-    .then((res) => {
-      return res.data.data as QueryResultWrapper<SampleSimilarityResultType>;
-    });
-};
+  wrapResult = (wrapResult !== undefined) ? wrapResult : res => res.data.data as QueryResultWrapper<T>;
 
-export const getTaxonAbundance = function(id: string) {
-  const options = {
-    url: `${API_BASE_URL}/analysis_results/${id}/taxon_abundance`,
-    method: 'get',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${window.localStorage.authToken}`
-    },
-  };
-
-  return axios(options)
-    .then((res) => {
-      return res.data.data as QueryResultWrapper<TaxonAbundanceResultType>;
-    });
-};
-
-export const getReadsClassified = function(id: string) {
-  const options = {
-    url: `${API_BASE_URL}/analysis_results/${id}/reads_classified`,
-    method: 'get',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${window.localStorage.authToken}`
-    },
-  };
-
-  return axios(options)
-    .then((res) => {
-      return res.data.data as QueryResultWrapper<ReadsClassifiedType>;
-    });
-};
-
-export const getHMP = function(id: string) {
-  const options = {
-    url: `${API_BASE_URL}/analysis_results/${id}/hmp`,
-    method: 'get',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${window.localStorage.authToken}`
-    },
-  };
-
-  return axios(options)
-    .then((res) => {
-      // Convert to Map types
-      return res.data.data as QueryResultWrapper<HMPResultType>;
-    });
-};
-
-export const getAGS = function(uuid: string) {
-  const options = {
-    url: `${API_BASE_URL}/analysis_results/${uuid}/average_genome_size`,
-    method: 'get',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${window.localStorage.authToken}`
-    },
-  };
-
-  return axios(options)
-    .then((res) => {
-      return res.data.data as QueryResultWrapper<AGSResultType>;
-    });
-};
-
-export const getAlphaDiv = function(uuid: string) {
-  const options = {
-    url: `${API_BASE_URL}/analysis_results/${uuid}/alpha_diversity`,
-    method: 'get',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${window.localStorage.authToken}`
-    },
-  };
-
-  return axios(options)
-    .then((res) => {
-      return res.data.data as QueryResultWrapper<AlphaDivResultType>;
-    });
-};
-
-export const getBetaDiversity = function(uuid: string) {
-  const options = {
-    url: `${API_BASE_URL}/analysis_results/${uuid}/beta_diversity`,
-    method: 'get',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${window.localStorage.authToken}`
-    },
-  };
-
-  return axios(options)
-    .then((res) => {
-      return res.data.data as QueryResultWrapper<BetaDiversityType>;
-    });
-};
-
-export const getReadStats = function(uuid: string) {
-  const options = {
-    url: `${API_BASE_URL}/analysis_results/${uuid}/read_stats`,
-    method: 'get',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${window.localStorage.authToken}`
-    },
-  };
-
-  return axios(options)
-    .then((res) => {
-      return res.data.data as QueryResultWrapper<ReadStatsResultType>;
-    });
-};
-
-export const getSampleTaxonomy = function(uuid: string) {
-  const options = {
-    url: `${API_BASE_URL}/analysis_results/${uuid}/taxa_tree`,
-    method: 'get',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${window.localStorage.authToken}`
-    },
-  };
-
-  return axios(options)
-    .then((res) => {
-      return res.data.data as QueryResultWrapper<SampleTaxonomyType>;
-    });
-};
-
-export const getMethyl = function(uuid: string) {
-  const options = {
-    url: `${API_BASE_URL}/analysis_results/${uuid}/methyltransferases`,
-    method: 'get',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${window.localStorage.authToken}`
-    },
-  };
-
-  return axios(options)
-    .then((res) => {
-      return res.data.data as QueryResultWrapper<GenericGeneType>;
-    });
-};
-
-export const getCARD = function(uuid: string) {
-  const options = {
-    url: `${API_BASE_URL}/analysis_results/${uuid}/card_amr_genes`,
-    method: 'get',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${window.localStorage.authToken}`
-    },
-  };
-
-  return axios(options)
-    .then((res) => {
-      return res.data.data as QueryResultWrapper<GenericGeneType>;
-    });
-};
-
-export const getVFDB = function(uuid: string) {
-  const options = {
-    url: `${API_BASE_URL}/analysis_results/${uuid}/virulence_factors`,
-    method: 'get',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${window.localStorage.authToken}`
-    },
-  };
-
-  return axios(options)
-    .then((res) => {
-      return res.data.data as QueryResultWrapper<GenericGeneType>;
-    });
-};
-
-export const getHumann2Normalize = function(uuid: string) {
-  const options = {
-    url: `${API_BASE_URL}/analysis_results/${uuid}/functional_genes`,
-    method: 'get',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${window.localStorage.authToken}`
-    },
-  };
-
-  return axios(options)
-    .then((res) => {
-      return res.data.data as QueryResultWrapper<GenericGeneType>;
-    });
-};
-
-export const getPathways = function(uuid: string) {
-  const options = {
-    url: `${API_BASE_URL}/analysis_results/${uuid}/pathways`,
-    method: 'get',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${window.localStorage.authToken}`
-    },
-  };
-
-  return axios(options)
-    .then((res) => {
-      return res.data.data as QueryResultWrapper<PathwaysType>;
-    });
-};
-
-export const getVolcano = function(uuid: string) {
-  const options = {
-    url: `${API_BASE_URL}/analysis_results/${uuid}/volcano`,
-    method: 'get',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${window.localStorage.authToken}`
-    },
-  };
-
-  return axios(options)
-    .then((res) => {
-      return res.data.data as QueryResultWrapper<VolcanoType>;
-    });
-};
-
-export const getAncestry = function(uuid: string) {
-  const options = {
-    url: `${API_BASE_URL}/analysis_results/${uuid}/putative_ancestry`,
-    method: 'get',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${window.localStorage.authToken}`
-    },
-  };
-
-  return axios(options)
-    .then((res) => {
-      return res.data.data as QueryResultWrapper<AncestryType>;
-    });
+  return cancelableAxios(options, source)
+    .then(wrapResult);
 };

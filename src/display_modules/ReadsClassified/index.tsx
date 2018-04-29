@@ -1,9 +1,10 @@
 import * as React from 'react';
+import { CancelTokenSource } from 'axios';
 
 import HighchartsDisplayContainer from '../components/DisplayContainer/highcharts';
 import { DisplayContainerProps } from '../components/DisplayContainer';
 import { ReadsClassifiedType } from '../../services/api/models/queryResult';
-import { getReadsClassified } from '../../services/api';
+import { getAnalysisResult } from '../../services/api';
 
 import ReadsClassifiedContainer from './components/ReadsClassifiedContainer';
 
@@ -24,8 +25,8 @@ export class ReadsClassifiedModule extends HighchartsDisplayContainer<ReadsClass
   }
 
   /** @inheritdoc */
-  fetchData() {
-    return getReadsClassified(this.props.uuid);
+  fetchData(sourceToken: CancelTokenSource) {
+    return getAnalysisResult<ReadsClassifiedType>(this.props.uuid, 'reads_classified', sourceToken);
   }
 
   /** @inheritdoc */

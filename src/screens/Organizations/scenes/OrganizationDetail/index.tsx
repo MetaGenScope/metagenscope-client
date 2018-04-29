@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Row, Col, Nav, NavItem, Glyphicon, Badge } from 'react-bootstrap';
 import { Helmet } from 'react-helmet';
+import { default as axios, CancelTokenSource } from 'axios';
 
 import OrganizationProjects from './scenes/OrganizationProjects';
 import PeopleList from './scenes/OrganizationPeople/components/PeopleList';
@@ -23,9 +24,12 @@ interface OrganizationState {
 
 class OrganizationDetail extends React.Component<OrganizationsProps, OrganizationState> {
 
+  protected sourceToken: CancelTokenSource;
+
   constructor(props: OrganizationsProps) {
     super(props);
 
+    this.sourceToken = axios.CancelToken.source();
     this.state = {
       organization: undefined,
     };
@@ -33,13 +37,19 @@ class OrganizationDetail extends React.Component<OrganizationsProps, Organizatio
 
   componentDidMount() {
     // Assume that we are authenticated because Dashboard catches that
-    getOrganization(this.props.uuid)
+    getOrganization(this.props.uuid, this.sourceToken)
       .then((organization) => {
         this.setState({ organization });
       })
       .catch((error) => {
-        console.log(error);
+        if (!axios.isCancel(error)) {
+          console.log(error);
+        }
       });
+  }
+
+  componentWillUnmount() {
+    this.sourceToken.cancel();
   }
 
   render() {

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Row, Col } from 'react-bootstrap';
+import { default as axios, CancelTokenSource } from 'axios';
 
 import { QueryResultWrapper, QueryResultStatus } from '../../../services/api/models/queryResult';
 
@@ -26,6 +27,7 @@ export class DisplayContainer<D, P = {}> extends React.Component<DisplayContaine
   protected description: React.ReactNode;
 
   // Polling interval (ms)
+  protected sourceToken: CancelTokenSource;
   protected intervalDuration: number;
   protected interval?: number;
   protected keepPolling: boolean;
@@ -37,6 +39,7 @@ export class DisplayContainer<D, P = {}> extends React.Component<DisplayContaine
   constructor(props: DisplayContainerProps & P) {
     super(props);
 
+    this.sourceToken = axios.CancelToken.source();
     this.state = {
       status: DisplayModuleState.Loading,
       data: undefined,
@@ -59,6 +62,7 @@ export class DisplayContainer<D, P = {}> extends React.Component<DisplayContaine
 
   /** @inheritdoc */
   componentWillUnmount() {
+    this.sourceToken.cancel();
     this.stopPolling();
   }
 
@@ -68,7 +72,7 @@ export class DisplayContainer<D, P = {}> extends React.Component<DisplayContaine
   }
 
   /** Fetch the data required to render this display module. */
-  fetchData(): Promise<QueryResultWrapper<D>> {
+  fetchData(sourceToken: CancelTokenSource): Promise<QueryResultWrapper<D>> {
     throw new Error('Subclass should override!');
   }
 
@@ -87,7 +91,7 @@ export class DisplayContainer<D, P = {}> extends React.Component<DisplayContaine
     }
     this.keepPolling = true;
     this.asyncInterval(this.intervalDuration, () => {
-      return this.fetchData()
+      return this.fetchData(this.sourceToken)
         .then((result) => {
           this.updateStatusForQueryResultStatus(result.status);
           if (result.data) {
@@ -95,7 +99,9 @@ export class DisplayContainer<D, P = {}> extends React.Component<DisplayContaine
             this.stopPolling();
           }
         }).catch((error) => {
-          this.setState({ status: DisplayModuleState.Error });
+          if (!axios.isCancel(error)) {
+            this.setState({ status: DisplayModuleState.Error });
+          }
           this.stopPolling();
         });
     });

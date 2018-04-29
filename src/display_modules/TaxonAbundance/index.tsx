@@ -1,9 +1,10 @@
 import * as React from 'react';
+import { CancelTokenSource } from 'axios';
 
 import D3DisplayContainer from '../components/DisplayContainer/d3';
 import { DisplayContainerProps } from '../components/DisplayContainer';
 import { TaxonAbundanceResultType } from '../../services/api/models/queryResult';
-import { getTaxonAbundance } from '../../services/api';
+import { getAnalysisResult } from '../../services/api';
 
 import TaxonAbundancePlot from './components/TaxonAbundancePlot';
 
@@ -24,8 +25,8 @@ export class TaxonAbundanceModule extends D3DisplayContainer<TaxonAbundanceResul
   }
 
   /** @inheritdoc */
-  fetchData() {
-    return getTaxonAbundance(this.props.uuid);
+  fetchData(sourceToken: CancelTokenSource) {
+    return getAnalysisResult<TaxonAbundanceResultType>(this.props.uuid, 'taxon_abundance', sourceToken);
   }
 
   /** @inheritdoc */

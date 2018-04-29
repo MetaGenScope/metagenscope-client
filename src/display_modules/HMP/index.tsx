@@ -1,9 +1,10 @@
 import * as React from 'react';
+import { CancelTokenSource } from 'axios';
 
 import HighchartsDisplayContainer from '../components/DisplayContainer/highcharts';
 import { DisplayContainerProps } from '../components/DisplayContainer';
 import { HMPResultType } from '../../services/api/models/queryResult';
-import { getHMP } from '../../services/api';
+import { getAnalysisResult } from '../../services/api';
 
 import HMPContainer from './components/HMPContainer';
 
@@ -24,8 +25,8 @@ export default class HMPModule extends HighchartsDisplayContainer<HMPResultType,
   }
 
   /** @inheritdoc */
-  fetchData() {
-    return getHMP(this.props.uuid);
+  fetchData(sourceToken: CancelTokenSource) {
+    return getAnalysisResult<HMPResultType>(this.props.uuid, 'hmp', sourceToken);
   }
 
   /** @inheritdoc */

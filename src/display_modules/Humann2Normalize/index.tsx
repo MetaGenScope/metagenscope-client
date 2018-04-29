@@ -1,7 +1,9 @@
 import * as React from 'react';
+import { CancelTokenSource } from 'axios';
 
 import GenericGeneModule, { GenericGeneProps } from '../components/GenericGeneModule';
-import { getHumann2Normalize } from '../../services/api';
+import { getAnalysisResult } from '../../services/api';
+import { GenericGeneType } from '../../services/api/models/queryResult';
 
 export default class Humann2NormalizeModule extends GenericGeneModule {
 
@@ -18,8 +20,8 @@ export default class Humann2NormalizeModule extends GenericGeneModule {
   }
 
   /** @inheritdoc */
-  fetchData() {
-    return getHumann2Normalize(this.props.uuid);
+  fetchData(sourceToken: CancelTokenSource) {
+    return getAnalysisResult<GenericGeneType>(this.props.uuid, 'functional_genes', sourceToken);
   }
 
 }
