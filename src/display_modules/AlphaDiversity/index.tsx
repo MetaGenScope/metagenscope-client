@@ -3,7 +3,7 @@ import * as React from 'react';
 import HighchartsDisplayContainer from '../components/DisplayContainer/highcharts';
 import { DisplayContainerProps } from '../components/DisplayContainer';
 import { AlphaDivResultType } from '../../services/api/models/queryResult';
-import { getAlphaDiv } from '../../services/api';
+import { getAnalysisResult } from '../../services/api';
 
 import AlphaDiversityContainer from './components/AlphaDiversityContainer';
 
@@ -21,7 +21,7 @@ export default class AlphaDiversityModule extends HighchartsDisplayContainer<Alp
 
   /** @inheritdoc */
   fetchData() {
-    return getAlphaDiv(this.props.uuid);
+    return getAnalysisResult<AlphaDivResultType>(this.props.uuid, 'alpha_diversity');
   }
 
   /** @inheritdoc */

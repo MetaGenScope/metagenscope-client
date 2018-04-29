@@ -3,7 +3,7 @@ import * as React from 'react';
 import HighchartsDisplayContainer from '../components/DisplayContainer/highcharts';
 import { DisplayContainerProps } from '../components/DisplayContainer';
 import { ReadStatsResultType } from '../../services/api/models/queryResult';
-import { getReadStats } from '../../services/api';
+import { getAnalysisResult } from '../../services/api';
 
 import ReadStatsContainer from './components/ReadStatsContainer';
 
@@ -21,7 +21,7 @@ export class ReadStatsModule extends HighchartsDisplayContainer<ReadStatsResultT
 
   /** @inheritdoc */
   fetchData() {
-    return getReadStats(this.props.uuid);
+    return getAnalysisResult<ReadStatsResultType>(this.props.uuid, 'read_stats');
   }
 
   /** @inheritdoc */

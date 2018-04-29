@@ -3,7 +3,7 @@ import * as React from 'react';
 import D3DisplayContainer from '../components/DisplayContainer/d3';
 import { DisplayContainerProps } from '../components/DisplayContainer';
 import { PathwaysType } from '../../services/api/models/queryResult';
-import { getPathways } from '../../services/api';
+import { getAnalysisResult } from '../../services/api';
 
 import BetaDiversityContainer from './components/PathwaysContainer';
 
@@ -27,7 +27,7 @@ export default class PathwaysModule extends D3DisplayContainer<PathwaysType, Pat
 
   /** @inheritdoc */
   fetchData() {
-    return getPathways(this.props.uuid);
+    return getAnalysisResult<PathwaysType>(this.props.uuid, 'pathways');
   }
 
   /** @inheritdoc */

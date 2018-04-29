@@ -3,7 +3,7 @@ import * as React from 'react';
 import D3DisplayContainer from '../components/DisplayContainer/d3';
 import { DisplayContainerProps } from '../components/DisplayContainer';
 import { BetaDiversityType } from '../../services/api/models/queryResult';
-import { getBetaDiversity } from '../../services/api';
+import { getAnalysisResult } from '../../services/api';
 
 import BetaDiversityContainer from './components/BetaDiversityContainer';
 
@@ -20,7 +20,7 @@ export default class BetaDiversityModule extends D3DisplayContainer<BetaDiversit
 
   /** @inheritdoc */
   fetchData() {
-    return getBetaDiversity(this.props.uuid);
+    return getAnalysisResult<BetaDiversityType>(this.props.uuid, 'beta_diversity');
   }
 
   /** @inheritdoc */

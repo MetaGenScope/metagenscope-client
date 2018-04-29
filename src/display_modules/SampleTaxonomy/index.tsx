@@ -3,7 +3,7 @@ import * as React from 'react';
 import D3DisplayContainer from '../components/DisplayContainer/d3';
 import { DisplayContainerProps } from '../components/DisplayContainer';
 import { SampleTaxonomyType } from '../../services/api/models/queryResult';
-import { getSampleTaxonomy } from '../../services/api';
+import { getAnalysisResult } from '../../services/api';
 
 import { SampleTaxonomyContainer } from './components/SampleTaxonomyContainer';
 
@@ -28,7 +28,7 @@ export class SampleTaxonomyModule extends D3DisplayContainer<SampleTaxonomyType>
 
   /** @inheritdoc */
   fetchData() {
-    return getSampleTaxonomy(this.props.uuid);
+    return getAnalysisResult<SampleTaxonomyType>(this.props.uuid, 'taxa_tree');
   }
 
   /** @inheritdoc */

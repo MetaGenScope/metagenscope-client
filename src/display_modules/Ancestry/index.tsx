@@ -3,7 +3,7 @@ import * as React from 'react';
 import D3DisplayContainer from '../components/DisplayContainer/d3';
 import { DisplayContainerProps } from '../components/DisplayContainer';
 import { AncestryType } from '../../services/api/models/queryResult';
-import { getAncestry } from '../../services/api';
+import { getAnalysisResult } from '../../services/api';
 
 import AncestryContainer from './components/AncestryContainer';
 
@@ -20,7 +20,7 @@ export default class AncestryModule extends D3DisplayContainer<AncestryType> {
 
   /** @inheritdoc */
   fetchData() {
-    return getAncestry(this.props.uuid);
+    return getAnalysisResult<AncestryType>(this.props.uuid, 'putative_ancestry');
   }
 
   /** @inheritdoc */
