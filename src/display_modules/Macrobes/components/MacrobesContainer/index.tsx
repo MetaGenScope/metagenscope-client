@@ -43,7 +43,7 @@ export default class MacrobesContainer extends React.Component<MacrobesProps, {}
       exporting: {
         enabled: false,
       },
-      series: [{data}],
+      series: [{name: sampleName, data}],
     };
 
     return chartOptions;
