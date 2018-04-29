@@ -92,13 +92,13 @@ class StatefulAncestryMap extends React.Component<AncestryMapProps, AncestryMapS
   }
 }
 
-const AncestryMapInnards = withScriptjs(withGoogleMap<AncestryMapProps>((props) => {
+const WrappedAncestryMap = withScriptjs(withGoogleMap<AncestryMapProps>((props) => {
   return <StatefulAncestryMap {...props} />;
 }));
 
 const AncestryMap: React.SFC<AncestryMapProps> = (props) => {
   return (
-    <AncestryMapInnards
+    <WrappedAncestryMap
       ancestry={props.ancestry}
       googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${API_KEY}&v=3.exp&libraries=geometry,drawing,places`}
       loadingElement={<div style={{ height: `100%` }} />}

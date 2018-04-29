@@ -4,6 +4,7 @@ import { Row, Col } from 'react-bootstrap';
 import { AncestryType } from '../../../../services/api/models/queryResult';
 import SunburstPlot from '../../../../display_modules/plots/SunburstPlot/';
 import { SunburstDataType } from '../../../../display_modules/plots/SunburstPlot/util/sunburst';
+import { SvgRefProps } from '../../../components/DisplayContainer/d3';
 
 import AncestryMap from './components/AncestryMap';
 import { getAncestry } from './components/AncestryMap/util';
@@ -55,7 +56,7 @@ const createSunburst = function(ancestry: {[key: string]: number}): SunburstData
   const rootChildren = categories.map(categoryName => {
     const node: SunburstDataType = {
       name: categoryName,
-      parent: 'Root',
+      parent: 'Human',
       size: 0,
       children: childrenMap[categoryName],
     };
@@ -63,8 +64,9 @@ const createSunburst = function(ancestry: {[key: string]: number}): SunburstData
   });
 
   const root: SunburstDataType = {
-    name: 'Root',
+    name: 'Human',
     parent: undefined,
+    color: 'transparent',
     size: 0,
     children: rootChildren,
   };
@@ -76,15 +78,14 @@ export interface AncestryProps {
   data: AncestryType;
 }
 
-const AlphaDivContainer: React.SFC<AncestryProps> = (props) => {
+const AlphaDivContainer: React.SFC<AncestryProps & SvgRefProps> = (props) => {
   const ancestry = createAncestry(props.data),
-        sunburst = createSunburst(ancestry),
-        svgRef = () => {};  // tslint:disable-line no-empty
+        sunburst = createSunburst(ancestry);
 
   return (
     <Row>
       <Col lg={4}>
-        <SunburstPlot data={sunburst} svgRef={svgRef} />
+        <SunburstPlot data={sunburst} svgRef={props.svgRef} />
       </Col>
       <Col lg={8}>
         <AncestryMap ancestry={ancestry} />
