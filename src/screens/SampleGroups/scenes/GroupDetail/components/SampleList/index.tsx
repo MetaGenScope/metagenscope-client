@@ -42,6 +42,10 @@ class SampleList extends React.Component<SampleListProps, SampleListState> {
       });
   }
 
+  componentWillUnmount() {
+    this.sourceToken.cancel();
+  }
+
   render() {
     return (
       <Panel id="sample-list">

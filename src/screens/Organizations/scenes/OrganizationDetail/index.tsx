@@ -48,6 +48,10 @@ class OrganizationDetail extends React.Component<OrganizationsProps, Organizatio
       });
   }
 
+  componentWillUnmount() {
+    this.sourceToken.cancel();
+  }
+
   render() {
     return (
       <div>

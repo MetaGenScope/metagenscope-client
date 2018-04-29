@@ -62,6 +62,7 @@ export class DisplayContainer<D, P = {}> extends React.Component<DisplayContaine
 
   /** @inheritdoc */
   componentWillUnmount() {
+    this.sourceToken.cancel();
     this.stopPolling();
   }
 
@@ -90,8 +91,6 @@ export class DisplayContainer<D, P = {}> extends React.Component<DisplayContaine
     }
     this.keepPolling = true;
     this.asyncInterval(this.intervalDuration, () => {
-      this.sourceToken.cancel();
-      this.sourceToken = axios.CancelToken.source();
       return this.fetchData(this.sourceToken)
         .then((result) => {
           this.updateStatusForQueryResultStatus(result.status);
@@ -111,7 +110,6 @@ export class DisplayContainer<D, P = {}> extends React.Component<DisplayContaine
   /** Stop polling the server for display module results. */
   stopPolling () {
     this.keepPolling = false;
-    this.sourceToken.cancel();
     if (this.interval) {
       clearTimeout(this.interval);
     }

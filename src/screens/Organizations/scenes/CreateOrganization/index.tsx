@@ -40,6 +40,10 @@ class CreateOrganization extends React.Component<Props, CreateOrganizationState>
     this.handleFormChange = this.handleFormChange.bind(this);
   }
 
+  componentWillUnmount() {
+    this.sourceToken.cancel();
+  }
+
   clearForm() {
     this.setState({
       formData: {name: '', adminEmail: ''}
@@ -56,6 +60,7 @@ class CreateOrganization extends React.Component<Props, CreateOrganizationState>
     event.preventDefault();
     const name = this.state.formData.name,
           adminEmail = this.state.formData.adminEmail;
+
     createOrganization(name, adminEmail, this.sourceToken)
       .then((res) => {
         this.setState({ didCreate: true });

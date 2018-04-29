@@ -46,6 +46,10 @@ class UserStatus extends React.Component<UserProps, UserState> {
     }
   }
 
+  componentWillUnmount() {
+    this.sourceToken.cancel();
+  }
+
   render() {
     if (!this.props.isAuthenticated) {
       return <p>You must be logged in to view this. Click <Link to="/login">here</Link> to log back in.</p>;

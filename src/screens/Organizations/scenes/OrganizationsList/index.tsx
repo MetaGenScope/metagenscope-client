@@ -38,6 +38,10 @@ class OrganizationsList extends React.Component<{}, OrganizationsState> {
       });
   }
 
+  componentWillUnmount() {
+    this.sourceToken.cancel();
+  }
+
   render() {
     return (
       <Row>

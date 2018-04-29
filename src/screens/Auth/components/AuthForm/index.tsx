@@ -48,6 +48,10 @@ class AuthForm extends React.Component<FormProp, AuthFormState> {
     }
   }
 
+  componentWillUnmount() {
+    this.sourceToken.cancel();
+  }
+
   clearForm() {
     this.setState({
       formData: {username: '', email: '', password: ''}
