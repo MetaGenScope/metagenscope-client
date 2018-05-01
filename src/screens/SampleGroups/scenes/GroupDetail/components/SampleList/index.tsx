@@ -37,7 +37,7 @@ class SampleList extends React.Component<SampleListProps, SampleListState> {
       })
       .catch((error) => {
         if (!axios.isCancel(error)) {
-          this.setState({ error });
+          this.setState({ error: 'There was an error fetching the sample list for this group.' });
         }
       });
   }
