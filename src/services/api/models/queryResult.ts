@@ -99,10 +99,13 @@ export interface ReadsClassifiedType {
   samples: {
     [key: string]: {
       viral: number;
-      archaea: number;
-      bacteria: number;
+      archaeal: number;
+      bacterial: number;
       host: number;
       unknown: number;
+      nonhost_macrobial: number;
+      nonfungal_eukaryotic: number;
+      fungal: number;
     };
   };
 }
