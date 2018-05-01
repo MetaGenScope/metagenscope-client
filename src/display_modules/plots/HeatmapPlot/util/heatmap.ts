@@ -128,10 +128,11 @@ export default class HeatMap {
     const maxRowNameLength = d3.max(data.axis.y.map(d => d.length))!,
           boundingSize = this.rootDiv.node()!.getBoundingClientRect(),
           canvasWidth = boundingSize.width - this.margin.left - this.margin.right;
-    let gridSize = Math.floor(canvasWidth / (Math.max(xMax + 1, yMax + 1)));
+    let gridSize = Math.floor(canvasWidth / xMax);
     const rowNameWidth = Math.min(maxRowNameLength * gridSize, options.maxAxisNameLength);
     gridSize = Math.floor((canvasWidth - rowNameWidth) / (xMax + 1));
-    gridSize = (canvasWidth - rowNameWidth) / (xMax + 1);
+    gridSize = (canvasWidth - rowNameWidth) / xMax + 1;
+    gridSize = Math.min(gridSize, (canvasWidth - rowNameWidth) * 1.5 / yMax + 1);
     let canvasHeight = 0;
     const axisNameSize = options.axisNameSize >= 0 ? options.axisNameSize : gridSize;
 
