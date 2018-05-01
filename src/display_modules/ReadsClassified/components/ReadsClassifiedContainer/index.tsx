@@ -13,9 +13,12 @@ interface ReadsClassifiedProps extends ChartRefProps {
 const sampleGroupOptions = function(data: ReadsClassifiedType): Highcharts.Options {
   const seriesMap: {[key: string]: number[]} = {
     viral: [],
-    archaea: [],
-    bacteria: [],
+    archaeal: [],
+    bacterial: [],
     host: [],
+    nonhost_macrobial: [],
+    nonfungal_eukaryotic: [],
+    fungal: [],
     unknown: [],
   };
 
@@ -23,9 +26,12 @@ const sampleGroupOptions = function(data: ReadsClassifiedType): Highcharts.Optio
   sampleNames.map(sampleName => {
     const sample = data.samples[sampleName];
     seriesMap.viral.push(sample.viral);
-    seriesMap.archaea.push(sample.archaea);
-    seriesMap.bacteria.push(sample.bacteria);
+    seriesMap.archaea.push(sample.archaeal);
+    seriesMap.bacteria.push(sample.bacterial);
     seriesMap.host.push(sample.host);
+    seriesMap.nonhost_macrobial.push(sample.nonhost_macrobial);
+    seriesMap.nonfungal_eukaryotic.push(sample.nonfungal_eukaryotic);
+    seriesMap.fungal.push(sample.fungal);
     seriesMap.unknown.push(sample.unknown);
   });
 
