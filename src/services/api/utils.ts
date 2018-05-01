@@ -32,6 +32,19 @@ if (!String.prototype.capitalize) {
   };
 }
 
+/// String.displayFormat()
+declare global {
+  interface String {
+    displayFormat(): string;
+  }
+}
+
+if (!String.prototype.displayFormat) {
+  String.prototype.displayFormat = function(this: string) {
+    return this.replace('_', ' ').replace('-', ' ').capitalize();
+  };
+}
+
 /// Array<T>.shuffle()
 declare global {
   interface Array<T> {

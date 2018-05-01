@@ -22,7 +22,7 @@ class SelectSource extends React.Component<PlotSourceProps, {}> {
                 checked={checked}
                 onChange={() => this.props.handleSourceChange(source)}
               >
-                {source}
+                {source.displayFormat()}
               </Radio>
             );
           })}
