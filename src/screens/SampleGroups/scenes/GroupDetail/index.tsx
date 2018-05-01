@@ -34,40 +34,33 @@ export type ModuleEntry = {
   ModuleClass: ModuleClassType;
 };
 
-const mapping: {[key: string]: ModuleClassType} = {
-  alpha_diversity: AlphaDiversityModule,
-  average_genome_size: AGSModule,
-  beta_diversity: BetaDiversityModule,
-  card_amr_genes: CARDModule,
-  hmp: HMPModule,
-  read_stats: ReadStatsModule,
-  macrobe_abundance: MacrobesModule,
-  methyltransferases: MethylModule,
-  microbe_directory: MicrobeDirectoryModule,
-  functional_genes: Humann2NormalizeModule,
-  pathways: PathwaysModule,
-  reads_classified: ReadsClassifiedModule,
-  sample_similarity: SampleSimilarityModule,
-  taxon_abundance: TaxonAbundanceModule,
-  virulence_factors: VFDBModule,
-  volcano: VolcanoModule,
-};
+const mapping: [string, ModuleClassType][] = [
+  ['sample_similarity', SampleSimilarityModule],
+  ['reads_classified', ReadsClassifiedModule],
+  ['hmp', HMPModule],
+  ['volcano', VolcanoModule],
+  ['alpha_diversity', AlphaDiversityModule],
+  ['beta_diversity', BetaDiversityModule],
+  ['average_genome_size', AGSModule],
+  ['macrobe_abundance', MacrobesModule],
+  ['read_stats', ReadStatsModule],
+  ['card_amr_genes', CARDModule],
+  ['methyltransferases', MethylModule],
+  ['microbe_directory', MicrobeDirectoryModule],
+  ['functional_genes', Humann2NormalizeModule],
+  ['pathways', PathwaysModule],
+  ['taxon_abundance', TaxonAbundanceModule],
+  ['virulence_factors', VFDBModule],
+];
 
 interface AnalysisGroupList {
   queryResult: AnalysisResultType;
 }
 
 const AnalysisGroupList: React.SFC<AnalysisGroupList> = (props) => {
-  const modules: ModuleEntry[] = [];
-  props.queryResult.result_types.forEach(moduleName => {
-    const displayModule = mapping[moduleName];
-    if (displayModule !== undefined) {
-      modules.push({
-        name: moduleName,
-        ModuleClass: displayModule,
-      });
-    }
-  });
+  const resultTypes = props.queryResult.result_types;
+  const modules: ModuleEntry[] = mapping.filter(pair => resultTypes.indexOf(pair[0]) > -1)
+      .map(pair => ({name: pair[0], ModuleClass: pair[1]}));
   return (
     <div>
       {modules.map(Entry => {
