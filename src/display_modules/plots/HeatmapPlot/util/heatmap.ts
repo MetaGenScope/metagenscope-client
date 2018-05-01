@@ -131,8 +131,7 @@ export default class HeatMap {
     let gridSize = Math.floor(canvasWidth / xMax);
     const rowNameWidth = Math.min(maxRowNameLength * gridSize, options.maxAxisNameLength);
     gridSize = Math.floor((canvasWidth - rowNameWidth) / (xMax + 1));
-    gridSize = (canvasWidth - rowNameWidth) / xMax + 1;
-    gridSize = Math.min(gridSize, (canvasWidth - rowNameWidth) * 1.5 / yMax + 1);
+    gridSize = Math.min(gridSize, Math.floor((canvasWidth - rowNameWidth) * 1.5 / yMax + 1));
     let canvasHeight = 0;
     const axisNameSize = options.axisNameSize >= 0 ? options.axisNameSize : gridSize;
 
@@ -147,7 +146,7 @@ export default class HeatMap {
           .text(d => d.name)
           .attr('font-size', axisNameSize)
           .attr('transform', (d, i) => {
-            return `translate(${(gridSize * (i + 0.5)) + rowNameWidth}, ${itemHeight}) rotate(-90)`;
+            return `translate(${(gridSize * (i + 0.5)) + rowNameWidth}, ${itemHeight - 3}) rotate(-90)`;
           });
 
     columnNames.exit().remove();
@@ -164,7 +163,7 @@ export default class HeatMap {
       .merge(rowNames)
           .text(d => d)
           .attr('font-size', axisNameSize)
-          .attr('transform', (d, i) => `translate(${rowNameWidth - 3}, ${canvasHeight + (gridSize * (i + 0.5))})`);
+          .attr('transform', (d, i) => `translate(${rowNameWidth - 5}, ${canvasHeight + (gridSize * (i + 0.5))})`);
 
     rowNames.exit().remove();
 
