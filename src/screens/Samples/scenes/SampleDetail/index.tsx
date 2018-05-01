@@ -20,35 +20,28 @@ import { MicrobeDirectoryModule } from '../../../../display_modules/MicrobeDirec
 import { ReadsClassifiedModule } from '../../../../display_modules/ReadsClassified';
 import { SampleTaxonomyModule } from '../../../../display_modules/SampleTaxonomy';
 
-const mapping: {[key: string]: ModuleClassType} = {
-  card_amr_genes: CARDModule,
-  functional_genes: Humann2NormalizeModule,
-  hmp: HMPModule,
-  macrobe_abundance: MacrobesModule,
-  methyltransferases: MethylModule,
-  microbe_directory: MicrobeDirectoryModule,
-  pathways: PathwaysModule,
-  putative_ancestry: AncestryModule,
-  reads_classified: ReadsClassifiedModule,
-  taxa_tree: SampleTaxonomyModule,
-  virulence_factors: VFDBModule,
-};
+const mapping: [string, ModuleClassType][] = [
+  ['reads_classified', ReadsClassifiedModule],
+  ['hmp', HMPModule],
+  ['macrobe_abundance', MacrobesModule],
+  ['putative_ancestry', AncestryModule],
+  ['taxa_tree', SampleTaxonomyModule],
+  ['card_amr_genes', CARDModule],
+  ['functional_genes', Humann2NormalizeModule],
+  ['methyltransferases', MethylModule],
+  ['microbe_directory', MicrobeDirectoryModule],
+  ['pathways', PathwaysModule],
+  ['virulence_factors', VFDBModule],
+];
 
 interface AnalysisGroupList {
   queryResult: AnalysisResultType;
 }
 
 const AnalysisGroupList: React.SFC<AnalysisGroupList> = (props) => {
-  const modules: ModuleEntry[] = [];
-  props.queryResult.result_types.forEach(moduleName => {
-    const displayModule = mapping[moduleName];
-    if (displayModule !== undefined) {
-      modules.push({
-        name: moduleName,
-        ModuleClass: displayModule,
-      });
-    }
-  });
+  const resultTypes = props.queryResult.result_types;
+  const modules: ModuleEntry[] = mapping.filter(pair => resultTypes.indexOf(pair[0]) > -1)
+      .map(pair => ({name: pair[0], ModuleClass: pair[1]}));
   return (
     <div>
       {modules.map(Entry => {
