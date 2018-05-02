@@ -23,6 +23,7 @@ export default class GenericGeneModule extends D3DisplayContainer<GenericGeneTyp
         svgRef={el => this.svgCanvas = el}
         chartId={this.chartId}
         yAxisTitle={this.yAxisTitle}
+        legendTitle={'log10 RPKM[G]'}
         isSingleton={this.props.isSingleton}
       />
     );

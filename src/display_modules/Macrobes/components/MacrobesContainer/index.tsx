@@ -75,6 +75,7 @@ export default class MacrobesContainer extends React.Component<MacrobesProps, {}
       axisNameSize: 12,
       legend: {
         precision: 3,
+        name: 'z-score',
       },
       svgRef: this.props.svgRef,
     };
