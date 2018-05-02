@@ -79,6 +79,7 @@ export class VolcanoContainer extends React.Component<VolcanoProps, VolcanoState
         x: datum.xval,
         y: datum.yval,
         z: datum.zval,
+        key: datum.name,
       };
     });
     return {
