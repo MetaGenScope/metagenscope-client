@@ -48,7 +48,7 @@ export class HMPContainer extends React.Component<HMPProps, HMPState> {
 
   chartOptions(activeCategory: string): Highcharts.Options {
     const data = this.props.data.distributions[activeCategory];
-    const categoryValues = Object.keys(data);
+    const categoryValues = Object.keys(data).sort();
 
     const dataPoints: Highcharts.DataPoint[] = categoryValues.map(categoryValue => {
       const datum = data[categoryValue];

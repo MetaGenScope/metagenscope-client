@@ -40,7 +40,7 @@ export default class AlphaDivContainer extends React.Component<AlphaDivProps, Al
     this.handleTaxaRankChange = this.handleTaxaRankChange.bind(this);
     this.handleColorByCategoryChanged = this.handleColorByCategoryChanged.bind(this);
 
-    const categories = Object.keys(this.props.data.categories),
+    const categories = Object.keys(this.props.data.categories).sort(),
           activeCategory = categories[0],
           tools = this.props.data.tool_names,
           activeTool = tools[0],
@@ -160,7 +160,7 @@ export default class AlphaDivContainer extends React.Component<AlphaDivProps, Al
       },
       yAxis: {
         title: {
-          text: 'Base Pairs',
+          text: activeMetric,
         },
       },
       exporting: {
