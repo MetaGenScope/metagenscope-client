@@ -14,6 +14,7 @@ import { ChartRefProps } from '../../components/DisplayContainer/highcharts';
 export interface HighChartsPlotProps extends ChartRefProps {
   options: Highcharts.Options;
   chartId: string;
+  forceRecreate?: boolean;
 }
 
 export default class HighChartsPlot extends React.Component<HighChartsPlotProps, {}> {
@@ -29,7 +30,14 @@ export default class HighChartsPlot extends React.Component<HighChartsPlotProps,
   /** Update the chart for the new chart options. */
   shouldComponentUpdate(nextProps: HighChartsPlotProps) {
     if (this.chart !== undefined) {
-      this.chart.update(nextProps.options);
+      const forceRecreate = nextProps.forceRecreate !== undefined ? nextProps.forceRecreate : false;
+      if (forceRecreate) {
+        this.chart.destroy();
+        this.chart = Highcharts.chart(`${this.props.chartId}-chart`, nextProps.options);
+        this.props.chartRef(this.chart);
+      } else {
+        this.chart.update(nextProps.options);
+      }
     }
 
     return false;
