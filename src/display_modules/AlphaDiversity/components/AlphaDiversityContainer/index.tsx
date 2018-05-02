@@ -160,7 +160,7 @@ export default class AlphaDivContainer extends React.Component<AlphaDivProps, Al
       },
       yAxis: {
         title: {
-          text: 'Base Pairs',
+          text: activeMetric,
         },
       },
       exporting: {
