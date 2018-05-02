@@ -92,7 +92,7 @@ export class VolcanoContainer extends React.Component<VolcanoProps, VolcanoState
       },
       plotOptions: {
         series: {
-            color: 'rgba(36,135,255,0.1)'
+            color: 'rgba(36,135,255,0.01)'
         }
       },
       xAxis: {
