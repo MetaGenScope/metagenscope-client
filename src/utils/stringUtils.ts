@@ -42,6 +42,9 @@ if (!String.prototype.displayFormat) {
     if (this.toLowerCase().indexOf('rpkm') > -1) {
       return this.toUpperCase();
     }
+    if (this.toLowerCase().indexOf('n/a') > -1) {
+      return this.toUpperCase();
+    }
     return this.replaceAll('_', ' ').capitalize();
   };
 }

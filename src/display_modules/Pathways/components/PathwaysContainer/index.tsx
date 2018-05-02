@@ -64,7 +64,7 @@ export default class BetaDiversityContainer extends React.Component<PathwaysProp
         enabled: false,
       },
       series: [{
-        name: metric,
+        name: metric.displayFormat(),
         data,
       }],
     };

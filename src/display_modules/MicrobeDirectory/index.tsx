@@ -21,7 +21,7 @@ export class MicrobeDirectoryModule extends HighchartsDisplayContainer<MicrobeDi
     this.description = (
       <p>This chart shows the proportion of different known microbiological {' '}
         features in each sample. Features are sourced from the {' '}
-        <a href="https://microbe.directory/">Microbe Directory</a>.</p>
+        <a href="https://microbe.directory/" target="_blank">Microbe Directory</a>.</p>
     );
   }
 

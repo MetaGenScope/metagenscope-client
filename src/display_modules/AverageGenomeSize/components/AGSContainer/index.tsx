@@ -96,7 +96,7 @@ export class HMPContainer extends React.Component<HMPProps, HMPState> {
 
   render() {
     const activeCategory = this.state.activeCategory,
-          activeCategoryValues = this.props.data.categories[activeCategory];
+          activeCategoryValues = this.props.data.categories[activeCategory].sort();
     const chartOptions = this.chartOptions(activeCategory);
 
     return (

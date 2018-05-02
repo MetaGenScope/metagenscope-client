@@ -79,7 +79,7 @@ export class SampleSimilarityContainer extends React.Component<SampleSimilarityP
 
   render() {
     const activeCategory = this.state.activeCategory,
-          activeCategoryValues = this.props.data.categories[activeCategory],
+          activeCategoryValues = this.props.data.categories[activeCategory].sort(),
           color = d3.scaleOrdinal(d3.schemeCategory20);
 
     return (

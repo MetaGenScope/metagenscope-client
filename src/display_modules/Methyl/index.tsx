@@ -10,7 +10,7 @@ export default class MethylModule extends GenericGeneModule {
   constructor(props: GenericGeneProps) {
     super(props);
 
-    this.title = 'MethylTransferase Abundance';
+    this.title = 'Methyltransferase Abundance';
     this.description = (
       <div>
         <p>The abundance of microbial methyltransferase genes. {' '}

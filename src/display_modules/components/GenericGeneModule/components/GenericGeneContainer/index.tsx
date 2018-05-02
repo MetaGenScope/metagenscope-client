@@ -47,7 +47,7 @@ export default class GenericGeneContainer extends React.Component<GenericGenePro
     const series: Highcharts.IndividualSeriesOptions[] = metrics.map(metric => {
       const dataPoints = geneNames.map(geneName => sample[metric][geneName]);
       return {
-        name: metric,
+        name: metric.displayFormat(),
         data: dataPoints,
       };
     });
