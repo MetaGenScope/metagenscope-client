@@ -23,7 +23,7 @@ const sampleGroupOptions = function(data: ReadsClassifiedType): Highcharts.Optio
   };
 
   const sampleNames = Object.keys(data.samples)
-    .sort((n1, n2) => data.samples[n1].unknown - data.samples[n2].unknown)
+    .sort((n1, n2) => data.samples[n1].unknown - data.samples[n2].unknown);
   sampleNames.map(sampleName => {
     const sample = data.samples[sampleName];
     seriesMap.viral.push(sample.viral);
@@ -39,9 +39,9 @@ const sampleGroupOptions = function(data: ReadsClassifiedType): Highcharts.Optio
   const seriesNames = Object.keys(seriesMap);
   const series: Highcharts.IndividualSeriesOptions[] = seriesNames.map(seriesName => {
     const seriesData = seriesMap[seriesName];
-    if(seriesName === 'host'){
+    if (seriesName === 'host') {
       seriesName = 'human';  // TODO: this is a hack for Milken
-    } else if(seriesName === 'nonhost_macrobial'){
+    } else if (seriesName === 'nonhost_macrobial') {
       seriesName = 'non-human_macrobial';  // TODO: this is a hack for Milken
     }
     return {
