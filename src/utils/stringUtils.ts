@@ -37,11 +37,10 @@ declare global {
   }
 }
 
-
 if (!String.prototype.displayFormat) {
   String.prototype.displayFormat = function(this: string) {
-    if (str.toLowerCase().indexOf('rpkm') > -1) {
-      return str.toUpperCase();
+    if (this.toLowerCase().indexOf('rpkm') > -1) {
+      return this.toUpperCase();
     }
     return this.replaceAll('_', ' ').capitalize();
   };

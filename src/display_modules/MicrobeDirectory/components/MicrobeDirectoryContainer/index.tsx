@@ -82,7 +82,7 @@ const sampleOptions = (data: MicrobeDirectoryType): Highcharts.Options => {
       seriesData[index] = percentage; // this it the item of interest
 
       series.push({
-        name: bucket,
+        name: bucket.displayFormat(),
         data: seriesData,
       });
     });
@@ -111,7 +111,7 @@ const groupOptions = function(data: MicrobeDirectoryType, activeProperty: string
       return data.samples[sampleName][activeProperty][propertyValue];
     });
     const seriesItem: Highcharts.IndividualSeriesOptions = {
-      name: propertyValue,
+      name: propertyValue.displayFormat(),
       data: seriesData,
     };
     return seriesItem;
