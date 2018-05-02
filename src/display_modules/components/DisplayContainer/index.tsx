@@ -95,7 +95,11 @@ export class DisplayContainer<D, P = {}> extends React.Component<DisplayContaine
         .then((result) => {
           this.updateStatusForQueryResultStatus(result.status);
           if (result.data) {
-            this.setState({data: result.data});
+            try {
+              this.setState({data: result.data});
+            } catch (error) {
+              this.setState({ status: DisplayModuleState.Error });
+            }
             this.stopPolling();
           }
         }).catch((error) => {

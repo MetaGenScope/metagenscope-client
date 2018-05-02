@@ -39,6 +39,9 @@ declare global {
 
 if (!String.prototype.displayFormat) {
   String.prototype.displayFormat = function(this: string) {
-    return this.replaceAll('_', ' ').replaceAll('-', ' ').capitalize();
+    if (this.toLowerCase().indexOf('rpkm') > -1) {
+      return this.toUpperCase();
+    }
+    return this.replaceAll('_', ' ').capitalize();
   };
 }

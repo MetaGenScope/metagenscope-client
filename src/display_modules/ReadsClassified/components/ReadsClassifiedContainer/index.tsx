@@ -45,7 +45,7 @@ const sampleGroupOptions = function(data: ReadsClassifiedType): Highcharts.Optio
       seriesName = 'non-human_macrobial';  // TODO: this is a hack for Milken
     }
     return {
-      name: seriesName,
+      name: seriesName.displayFormat(),
       data: seriesData,
     };
   });

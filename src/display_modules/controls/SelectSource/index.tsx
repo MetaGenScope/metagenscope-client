@@ -12,7 +12,7 @@ class SelectSource extends React.Component<PlotSourceProps, {}> {
     return(
       <form>
         <FormGroup>
-          <ControlLabel>Plot calculated similarity by:</ControlLabel>
+          <ControlLabel>Select Data Source:</ControlLabel>
           {this.props.sources.map((source, index) => {
             const checked = source === this.props.activeSource;
             return (

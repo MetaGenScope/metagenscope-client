@@ -16,7 +16,7 @@ export class ReadStatsModule extends HighchartsDisplayContainer<ReadStatsResultT
     this.title = 'Read Statistics';
     this.description = (
       <p>This chart shows various statistsics {' '}
-        about the reads in each sample</p>
+        about the reads in each sample.</p>
     );
   }
 

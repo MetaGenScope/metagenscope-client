@@ -24,7 +24,7 @@ const createOptions = function(data: DatumType[], categories: string[], color: C
       };
     });
     return {
-      name: source.name,
+      name: source.name.displayFormat(),
       data: dataPoints,
       color: color(source.name),
     };
