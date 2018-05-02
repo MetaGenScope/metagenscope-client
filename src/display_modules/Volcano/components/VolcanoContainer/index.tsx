@@ -18,6 +18,9 @@ export interface VolcanoState {
 }
 
 export class VolcanoContainer extends React.Component<VolcanoProps, VolcanoState> {
+
+  protected categoriesByTool: any; // tslint:disable-line no-any
+
   constructor(props: VolcanoProps) {
     super(props);
 
@@ -26,10 +29,30 @@ export class VolcanoContainer extends React.Component<VolcanoProps, VolcanoState
     this.handleCategoryValueChange = this.handleCategoryValueChange.bind(this);
 
     const tools = Object.keys(this.props.data.tools),
-          activeTool = tools[0],
-          categories = Object.keys(this.props.data.categories),
+          activeTool = tools[0];
+
+    this.categoriesByTool = {};
+    tools.map(toolname => {
+      const catsInTool = Object.keys(this.props.data.tools[toolname].tool_categories);
+      catsInTool.map(catname => {
+        const catValsInTool = Object.keys(this.props.data.tools[toolname].tool_categories[catname]);
+        catValsInTool.map(catval => {
+          if (this.props.data.tools[toolname].tool_categories[catname][catval]) {
+            if (!(toolname in this.categoriesByTool)) {
+              this.categoriesByTool[toolname] = {};
+            }
+            if (!(catname in this.categoriesByTool[toolname])) {
+              this.categoriesByTool[toolname][catname] = [];
+            }
+            this.categoriesByTool[toolname][catname].push(catval);
+          }
+        });
+      });
+    });
+
+    const categories = Object.keys(this.categoriesByTool[activeTool]),
           activeCategory = categories[0],
-          activeCategoryValue = this.props.data.categories[activeCategory][0];
+          activeCategoryValue = this.categoriesByTool[activeTool][activeCategory][0];
 
     this.state = {
       activeTool,
@@ -62,8 +85,8 @@ export class VolcanoContainer extends React.Component<VolcanoProps, VolcanoState
   }
 
   downstreamCategoryValue(upstreamState: VolcanoState): VolcanoState {
-    const {activeCategory, activeCategoryValue} = upstreamState,
-          categoryValues = this.props.data.categories[activeCategory];
+    const {activeCategory, activeTool, activeCategoryValue} = upstreamState,
+          categoryValues = this.categoriesByTool[activeTool][activeCategory];
 
     if (categoryValues.indexOf(activeCategoryValue) < 0) {
       upstreamState.activeCategoryValue = categoryValues[0];
@@ -122,7 +145,7 @@ export class VolcanoContainer extends React.Component<VolcanoProps, VolcanoState
       },
       tooltip: {
         headerFormat: '{point.name}',
-        pointFormat: 
+        pointFormat:
             'Log2 Fold Change (x): {point.x}, ' +
             'Log10 P-Value (y): {point.y}',
       },
@@ -136,7 +159,7 @@ export class VolcanoContainer extends React.Component<VolcanoProps, VolcanoState
 
   render() {
     const {activeTool, activeCategory, activeCategoryValue} = this.state,
-          activeCategoryValues = this.props.data.categories[activeCategory];
+          activeCategoryValues = this.categoriesByTool[activeTool][activeCategory];
     const chartOptions = this.chartOptions(activeTool, activeCategory, activeCategoryValue);
 
     return (
@@ -153,7 +176,7 @@ export class VolcanoContainer extends React.Component<VolcanoProps, VolcanoState
             tools={Object.keys(this.props.data.tools)}
             activeTool={activeTool}
             handleToolChange={this.handleToolChange}
-            categories={Object.keys(this.props.data.categories)}
+            categories={Object.keys(this.categoriesByTool[activeTool])}
             activeCategory={activeCategory}
             handleCategoryChange={this.handleCategoryChange}
             categoryValues={activeCategoryValues}
