@@ -115,7 +115,7 @@ export class VolcanoContainer extends React.Component<VolcanoProps, VolcanoState
       },
       plotOptions: {
         series: {
-            color: 'rgba(36,135,255,0.01)'
+            color: 'rgba(36,135,255,0.001)'
         }
       },
       xAxis: {
@@ -146,6 +146,7 @@ export class VolcanoContainer extends React.Component<VolcanoProps, VolcanoState
       tooltip: {
         headerFormat: '{point.name}',
         pointFormat:
+            '{point.name} '
             'Log2 Fold Change (x): {point.x}, ' +
             'Log10 P-Value (y): {point.y}',
       },
