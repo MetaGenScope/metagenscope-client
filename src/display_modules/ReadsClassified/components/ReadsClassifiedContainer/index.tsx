@@ -39,6 +39,11 @@ const sampleGroupOptions = function(data: ReadsClassifiedType): Highcharts.Optio
   const seriesNames = Object.keys(seriesMap);
   const series: Highcharts.IndividualSeriesOptions[] = seriesNames.map(seriesName => {
     const seriesData = seriesMap[seriesName];
+    if(seriesName === 'host'){
+      seriesName = 'human';  // TODO: this is a hack for Milken
+    } else if(seriesName === 'nonhost_macrobial'){
+      seriesName = 'non-human_macrobial';  // TODO: this is a hack for Milken
+    }
     return {
       name: seriesName,
       data: seriesData,
