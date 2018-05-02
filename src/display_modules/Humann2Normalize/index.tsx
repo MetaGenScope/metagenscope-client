@@ -12,7 +12,7 @@ export default class Humann2NormalizeModule extends GenericGeneModule {
 
     this.title = 'Functional Gene Abundance';
     this.description = (
-      <p>The abundance of genes with known metabolic or biochemical functions. These genes{' '}
+      <p>The abundance of genes with known metabolic or biochemical functions. These genes {' '}
          are organized into pathways, chains of interrelated functions. The abundance of {' '}
          various pathways may be seen below.</p>
       <p>These genes measure how a bacterial community survives in an environment.</p>
