@@ -116,7 +116,10 @@ export class VolcanoContainer extends React.Component<VolcanoProps, VolcanoState
       },
       tooltip: {
         headerFormat: '<b>{point.key}</b><br>',
-        pointFormat: '{point.x} lfc, {point.y} nlp {point.z} ave. abd',
+        pointFormat: 
+            '<tr><th colspan="2"><h3>{point.name}</h3></th></tr>' +
+            '<tr><th>Log10 Fold Change (x):</th><td>{point.x}</td></tr>' +
+            '<tr><th>Log10 P-Value (y):</th><td>{point.y}</td></tr>',
       },
       exporting: {
         enabled: false,
