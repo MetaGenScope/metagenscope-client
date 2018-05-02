@@ -15,11 +15,13 @@ export default class HMPModule extends HighchartsDisplayContainer<AGSResultType>
 
     this.title = 'Average Genome Size';
     this.description = (
-      <p>Generally a larger average genome size indicates a community   {' '}
-        with broader function, as opposed to specific niches.
-        Average Genome Size can also be used to estimate what proportion of their 
-        genomes bacteria devot to certain functions.</p>
-      <p>This estimate only applies to Bacterial species in each sample.</p>
+      <div>
+        <p>Generally a larger average genome size indicates a community   {' '}
+          with broader function, as opposed to specific niches.
+          Average Genome Size can also be used to estimate what proportion of their
+          genomes bacteria devot to certain functions.</p>
+        <p>This estimate only applies to Bacterial species in each sample.</p>
+      </div>
     );
   }
 
