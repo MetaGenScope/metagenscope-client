@@ -4,7 +4,7 @@ import { Well } from 'react-bootstrap';
 import DropdownSelect from '../../../../../../controls/DropdownSelect';
 
 const handleCase = (str: string) => {
-  if('rpkm' in str.toLowerCase()){
+  if (str.toLowerCase().indexOf('rpkm') > -1) {
     return str.toUpperCase();
   }
   return str;
