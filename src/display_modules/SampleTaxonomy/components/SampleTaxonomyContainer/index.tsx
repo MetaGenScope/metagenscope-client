@@ -7,11 +7,10 @@ import SunburstPlot, { SunburstProps } from '../../../plots/SunburstPlot';
 import { SunburstDataType } from '../../../plots/SunburstPlot/util/sunburst';
 import { SvgRefProps } from '../../../components/DisplayContainer/d3';
 
-import { displayTaxaName } from './util';
 import SampleTaxonomyControls from './components/SampleTaxonomyControls';
 
 const transformNode = function(node: SunburstDataType): SunburstDataType {
-  node.name = node.name.displayName();
+  node.name = node.name.displayFormat();
   node.children = node.children.map(child => transformNode(child));
   return node;
 };
