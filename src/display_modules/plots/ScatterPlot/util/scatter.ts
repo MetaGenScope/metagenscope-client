@@ -16,7 +16,8 @@ export type Options = {
 export function createScatter(rootDiv: HTMLDivElement,
                               rawSVG: SVGSVGElement,
                               data: Entry[],
-                              options: Options) {
+                              options: Options,
+                              color: d3.ScaleOrdinal<string, string>) {
   const boundingSize = d3.select(rootDiv).node()!.getBoundingClientRect(),
         canvasWidth = boundingSize.width,
         canvasHeight = canvasWidth * 9 / 16,
@@ -42,7 +43,7 @@ export function createScatter(rootDiv: HTMLDivElement,
         width = canvasWidth - margin.left - margin.right,
         height = canvasHeight - margin.top - margin.bottom;
 
-  // Set up x 
+  // Set up x
   const xValue = function(d: Entry) { return d.x; },
         xScale = d3.scaleLinear().range([0, width]),
         xMap = function(d: Entry) { return xScale(xValue(d)); },
@@ -54,8 +55,7 @@ export function createScatter(rootDiv: HTMLDivElement,
         yMap = function(d: Entry) { return yScale(yValue(d)); },
         yAxis = d3.axisLeft(yScale);
 
-  const cValue = function(d: Entry) { return d.category; },
-        color = d3.scaleOrdinal(d3.schemeCategory20);
+  const cValue = function(d: Entry) { return d.category; };
 
   // Add some padding between dots and axis
   const xMin = d3.min(data, xValue) as number,
@@ -68,7 +68,7 @@ export function createScatter(rootDiv: HTMLDivElement,
         yBuffer = 0.05 * yRange;
   xScale.domain([xMin - xBuffer, xMax + xBuffer]);
   yScale.domain([yMin - yBuffer, yMax + yBuffer]);
-  
+
   // Clear canvas
   svg.selectAll('*').remove();
 
@@ -95,7 +95,7 @@ export function createScatter(rootDiv: HTMLDivElement,
   const yAxisElement = canvas.append('g')
       .attr('class', 'y axis')
       .call(yAxis);
-  
+
   if (options.yAxisTitle !== undefined) {
     yAxisElement.append('text')
     .attr('class', 'label')

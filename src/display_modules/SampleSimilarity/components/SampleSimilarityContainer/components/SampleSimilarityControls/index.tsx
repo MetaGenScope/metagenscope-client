@@ -6,6 +6,7 @@ import SelectCategory from '../../../../../controls/SelectCategory';
 import SelectSource from '../../../../../controls/SelectSource';
 
 type ControlsProps = {
+  color: d3.ScaleOrdinal<string, string>;
   sources: string[];
   activeSource: string;
   categories: string[];
@@ -38,11 +39,10 @@ class SampleSimilarityControls extends React.Component<ControlsProps, {}> {
   }
 
   render() {
-    const color = d3.scaleOrdinal(d3.schemeCategory20);
     const values = this.props.activeCategoryValues.map(category => {
       return {
         name: category,
-        color: color(category),
+        color: this.props.color(category),
       };
     });
 

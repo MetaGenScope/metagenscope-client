@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as d3 from 'd3';
 
 import { Entry, createScatter } from './util/scatter';
 import { SvgRefProps } from '../../components/DisplayContainer/d3';
@@ -8,6 +9,7 @@ import './style.css';
 export type ScatterPlotEntry = Entry;
 
 export interface ScatterPlotProps extends SvgRefProps {
+  color: d3.ScaleOrdinal<string, string>;
   data: Entry[];
   focusedCategory?: string;
   xAxisTitle?: string;
@@ -38,7 +40,7 @@ export default class ScatterPlot extends React.Component<ScatterPlotProps, {}> {
 
     if (this.rootDiv !== null && this.scatterSVG !== null) {
       // TODO: hold onto D3 reference so we can later manipulate it when props update
-      createScatter(this.rootDiv, this.scatterSVG, props.data, plotOptions);
+      createScatter(this.rootDiv, this.scatterSVG, props.data, plotOptions, props.color);
     }
   }
 
