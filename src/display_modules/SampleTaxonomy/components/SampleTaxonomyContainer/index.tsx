@@ -11,7 +11,7 @@ import { displayTaxaName } from './util';
 import SampleTaxonomyControls from './components/SampleTaxonomyControls';
 
 const transformNode = function(node: SunburstDataType): SunburstDataType {
-  node.name = displayTaxaName(node.name);
+  node.name = node.name.displayName();
   node.children = node.children.map(child => transformNode(child));
   return node;
 };
