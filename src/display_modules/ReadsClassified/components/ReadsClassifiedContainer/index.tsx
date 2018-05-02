@@ -26,8 +26,8 @@ const sampleGroupOptions = function(data: ReadsClassifiedType): Highcharts.Optio
   sampleNames.map(sampleName => {
     const sample = data.samples[sampleName];
     seriesMap.viral.push(sample.viral);
-    seriesMap.archaea.push(sample.archaeal);
-    seriesMap.bacteria.push(sample.bacterial);
+    seriesMap.archaeal.push(sample.archaeal);
+    seriesMap.bacterial.push(sample.bacterial);
     seriesMap.host.push(sample.host);
     seriesMap.nonhost_macrobial.push(sample.nonhost_macrobial);
     seriesMap.nonfungal_eukaryotic.push(sample.nonfungal_eukaryotic);
