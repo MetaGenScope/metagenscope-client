@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as d3 from 'd3';
 import { Row, Col } from 'react-bootstrap';
 
 import { SampleSimilarityResultType } from '../../../../services/api/models/queryResult';
@@ -77,8 +78,9 @@ export class SampleSimilarityContainer extends React.Component<SampleSimilarityP
   }
 
   render() {
-    const activeCategory = this.state.activeCategory;
-    const activeCategoryValues = this.props.data.categories[activeCategory];
+    const activeCategory = this.state.activeCategory,
+          activeCategoryValues = this.props.data.categories[activeCategory],
+          color = d3.scaleOrdinal(d3.schemeCategory20);
 
     return (
       <Row>
@@ -88,10 +90,12 @@ export class SampleSimilarityContainer extends React.Component<SampleSimilarityP
             focusedCategory={this.state.focusedCategory}
             {...this.axisTitles(this.state.activeTool)}
             svgRef={this.props.svgRef}
+            color={color}
           />
         </Col>
         <Col lg={3}>
           <SampleSimilarityControls
+            color={color}
             activeSource={this.state.activeTool}
             sources={Object.keys(this.props.data.tools)}
             categories={Object.keys(this.props.data.categories)}
