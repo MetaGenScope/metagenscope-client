@@ -19,8 +19,9 @@ export default class HMPModule extends HighchartsDisplayContainer<HMPResultType,
 
     this.title = 'Human Body Sites';
     this.description = (
-      <p>This chart shows the average similarity between bacterial  {' '}
-        communities in the samples and human body sites from the Human Microbiome Project.</p>
+      <p>This chart shows the similarity between bacterial communities in {' '}
+         the samples and human body sites from the Human Microbiome Project. {' '}
+         Higher values are more similar.</p>
     );
   }
 

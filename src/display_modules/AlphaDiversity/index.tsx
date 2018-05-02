@@ -15,8 +15,12 @@ export default class AlphaDiversityModule extends HighchartsDisplayContainer<Alp
 
     this.title = 'Alpha Diversity';
     this.description = (
-      <p>Higher alpha diversity indicates a richer more  {' '}
-        active community with more niches.</p>
+      <p>Higher alpha diversity indicates a sample with a more  {' '}
+         biologically diverse community with more niches.</p>
+      <p>Richness and Chao1 are estimates of the total number of taxa in the sample, {' '}
+         regardless of the abundance of each taxa.
+         Shannon Index (aka: entropy) and the Gini-Simpson Coeffecient take the size of {' '}
+         each group into account, rewarding samples with more even distributions.</p>
     );
   }
 

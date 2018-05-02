@@ -12,7 +12,11 @@ export default class MethylModule extends GenericGeneModule {
 
     this.title = 'MethylTransferase Abundance';
     this.description = (
-      <p>The abundance of methyltransferase genes.</p>
+      <p>The abundance of microbial methyltransferase genes. {' '}
+         These genes are responsible for genetic regulation.</p>
+      <p>Samples are compared directly to amino acid sequences. Displayed values {' '}
+         the log10 of Reads per Kilobase per Millions (RPKM) or Reads per {' '}
+         Kilobase per Millions per Genome Size (RPKMG).</p>
     );
 
     this.chartId = 'methyl-chart';
