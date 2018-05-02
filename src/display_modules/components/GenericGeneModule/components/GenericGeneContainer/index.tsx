@@ -129,7 +129,7 @@ export default class GenericGeneContainer extends React.Component<GenericGenePro
   }
 
   handleMetricChange(metric: string) {
-    this.setState({activeMetric.toLowerCase(): metric});
+    this.setState({activeMetric: metric});
   }
 
   render() {

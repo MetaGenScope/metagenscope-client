@@ -37,8 +37,12 @@ declare global {
   }
 }
 
+
 if (!String.prototype.displayFormat) {
   String.prototype.displayFormat = function(this: string) {
-    return this.replaceAll('_', ' ').replaceAll('-', ' ').capitalize();
+    if (str.toLowerCase().indexOf('rpkm') > -1) {
+      return str.toUpperCase();
+    }
+    return this.replaceAll('_', ' ').capitalize();
   };
 }
