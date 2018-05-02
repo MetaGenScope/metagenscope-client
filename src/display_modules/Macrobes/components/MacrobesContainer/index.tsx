@@ -33,7 +33,7 @@ export default class MacrobesContainer extends React.Component<MacrobesProps, {}
         enabled: true,
       },
       xAxis: {
-        categories: macrobeNames,
+        categories: macrobeNames.map(name => name.displayFormat()),
       },
       yAxis: {
         title: {
@@ -66,8 +66,8 @@ export default class MacrobesContainer extends React.Component<MacrobesProps, {}
 
     const result = {
       axis: {
-        x: sampleNames.map(name => ({name})),
-        y: macrobeNames,
+        x: sampleNames.map(name => ({name: name.displayFormat()})),
+        y: macrobeNames.map(name => name.displayFormat()),
       },
       data: newValues,
       buckets: 10,

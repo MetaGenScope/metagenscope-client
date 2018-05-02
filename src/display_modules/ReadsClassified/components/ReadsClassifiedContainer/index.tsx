@@ -102,7 +102,7 @@ const sampleOptions = function(data: ReadsClassifiedType): Highcharts.Options {
   const seriesNames = Object.keys(sample);
   const seriesData: Highcharts.DataPoint[] = seriesNames.map(seriesName => {
     return {
-      name: seriesName,
+      name: seriesName.displayFormat(),
       y: sample[seriesName],
     };
   });
@@ -118,7 +118,7 @@ const sampleOptions = function(data: ReadsClassifiedType): Highcharts.Options {
       size: '80%',
     },
     xAxis: {
-      categories: seriesNames,
+      categories: seriesNames.map(name => name.displayFormat()),
       tickmarkPlacement: 'on',
       lineWidth: 0,
     },

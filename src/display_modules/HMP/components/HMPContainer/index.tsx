@@ -13,6 +13,11 @@ type DatumType = {name: string, data: number[][]};
 type ColorChoice = d3.ScaleOrdinal<string, string>;
 
 const createOptions = function(data: DatumType[], categories: string[], color: ColorChoice): Highcharts.Options {
+  data = data.sort((datum1, datum2) => {
+    const textA = datum1.name.toUpperCase();
+    const textB = datum2.name.toUpperCase();
+    return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+  });
   const series: Highcharts.IndividualSeriesOptions[] = data.map(source => {
     const dataPoints: Highcharts.DataPoint[] = source.data.map(datum => {
       return {
@@ -41,7 +46,7 @@ const createOptions = function(data: DatumType[], categories: string[], color: C
       enabled: true,
     },
     xAxis: {
-      categories,
+      categories: categories.map(name => name.displayFormat()),
     },
     yAxis: {
       title: {
@@ -99,7 +104,7 @@ export class HMPContainer extends React.Component<HMPProps, HMPState> {
     const activeCategory = this.state.activeCategory,
           data = this.props.data.data[activeCategory],
           chartOptions = createOptions(data, this.props.data.sites, this.color),
-          activeCategoryValues = this.props.data.categories[activeCategory],
+          activeCategoryValues = this.props.data.categories[activeCategory].sort(),
           isSingleton = this.props.isSingleton || false;
 
     return (
