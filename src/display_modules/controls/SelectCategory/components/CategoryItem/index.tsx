@@ -20,7 +20,7 @@ class CategoryItem extends React.Component<CategoryItemProps, {}> {
   render() {
     return(
       <li onMouseEnter={this.mouseEntered}>
-        <span style={{backgroundColor: this.props.color}} /> {this.props.name}
+        <span style={{backgroundColor: this.props.color}} /> {this.props.name.displayFormat()}
       </li>
     );
   }

@@ -22,7 +22,7 @@ const RadioSelect: React.SFC<RadioSelectProps> = (props) => {
               checked={checked}
               onChange={() => props.handleOptionChange(option)}
             >
-              {option}
+              {option.displayFormat()}
             </Radio>
           );
         })}

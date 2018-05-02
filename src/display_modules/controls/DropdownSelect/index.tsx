@@ -21,7 +21,7 @@ const DropdownSelect: React.SFC<DropdownSelectProps> = (props) => {
         >
           {props.options.map((option, index) => {
             return (
-              <option key={index} value={option}>{option.capitalize()}</option>
+              <option key={index} value={option}>{option.displayFormat()}</option>
             );
           })}
         </select>

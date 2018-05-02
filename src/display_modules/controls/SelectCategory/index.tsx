@@ -59,7 +59,7 @@ class SelectCategory extends React.Component<CategoryProps, {}> {
           >
             {this.props.categories.map((categoryName, index) => {
               return (
-                <option key={index} value={categoryName}>{categoryName.capitalize()}</option>
+                <option key={index} value={categoryName}>{categoryName.displayFormat()}</option>
               );
             })}
           </select>

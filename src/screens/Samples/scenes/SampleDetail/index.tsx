@@ -100,7 +100,7 @@ class AnalysisGroupDetail extends React.Component<AnalysisGroupDetailProps, Anal
       })
       .catch((error) => {
         if (!axios.isCancel(error)) {
-          this.setState({ error });
+          this.setState({ error: '' + error });
         }
       });
   }
