@@ -20,7 +20,11 @@ export default class MacrobesModule extends D3DisplayContainer<MacrobesType, Mac
     this.title = 'Abundance of Common Organisms';
     this.description = (
       <div>
-        <p>The relative abundance of selected common organisms in your sample.</p>
+        <p>Each sample is compared to representative genetic sequences from a set of common
+           organisms. Higher values indicate that a sample has more sequence similar to 
+           the target.</p>
+        <p>Values account for similarity to the human genome. Displayed values are z-scores indicating
+           the relative abundance of a species compared to other samples in the group.</p>
       </div>
     );
   }

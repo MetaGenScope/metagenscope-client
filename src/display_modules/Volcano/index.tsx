@@ -18,9 +18,14 @@ export class VolcanoModule extends HighchartsDisplayContainer<VolcanoType> {
       <div>
         <p>This chart shows features that are both high abundance and consistently
           changed between conditions.</p>
-        <p>Every sample with a matching condition will be grouped and compared to a
-          group of every sample which does not have the selected condition. Size
-          represents the average abundance of a feature</p>
+        <p>Samples with the selected metadata attribute are compared to all samples
+           without that attribute. Each point represents a particular feature: the X
+           position corresponds to how much more a feature is represented in selected
+           samples, the Y position is a stastical value measuring how likely a change
+           is due to random chance.</p>
+        <p>P-Values are calculated using a two-sided non-parametric Mann-Whitney-U test.
+           Positive X values are overrepresented in the slected group, negative are
+           underrepresented.</p>
       </div>
     );
   }
