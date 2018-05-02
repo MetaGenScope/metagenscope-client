@@ -79,6 +79,7 @@ export class VolcanoContainer extends React.Component<VolcanoProps, VolcanoState
         x: datum.xval,
         y: datum.yval,
         z: datum.zval,
+        name: datum.name,
       };
     });
     return {
@@ -88,6 +89,11 @@ export class VolcanoContainer extends React.Component<VolcanoProps, VolcanoState
       },
       title: {
         text: `${category } |  ${categoryValue}`,
+      },
+      plotOptions: {
+        series: {
+            color: 'rgba(36,135,255,0.1)'
+        }
       },
       xAxis: {
         title: {
@@ -118,7 +124,7 @@ export class VolcanoContainer extends React.Component<VolcanoProps, VolcanoState
         headerFormat: '<b>{point.key}</b><br>',
         pointFormat: 
             '<tr><th colspan="2"><h3>{point.name}</h3></th></tr>' +
-            '<tr><th>Log10 Fold Change (x):</th><td>{point.x}</td></tr>' +
+            '<tr><th>Log2 Fold Change (x):</th><td>{point.x}</td></tr>' +
             '<tr><th>Log10 P-Value (y):</th><td>{point.y}</td></tr>',
       },
       exporting: {
