@@ -16,6 +16,7 @@ export interface HeatMapPlotOptions {
   axisNameSize?: number;
   legend?: {
     precision?: number;
+    name?: string;
   };
 }
 
@@ -42,6 +43,7 @@ export default class HeatMap {
   protected yAxis: d3.Selection<d3.BaseType, {}, null, undefined>;
   protected canvas: d3.Selection<d3.BaseType, {}, null, undefined>;
   protected legend: d3.Selection<d3.BaseType, {}, null, undefined>;
+  protected legendTitle: d3.Selection<d3.BaseType, {}, null, undefined>;
 
   protected margin: {top: number, right: number, bottom: number, left: number};
 
@@ -68,6 +70,10 @@ export default class HeatMap {
     this.yAxis = this.svg.append('g').attr('class', 'y-axis');
     this.canvas = this.svg.append('g').attr('class', 'canvas');
     this.legend = this.svg.append('g').attr('class', 'legend');
+    this.legendTitle = this.legend.append('text')
+        .attr('class', 'legend-title')
+        .attr('font-size', 14)
+        .attr('text-anchor', 'middle');
   }
 
   parseOptions(options: HeatMapPlotOptions) {
@@ -77,6 +83,7 @@ export default class HeatMap {
       axisNameSize: -1, // Unset
       legend: {
         precision: DEFAULT_LEGEND_PRECISION,
+        name: '',
       }
     };
 
@@ -95,6 +102,9 @@ export default class HeatMap {
     if (options.legend !== undefined) {
       if (options.legend.precision !== undefined) {
         result.legend.precision = options.legend.precision;
+      }
+      if (options.legend.name !== undefined) {
+        result.legend.name = options.legend.name;
       }
     }
 
@@ -241,6 +251,17 @@ export default class HeatMap {
 
     // Add legend height
     canvasHeight += legendHeight;
+
+    this.legendTitle.text(options.legend.name);
+    if (options.legend.name.length > 0) {
+      const legendPadding = 20,
+          legendTitleHeight = 12;
+      canvasHeight += legendPadding;
+      this.legendTitle
+          .attr('x', canvasWidth / 2)
+          .attr('y', canvasHeight);
+      canvasHeight += legendTitleHeight;
+    }
 
     // Update final SVG size
     const svgHeight = this.margin.top + canvasHeight + this.margin.bottom;

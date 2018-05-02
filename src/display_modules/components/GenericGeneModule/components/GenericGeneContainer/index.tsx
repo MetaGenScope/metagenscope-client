@@ -14,6 +14,7 @@ export interface GenericGeneProps extends SvgRefProps {
   data: GenericGeneType;
   chartId: string;
   yAxisTitle: string;
+  legendTitle: string;
   isSingleton?: boolean;
 }
 
@@ -101,7 +102,7 @@ export default class GenericGeneContainer extends React.Component<GenericGenePro
       });
     });
 
-    let result = {
+    let result: HeatMapProps = {
       axis: {
         x: columnNames.map(name => ({name})),
         y: rowNames,
@@ -109,9 +110,9 @@ export default class GenericGeneContainer extends React.Component<GenericGenePro
       data: newValues,
       buckets: 10,
       maxAxisNameLength: 100,
-      axisNameSize: 12,
       legend: {
         precision: 3,
+        name: this.props.legendTitle,
       },
       svgRef: this.props.svgRef,
     };
