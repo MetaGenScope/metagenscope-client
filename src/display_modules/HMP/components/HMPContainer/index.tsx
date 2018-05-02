@@ -109,6 +109,7 @@ export class HMPContainer extends React.Component<HMPProps, HMPState> {
             chartId="human-body-sites"
             options={chartOptions}
             chartRef={this.props.chartRef}
+            forceRecreate={true}
           />
         </Col>
         {!isSingleton &&
