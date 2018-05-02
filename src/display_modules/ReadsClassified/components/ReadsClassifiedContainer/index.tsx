@@ -22,7 +22,8 @@ const sampleGroupOptions = function(data: ReadsClassifiedType): Highcharts.Optio
     unknown: [],
   };
 
-  const sampleNames = Object.keys(data.samples);
+  const sampleNames = Object.keys(data.samples)
+    .sort((n1, n2) => data.samples[n1].unknown - data.samples[n2].unknown)
   sampleNames.map(sampleName => {
     const sample = data.samples[sampleName];
     seriesMap.viral.push(sample.viral);
