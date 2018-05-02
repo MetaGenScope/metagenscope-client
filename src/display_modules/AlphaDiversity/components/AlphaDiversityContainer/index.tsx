@@ -126,7 +126,7 @@ export default class AlphaDivContainer extends React.Component<AlphaDivProps, Al
   }
 
   chartOptions(activeCategory: string, activeMetric: string, categoryData: CategoryDatum[]): Highcharts.Options {
-    const categoryValues = this.props.data.categories[activeCategory];
+    const categoryValues = this.props.data.categories[activeCategory].sort();
 
     const dataPoints: Highcharts.DataPoint[] = categoryData.map((categoryDatum, index) => {
       const datum = categoryDatum.by_metric[activeMetric];
