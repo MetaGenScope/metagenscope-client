@@ -19,7 +19,11 @@ export interface VolcanoState {
 
 export class VolcanoContainer extends React.Component<VolcanoProps, VolcanoState> {
 
-  protected categoriesByTool: any; // tslint:disable-line no-any
+  protected categoriesByTool: {
+    [key: string]: {
+      [key: string]: string[];
+    };
+  };
 
   constructor(props: VolcanoProps) {
     super(props);
@@ -102,7 +106,7 @@ export class VolcanoContainer extends React.Component<VolcanoProps, VolcanoState
         x: datum.xval,
         y: datum.yval,
         z: datum.zval,
-        name: datum.name,
+        name: datum.name.displayFormat(),
       };
     });
     return {
@@ -115,7 +119,7 @@ export class VolcanoContainer extends React.Component<VolcanoProps, VolcanoState
       },
       plotOptions: {
         series: {
-            color: 'rgba(36,135,255,0.01)'
+            color: 'rgba(36,135,255,0.001)'
         }
       },
       xAxis: {
@@ -138,15 +142,16 @@ export class VolcanoContainer extends React.Component<VolcanoProps, VolcanoState
             text: 'P = 0.05',
             align: 'right',
             style: {
-              color: 'grey'
-            }
-          }
+              color: 'grey',
+            },
+          },
         }],
       },
       tooltip: {
-        headerFormat: '{point.name}',
+        headerFormat: '',
         pointFormat:
-            'Log2 Fold Change (x): {point.x}, ' +
+            '<b>{point.name}</b><br />' +
+            'Log2 Fold Change (x): {point.x}<br />' +
             'Log10 P-Value (y): {point.y}',
       },
       exporting: {
