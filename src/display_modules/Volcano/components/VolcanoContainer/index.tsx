@@ -53,16 +53,25 @@ export class VolcanoContainer extends React.Component<VolcanoProps, VolcanoState
         });
       });
     });
+    if(!(activeTool in this.categoriesByTool)){
+        this.state = {
+          activeTool,
+          activeCategory: 'none',
+          activeCategoryValue: 'none',
+        };
+    } else {
+        const activeCatsByTool = this.categoriesByTool[activeTool],
+              categories = Object.keys(activeCatsByTool),
+              activeCategory = categories[0],
+              activeCategoryValue = activeCatsByTool[activeCategory][0];
 
-    const categories = Object.keys(this.categoriesByTool[activeTool]),
-          activeCategory = categories[0],
-          activeCategoryValue = this.categoriesByTool[activeTool][activeCategory][0];
+        this.state = {
+          activeTool,
+          activeCategory,
+          activeCategoryValue,
+        };
+    }
 
-    this.state = {
-      activeTool,
-      activeCategory,
-      activeCategoryValue,
-    };
   }
 
   handleToolChange(tool: string) {
@@ -163,9 +172,20 @@ export class VolcanoContainer extends React.Component<VolcanoProps, VolcanoState
   }
 
   render() {
-    const {activeTool, activeCategory, activeCategoryValue} = this.state,
-          activeCategoryValues = this.categoriesByTool[activeTool][activeCategory];
-    const chartOptions = this.chartOptions(activeTool, activeCategory, activeCategoryValue);
+    const {activeTool, activeCategory, activeCategoryValue} = this.state;
+
+    if(activeCategory === 'none'){
+        return (
+            <Row>
+                <Col lg={12}>
+                    <p>Plot Unavailable.</p>
+                </Col>
+            </Row>
+        );
+    }
+
+    const activeCategoryValues = this.categoriesByTool[activeTool][activeCategory],
+          chartOptions = this.chartOptions(activeTool, activeCategory, activeCategoryValue);
 
     return (
       <Row>
