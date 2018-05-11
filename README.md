@@ -1,5 +1,7 @@
 # MetaGenScope Client
 
+[![CircleCI](https://circleci.com/gh/MetaGenScope/metagenscope-client/tree/master.svg?style=svg)](https://circleci.com/gh/MetaGenScope/metagenscope-client/tree/master)
+
 > MetaGenScope client web application.
 
 ## Getting Started
