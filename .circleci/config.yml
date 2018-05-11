@@ -60,7 +60,7 @@ jobs:
 
 workflows:
   version: 2
-  test-and-deploy:
+  test_and_deploy:
     jobs:
       - run_tests
       - test_build:
